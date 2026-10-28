@@ -4,12 +4,10 @@ import React, { useState, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
 import { HeroSection } from "@/components/hero-section";
 import { SelectedWork } from "@/components/selected-work";
-import { PaceBreak } from "@/components/pace-break";
+import { VerticalReelsSection } from "@/components/vertical-reels-section";
 import { ServicesSection } from "@/components/services-section";
 import { BeforeAfter } from "@/components/before-after";
-import { PhilosophyBreak } from "@/components/philosophy-break";
 import { ProcessSection } from "@/components/process-section";
-import { WhyZenith } from "@/components/why-zenith";
 import { PricingSection } from "@/components/pricing-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { FAQSection } from "@/components/faq-section";
@@ -85,10 +83,10 @@ export default function Home() {
       <ScrollProgressBar />
 
       <main className="min-h-screen bg-[#09090B] text-[#F4F4F6] selection:bg-[#D4AF37] selection:text-[#09090B]">
-        {/* SECTION A: Navigation */}
-        <Navigation />
+        {/* Navigation & Floating Mobile Bar */}
+        <Navigation isLightboxOpen={!!selectedShowreel} />
 
-        {/* SECTION B: Hero Section */}
+        {/* SECTION 1: Above-the-fold Hero + Instant Showreel Stage */}
         <HeroSection
           onOpenShowreelModal={openHeroShowreel}
           featuredThumbnail={settings?.hero?.thumbnail || heroProject?.thumbnail}
@@ -99,16 +97,13 @@ export default function Home() {
           subheadline={settings?.hero?.subheadline}
         />
 
-        {/* SECTION C: SC 01 — Selected Work */}
-        <SelectedWork />
+        {/* SECTION 2: Curated Work Showcase (16:9 Long-Form & Commercials) */}
+        <SelectedWork onSelectProject={(p) => setSelectedShowreel(p)} />
 
-        {/* SECTION D: SC 02 — Editing Principles & Four Pillars */}
-        <PaceBreak />
+        {/* SECTION 3: Dedicated 9:16 Vertical Reels & Shorts Strip */}
+        <VerticalReelsSection onSelectProject={(p) => setSelectedShowreel(p)} />
 
-        {/* SECTION E: SC 03 — Services (Twelve Disciplines) */}
-        <ServicesSection />
-
-        {/* SECTION F: Raw vs. Final (Draggable Playhead Split Viewer) */}
+        {/* SECTION 4: Inside the Timeline: The Editing Craft & Interactive Before/After + 3 Pillars */}
         <BeforeAfter
           headline={settings?.beforeAfter?.headline}
           headlineHighlight={settings?.beforeAfter?.headlineHighlight}
@@ -121,28 +116,17 @@ export default function Home() {
           footerNote={settings?.beforeAfter?.footerNote}
         />
 
-        {/* SECTION G: Philosophy Statement Break */}
-        <PhilosophyBreak />
-
-        {/* SECTION H: SC 04 — Process */}
+        {/* SECTION 5: Streamlined Services, 4-Step Process & Transparent Packages */}
+        <ServicesSection />
         <ProcessSection />
-
-        {/* SECTION I: SC 05 — The Difference (Why Us) */}
-        <WhyZenith />
-
-        {/* SECTION J: SC 06 — Packages & Investment */}
         <PricingSection onSelectPackage={handleSelectPackage} />
 
-        {/* SECTION K: Client Feedback */}
+        {/* SECTION 6: Client Proof, FAQ & Direct Booking CTA */}
         <TestimonialsSection />
-
-        {/* SECTION L: FAQ */}
         <FAQSection />
-
-        {/* SECTION M: Final CTA & Contact */}
         <ContactSection initialPackage={inquiryPackage} />
 
-        {/* SECTION N: Footer */}
+        {/* Footer */}
         <Footer />
 
         {/* Fullscreen Cinema Video Lightbox */}

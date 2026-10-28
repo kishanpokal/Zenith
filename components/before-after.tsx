@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, Gauge, Volume2, Palette, Sparkles, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface BeforeAfterProps {
   headline?: string;
@@ -14,6 +15,36 @@ interface BeforeAfterProps {
   beforeNotice?: string;
   footerNote?: string;
 }
+
+const EDITORIAL_PILLARS = [
+  {
+    index: "01",
+    title: "Pacing & Retention",
+    highlight: "Surgical Velocity",
+    description:
+      "Nonlinear bezier curves mapped to vocal cadence. Dead air is mathematically extracted. J-cut audio leads visuals by 4 frames to continuously tug attention forward.",
+    spec: "0.8s HOOK VELOCITY · ZERO DEAD AIR",
+    icon: Gauge,
+  },
+  {
+    index: "02",
+    title: "Sound Design & Mix",
+    highlight: "Multi-Track Foley",
+    description:
+      "12-track immersive psycho-acoustics. 40Hz sub-bass drops, tactile paper snaps, atmospheric foley, and crystal-clear dialogue de-noised and mastered to -14 LUFS.",
+    spec: "32-BIT FLOAT STEREO · TACTILE FOLEY",
+    icon: Volume2,
+  },
+  {
+    index: "03",
+    title: "Color & Motion",
+    highlight: "Kodak 2383 Grade",
+    description:
+      "DaVinci Resolve color transformation using authentic Kodak 2383 35mm film emulation, highlight roll-off, and responsive kinetic typography tracked to screen action.",
+    spec: "DAVINCI RESOLVE CST · ORGANIC GRAIN",
+    icon: Palette,
+  },
+];
 
 export function BeforeAfter({
   headline = "SAME FOOTAGE.",
@@ -34,20 +65,20 @@ export function BeforeAfter({
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/[0.07]">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 type-timecode text-white/70">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-              <span>SC 03 {"//"} RAW VS. FINAL PROOF</span>
+              <span>SCENE 04 {"//"} THE EDITING CRAFT & PROOF</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]" id="ba-title">
+            <h2 className="type-section-title text-[#F4F4F6]" id="ba-title">
               {headline} <br />
-              <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
+              <span className="font-editorial text-[#D4AF37] lowercase">
                 {headlineHighlight}
               </span>
             </h2>
           </div>
 
-          <p className="text-sm text-white/60 font-sans max-w-md leading-relaxed md:text-right">
+          <p className="type-body text-sm max-w-md md:text-right">
             {subheadline}
           </p>
         </div>
@@ -62,7 +93,7 @@ export function BeforeAfter({
               className="w-full h-full object-cover"
             />
             {/* Visual Overlays */}
-            <div className="absolute top-4 right-4 z-10 px-2.5 py-1 rounded-sm bg-[#09090B]/80 backdrop-blur-md border border-white/[0.08] text-[10px] font-mono text-[#D4AF37] font-semibold">
+            <div className="absolute top-4 right-4 z-10 px-2.5 py-1 rounded-sm bg-[#09090B]/85 backdrop-blur-md border border-white/[0.08] type-timecode text-[#D4AF37] font-semibold">
               {afterLabel}
             </div>
           </div>
@@ -80,11 +111,11 @@ export function BeforeAfter({
               className="w-full h-full object-cover"
               style={{ filter: "saturate(0.2) contrast(0.8) brightness(1.15)" }}
             />
-            <div className="absolute top-4 left-4 z-10 px-2.5 py-1 rounded-sm bg-[#09090B]/80 backdrop-blur-md border border-white/[0.08] text-[10px] font-mono text-white/50">
+            <div className="absolute top-4 left-4 z-10 px-2.5 py-1 rounded-sm bg-[#09090B]/85 backdrop-blur-md border border-white/[0.08] type-timecode text-white/50">
               {beforeLabel}
             </div>
             {beforeNotice && (
-              <div className="absolute bottom-4 left-4 z-10 px-2 py-0.5 rounded-sm bg-red-950/80 border border-red-500/30 text-[9px] font-mono text-red-300">
+              <div className="absolute bottom-4 left-4 z-10 px-2 py-0.5 rounded-sm bg-red-950/80 border border-red-500/30 type-timecode text-red-300">
                 {beforeNotice}
               </div>
             )}
@@ -113,9 +144,59 @@ export function BeforeAfter({
         </div>
 
         {/* Caption */}
-        <p className="text-center font-mono text-xs text-white/50 mt-6 uppercase tracking-wider">
+        <p className="text-center type-timecode text-white/50 mt-6 tracking-wider">
           {footerNote}
         </p>
+
+        {/* 3 CONCISE EDITORIAL CRAFT PILLARS */}
+        <div className="mt-16 pt-12 border-t border-white/[0.07]">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="type-timecode text-[#D4AF37] mb-2 block">
+              INSIDE THE EDITORIAL TIMELINE
+            </span>
+            <h3 className="type-card-title text-[#F4F4F6] text-xl sm:text-2xl uppercase">
+              Three Pillars of ruthless retention
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {EDITORIAL_PILLARS.map((pillar) => {
+              const Icon = pillar.icon;
+              return (
+                <div
+                  key={pillar.index}
+                  className="p-6 sm:p-7 rounded-xl bg-[#121216] border border-white/[0.07] hover:border-[#D4AF37]/40 transition-colors flex flex-col justify-between group shadow-lg"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-9 h-9 rounded-sm bg-[#09090B] border border-white/[0.08] text-[#D4AF37] flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="type-timecode text-white/40">
+                        PILLAR {pillar.index}
+                      </span>
+                    </div>
+
+                    <h4 className="type-card-title text-[#F4F4F6] uppercase mb-1">
+                      {pillar.title}
+                    </h4>
+                    <span className="type-timecode text-[#D4AF37] block mb-3 font-semibold">
+                      {pillar.highlight}
+                    </span>
+
+                    <p className="type-body text-xs sm:text-sm leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-white/[0.06] type-timecode text-[9px] text-white/40">
+                    {pillar.spec}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );

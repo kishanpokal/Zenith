@@ -9,9 +9,10 @@ import { TextScramble } from "@/components/animations/text-scramble";
 
 interface NavigationProps {
   onOpenContact?: () => void;
+  isLightboxOpen?: boolean;
 }
 
-export function Navigation({ onOpenContact }: NavigationProps) {
+export function Navigation({ onOpenContact, isLightboxOpen = false }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -37,14 +38,22 @@ export function Navigation({ onOpenContact }: NavigationProps) {
     }
   };
 
+  const scrollToWork = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const target = document.querySelector("#work");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <header
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-all duration-300",
           isScrolled
-            ? "bg-[#09090B]/90 backdrop-blur-md border-b border-white/[0.07] py-3 shadow-2xl"
-            : "bg-transparent py-5"
+            ? "bg-[#09090B]/95 backdrop-blur-md border-b border-white/[0.08] py-3 shadow-2xl"
+            : "bg-[#09090B]/85 backdrop-blur-md border-b border-white/[0.06] py-4"
         )}
       >
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 flex items-center justify-between">
@@ -128,7 +137,7 @@ export function Navigation({ onOpenContact }: NavigationProps) {
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-sm bg-[#121216] text-[#F4F4F6] border border-white/[0.07]"
+              className="md:hidden p-2 rounded-sm bg-[#121216] text-[#F4F4F6] border border-white/[0.07] min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors hover:border-[#D4AF37]/50"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -137,27 +146,53 @@ export function Navigation({ onOpenContact }: NavigationProps) {
         </div>
       </header>
 
+      {/* MOBILE FLOATING BOTTOM ACTION BAR (Auto-hides when lightbox or menu is open) */}
+      {!isLightboxOpen && !mobileMenuOpen && (
+        <div className="md:hidden fixed bottom-4 inset-x-4 z-40 flex items-center gap-2 p-1.5 rounded-full bg-[#121216]/90 backdrop-blur-xl border border-white/[0.12] shadow-[0_12px_36px_rgba(0,0,0,0.85)] animate-in fade-in slide-in-from-bottom-3 duration-300">
+          <a
+            href="#work"
+            onClick={scrollToWork}
+            className="flex-1 flex items-center justify-center gap-2 h-11 px-4 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-[#F4F4F6] type-timecode font-semibold tracking-wider transition-colors select-none"
+          >
+            <span className="text-[#D4AF37]">▶</span>
+            <span>Watch Work</span>
+          </a>
+
+          <a
+            href={siteConfig.contact.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-1.5 h-11 px-4 rounded-full bg-[#D4AF37] hover:bg-[#F59E0B] text-[#09090B] type-timecode font-bold tracking-wider transition-colors shadow-md select-none"
+          >
+            <span>Start a Project</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      )}
+
       {/* MOBILE MENU DRAWER */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-[#09090B]/98 backdrop-blur-2xl flex flex-col justify-center px-8 md:hidden">
           <div className="flex flex-col gap-6 text-left max-w-md mx-auto w-full">
-            <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#D4AF37] mb-2 flex items-center gap-2">
+            <div className="type-timecode text-[#D4AF37] mb-2 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
               DIRECTORY
             </div>
 
             {[
               { label: "01 // SELECTED WORK", href: "#work" },
-              { label: "02 // CAPABILITIES", href: "#services" },
-              { label: "03 // EDITORIAL PIPELINE", href: "#process" },
-              { label: "04 // INVESTMENT", href: "#pricing" },
-              { label: "05 // INQUIRIES", href: "#faq" },
+              { label: "02 // 9:16 VERTICAL REELS", href: "#vertical-reels" },
+              { label: "03 // EDITING CRAFT & PROOF", href: "#before-after" },
+              { label: "04 // CAPABILITIES", href: "#services" },
+              { label: "05 // PIPELINE", href: "#process" },
+              { label: "06 // INVESTMENT", href: "#pricing" },
+              { label: "07 // INQUIRIES", href: "#faq" },
             ].map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className="text-2xl font-display font-bold text-[#F4F4F6] hover:text-[#D4AF37] transition-colors uppercase tracking-tight"
+                className="text-2xl font-display font-bold text-[#F4F4F6] hover:text-[#D4AF37] transition-colors uppercase tracking-tight min-h-[44px] flex items-center"
               >
                 {link.label}
               </a>
@@ -168,13 +203,13 @@ export function Navigation({ onOpenContact }: NavigationProps) {
                 href={siteConfig.contact.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3.5 text-center rounded-sm bg-[#D4AF37] text-[#09090B] font-bold font-sans text-xs uppercase tracking-wider"
+                className="w-full h-12 flex items-center justify-center rounded-sm bg-[#D4AF37] text-[#09090B] font-bold font-sans text-xs uppercase tracking-wider"
               >
                 Start Direct WhatsApp Inquiry ↗
               </a>
               <a
                 href={`mailto:${siteConfig.contact.email}`}
-                className="w-full py-3 text-center rounded-sm bg-[#121216] text-white/70 font-mono text-xs border border-white/[0.07]"
+                className="w-full h-11 flex items-center justify-center rounded-sm bg-[#121216] text-white/70 font-mono text-xs border border-white/[0.07]"
               >
                 {siteConfig.contact.email}
               </a>

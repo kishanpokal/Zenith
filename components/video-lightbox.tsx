@@ -49,7 +49,7 @@ export function VideoLightbox({ project, onClose, onNext, onPrev }: VideoLightbo
       role="dialog"
       aria-modal="true"
       aria-label={`Project playback: ${project.title}`}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#09090B]/95 backdrop-blur-xl animate-in fade-in duration-200 select-none"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 lg:p-6 bg-[#09090B]/95 backdrop-blur-xl animate-in fade-in duration-200 select-none h-[100dvh] max-h-[100dvh]"
       onClick={onClose}
     >
       {/* Main Cinema Box */}
@@ -57,15 +57,15 @@ export function VideoLightbox({ project, onClose, onNext, onPrev }: VideoLightbo
         onClick={(e) => e.stopPropagation()}
         className={`relative w-full ${
           isVertical ? "max-w-4xl" : "max-w-6xl"
-        } max-h-[92vh] bg-[#121216] border border-white/[0.08] rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row`}
+        } max-h-[96dvh] bg-[#121216] border border-white/[0.08] rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row`}
       >
         {/* Top Close Controls */}
-        <div className="absolute top-4 right-4 z-40 flex items-center gap-2">
+        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-40 flex items-center gap-2">
           {onPrev && (
             <button
               type="button"
               onClick={onPrev}
-              className="w-8 h-8 rounded-sm bg-[#09090B]/80 hover:bg-[#18181E] border border-white/[0.08] text-white flex items-center justify-center transition-colors"
+              className="w-10 h-10 sm:w-8 sm:h-8 min-w-[40px] min-h-[40px] sm:min-w-0 sm:min-h-0 rounded-sm bg-[#09090B]/85 hover:bg-[#18181E] border border-white/[0.12] text-white flex items-center justify-center transition-colors"
               title="Previous project (←)"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -76,7 +76,7 @@ export function VideoLightbox({ project, onClose, onNext, onPrev }: VideoLightbo
             <button
               type="button"
               onClick={onNext}
-              className="w-8 h-8 rounded-sm bg-[#09090B]/80 hover:bg-[#18181E] border border-white/[0.08] text-white flex items-center justify-center transition-colors"
+              className="w-10 h-10 sm:w-8 sm:h-8 min-w-[40px] min-h-[40px] sm:min-w-0 sm:min-h-0 rounded-sm bg-[#09090B]/85 hover:bg-[#18181E] border border-white/[0.12] text-white flex items-center justify-center transition-colors"
               title="Next project (→)"
             >
               <ChevronRight className="w-4 h-4" />
@@ -86,10 +86,10 @@ export function VideoLightbox({ project, onClose, onNext, onPrev }: VideoLightbo
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-sm bg-[#09090B]/80 hover:bg-[#18181E] border border-white/[0.08] text-white flex items-center justify-center transition-colors"
+            className="w-11 h-11 sm:w-8 sm:h-8 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 rounded-sm bg-[#09090B]/90 hover:bg-[#18181E] border border-white/[0.15] text-[#D4AF37] sm:text-white flex items-center justify-center transition-colors shadow-lg"
             title="Close viewer (ESC)"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5 sm:w-4 sm:h-4" />
           </button>
         </div>
 

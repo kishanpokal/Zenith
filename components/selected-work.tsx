@@ -15,7 +15,11 @@ const FILTER_CATEGORIES = [
   "Motion Graphics",
 ];
 
-export function SelectedWork() {
+interface SelectedWorkProps {
+  onSelectProject?: (project: Project) => void;
+}
+
+export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
   const [allProjects, setAllProjects] = useState<Project[]>(fallbackProjects);
   const [selectedFilter, setSelectedFilter] = useState<string>("All Work");
   const [formatFilter, setFormatFilter] = useState<FormatFilter>("all");
@@ -23,6 +27,14 @@ export function SelectedWork() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [audioMonitorEnabled, setAudioMonitorEnabled] = useState(false);
+
+  const handleProjectSelect = (p: Project) => {
+    if (onSelectProject) {
+      onSelectProject(p);
+    } else {
+      setSelectedProject(p);
+    }
+  };
 
   // Fetch live projects from API with static fallback
   useEffect(() => {
@@ -114,7 +126,7 @@ export function SelectedWork() {
           {viewMode === "grid" && (
             <BentoGrid
               projects={displayList}
-              onSelectProject={setSelectedProject}
+              onSelectProject={handleProjectSelect}
               selectedFilter={selectedFilter}
               audioMonitorEnabled={audioMonitorEnabled}
               limit={5}
@@ -126,7 +138,7 @@ export function SelectedWork() {
           {viewMode === "reels" && (
             <ReelsFeed
               projects={displayList}
-              onSelectProject={setSelectedProject}
+              onSelectProject={handleProjectSelect}
             />
           )}
         </div>

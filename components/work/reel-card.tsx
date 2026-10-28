@@ -110,33 +110,34 @@ export function ReelCard({
         </div>
       </div>
 
-      {/* CENTER PLAY BADGE ON HOVER */}
+      {/* CENTER PLAY BADGE — FROSTED GLASS ON MOBILE / GLOW ON HOVER */}
       <div className="relative z-10 my-auto flex items-center justify-center pointer-events-none">
         <div
           className={cn(
-            "w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300",
+            "flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 backdrop-blur-md border",
             isHovered
-              ? "bg-[#D4AF37] text-[#09090B] scale-110 shadow-[0_0_18px_rgba(212,175,55,0.4)]"
-              : "bg-[#09090B]/70 text-white/80 border border-white/[0.12] backdrop-blur-sm"
+              ? "bg-[#D4AF37] text-[#09090B] border-[#D4AF37] scale-105 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+              : "bg-[#09090B]/85 text-[#F4F4F6] border-white/[0.15] shadow-lg"
           )}
         >
-          <Play className="w-4 h-4 fill-current ml-0.5" />
+          <Play className={cn("w-3.5 h-3.5 fill-current", isHovered ? "text-[#09090B]" : "text-[#D4AF37]")} />
+          <span className="type-timecode text-[10px] tracking-wider font-semibold">WATCH EDIT</span>
         </div>
       </div>
 
-      {/* BOTTOM INFO BAR */}
-      <div className="relative z-10 p-4 bg-gradient-to-t from-[#09090B] via-[#09090B]/90 to-transparent pt-6 border-t border-white/[0.06]">
+      {/* BOTTOM INFO BAR WITH GRADIENT SCRIM */}
+      <div className="relative z-10 p-3.5 sm:p-4 bg-gradient-to-t from-[#09090B] via-[#09090B]/95 to-transparent pt-8 border-t border-white/[0.06]">
         {project.clientContext && (
-          <div className="text-[10px] font-mono text-white/40 uppercase tracking-wider mb-1 line-clamp-1">
+          <div className="type-timecode text-white/40 mb-1 line-clamp-1">
             {project.clientContext}
           </div>
         )}
         <h4 className="text-sm font-display font-semibold text-[#F4F4F6] group-hover:text-[#D4AF37] transition-colors tracking-tight line-clamp-2 uppercase">
           {project.title}
         </h4>
-        <div className="flex items-center justify-between pt-2 mt-2 border-t border-white/[0.06] text-[10px] font-mono text-white/40">
-          <span className="text-[#D4AF37]/80">{project.aspectRatio === "9:16" ? "VERTICAL REEL" : "CINEMATIC 16:9"}</span>
-          <span className="flex items-center gap-1 text-white/60 group-hover:text-white transition-colors">
+        <div className="flex items-center justify-between pt-2 mt-2 border-t border-white/[0.06] type-timecode text-white/40">
+          <span className="text-[#D4AF37]/90">{project.aspectRatio === "9:16" ? "VERTICAL REEL" : "CINEMATIC 16:9"}</span>
+          <span className="flex items-center gap-1 text-white/70 group-hover:text-white transition-colors">
             <span>WATCH</span>
             <ArrowUpRight className="w-3 h-3 text-[#D4AF37]" />
           </span>

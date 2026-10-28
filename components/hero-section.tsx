@@ -87,7 +87,7 @@ export function HeroSection({
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative flex flex-col justify-center overflow-hidden bg-[#09090B] pt-28 sm:pt-36 pb-16 sm:pb-24 border-b border-white/[0.07]"
+      className="relative flex flex-col justify-center overflow-hidden bg-[#09090B] pt-28 sm:pt-32 lg:pt-36 min-h-[calc(100vh-2rem)] lg:min-h-screen pb-16 sm:pb-20 border-b border-white/[0.07]"
       id="top"
       aria-label="Zenith Studio Hero"
     >
@@ -97,30 +97,20 @@ export function HeroSection({
       {/* Subtle Warm Amber ambient vignette */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none blur-3xl" />
 
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-        {/* Top Monospace Metadata Hairline Bar */}
-        <div className="mb-10 pb-4 border-b border-white/[0.07] flex flex-wrap items-center justify-between gap-4">
-          <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#F4F4F6]">
-              ZENITH EDITORIAL ARCHITECTURE
-            </span>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-4 font-mono text-[11px] tracking-wider text-white/40">
-            <span>INDEX 01 // SHOWCASE</span>
-            <span>·</span>
-            <span>COLOR GRADED KODAK 2383</span>
-            <span>·</span>
-            <span className="text-[#D4AF37]">4K PRORES 422</span>
-          </div>
-        </div>
-
-        {/* 2-Column Hero Structure */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 my-auto">
+        {/* 2-Column Hero Structure Optimized for Laptop 13"-16" & Mobile */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 lg:items-center">
           {/* Left Column: Kinetic Typography & Value Proposition */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <h1 className="text-[#F4F4F6] select-none text-display-xl">
+            {/* Editorial Eyebrow Badge */}
+            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-sm bg-[#121216] border border-white/[0.07] mb-6 self-start shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+              <span className="type-timecode text-[#F4F4F6]">
+                ZENITH EDITORIAL ARCHITECTURE
+              </span>
+            </div>
+
+            <h1 className="text-[#F4F4F6] select-none type-hero">
               <SplitTextReveal
                 lines={[headline, headlineHighlight]}
                 lineClassName="text-[#F4F4F6]"
@@ -129,16 +119,16 @@ export function HeroSection({
               />
             </h1>
 
-            <p className="mt-8 text-base sm:text-lg text-white/70 max-w-xl leading-relaxed font-sans font-normal">
+            <p className="mt-5 sm:mt-7 type-body max-w-xl font-normal">
               {subheadline}
             </p>
 
             {/* CTAs */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
               <button
                 type="button"
                 onClick={onOpenShowreelModal}
-                className="text-xs tracking-widest uppercase font-semibold flex items-center gap-3 px-7 py-3.5 rounded-sm bg-[#D4AF37] text-[#09090B] hover:bg-[#F59E0B] transition-all duration-200 shadow-[0_4px_24px_rgba(212,175,55,0.25)] hover:scale-[1.02] active:scale-[0.98]"
+                className="text-xs tracking-widest uppercase font-semibold flex items-center gap-3 px-7 py-3.5 rounded-sm bg-[#D4AF37] text-[#09090B] hover:bg-[#F59E0B] transition-all duration-200 shadow-[0_4px_24px_rgba(212,175,55,0.25)] hover:scale-[1.02] active:scale-[0.98] min-h-[44px]"
                 data-cursor="play"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
@@ -148,7 +138,7 @@ export function HeroSection({
               <a
                 href="#work"
                 onClick={scrollToWork}
-                className="text-xs tracking-widest uppercase font-medium flex items-center gap-2.5 px-6 py-3.5 rounded-sm border border-white/[0.08] bg-[#121216] text-[#F4F4F6] hover:bg-[#18181E] hover:border-white/[0.18] transition-all duration-200"
+                className="text-xs tracking-widest uppercase font-medium flex items-center gap-2.5 px-6 py-3.5 rounded-sm border border-white/[0.08] bg-[#121216] text-[#F4F4F6] hover:bg-[#18181E] hover:border-white/[0.18] transition-all duration-200 min-h-[44px]"
               >
                 <span>Selected Work</span>
                 <ArrowDown className="w-3.5 h-3.5 text-white/50" />
@@ -156,7 +146,7 @@ export function HeroSection({
             </div>
 
             {/* Technical Metadata Row */}
-            <div className="mt-12 pt-6 border-t border-white/[0.07] flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] font-mono text-white/50">
+            <div className="mt-8 sm:mt-10 pt-4 border-t border-white/[0.07] flex flex-wrap items-center gap-x-5 gap-y-2 type-timecode text-white/50">
               <span className="flex items-center gap-1.5 text-white/80">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
                 <span>FRAME-ACCURATE TIMING</span>
@@ -164,18 +154,22 @@ export function HeroSection({
               <span className="text-white/20">/</span>
               <span className="flex items-center gap-1.5 text-white/80">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                <span>MULTI-TRACK SOUND DESIGN</span>
+                <span>MULTI-TRACK SOUND</span>
               </span>
               <span className="text-white/20">/</span>
               <span className="flex items-center gap-1.5 text-white/80">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
                 <span>COLOR HARMONY</span>
               </span>
+              <span className="text-white/20">/</span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[#D4AF37]/90">
+                <span>4K PRORES 422</span>
+              </span>
             </div>
           </div>
 
           {/* Right Column: Embedded Showreel Preview Stage */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
+          <div className="lg:col-span-5 flex flex-col items-center justify-center relative mt-4 lg:mt-0">
             <motion.div
               style={{
                 rotateX: reelRotateX,
@@ -183,7 +177,7 @@ export function HeroSection({
                 transformPerspective: 1200,
               }}
               onClick={onOpenShowreelModal}
-              className="relative z-10 w-[280px] sm:w-[320px] aspect-[9/16] rounded-2xl p-2 bg-[#121216] border border-white/[0.08] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] cursor-pointer group select-none transition-all duration-300 hover:border-[#D4AF37]/50"
+              className="relative z-10 w-[260px] sm:w-[290px] lg:w-[310px] aspect-[9/16] rounded-2xl p-2 bg-[#121216] border border-white/[0.08] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] cursor-pointer group select-none transition-all duration-300 hover:border-[#D4AF37]/50"
               role="button"
               tabIndex={0}
               aria-label="Zenith Featured Reel preview — click to play"
@@ -216,7 +210,7 @@ export function HeroSection({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
                 {/* Top Badge */}
-                <div className="absolute top-3 inset-x-3 flex items-center justify-between text-[10px] font-mono text-white/90 z-20 pointer-events-none">
+                <div className="absolute top-3 inset-x-3 flex items-center justify-between type-timecode text-white/90 z-20 pointer-events-none">
                   <span className="flex items-center gap-1.5 font-bold bg-[#09090B]/80 px-2.5 py-1 rounded-sm border border-white/[0.08]">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                     REC · 4K 60
@@ -231,7 +225,7 @@ export function HeroSection({
                   <button
                     type="button"
                     onClick={toggleSound}
-                    className="px-2.5 py-1 rounded-sm bg-[#09090B]/85 border border-white/[0.08] text-white/90 text-[10px] font-mono flex items-center gap-1.5 hover:text-[#D4AF37] transition-colors"
+                    className="px-2.5 py-1 rounded-sm bg-[#09090B]/85 border border-white/[0.08] text-white/90 type-timecode flex items-center gap-1.5 hover:text-[#D4AF37] transition-colors min-h-[32px]"
                   >
                     {isMuted ? (
                       <>
@@ -246,7 +240,7 @@ export function HeroSection({
                     )}
                   </button>
 
-                  <div className="flex items-center gap-1 text-[10px] font-mono text-[#D4AF37] bg-[#09090B]/85 px-2 py-1 rounded-sm border border-white/[0.08]">
+                  <div className="flex items-center gap-1 type-timecode text-[#D4AF37] bg-[#09090B]/85 px-2 py-1 rounded-sm border border-white/[0.08]">
                     <span>[ EXPAND ]</span>
                   </div>
                 </div>

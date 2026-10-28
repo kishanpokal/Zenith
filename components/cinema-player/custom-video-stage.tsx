@@ -135,7 +135,7 @@ export function CustomVideoStage({
         className={cn(
           "relative rounded-xl overflow-hidden bg-black border border-white/[0.08] shadow-2xl transition-all duration-300",
           isVertical
-            ? "w-[270px] sm:w-[300px] max-w-full max-h-[64vh] aspect-[9/16] shrink-0"
+            ? "aspect-[9/16] h-[64dvh] sm:h-[75dvh] max-h-[740px] w-auto max-w-full shrink-0"
             : "w-full max-w-full aspect-[16/9]"
         )}
       >
