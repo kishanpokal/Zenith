@@ -2,137 +2,147 @@
 
 import React, { useState, useRef } from "react";
 import { Project } from "@/data/projects";
-import { Play, Volume2, VolumeX, Clock, Tag } from "lucide-react";
+import { Play, Clock, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
+  index?: number;
   onSelect: (project: Project) => void;
+  aspectRatioOverride?: "16:9" | "9:16" | "auto";
 }
 
-export function ProjectCard({ project, onSelect }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  index = 0,
+  onSelect,
+  aspectRatioOverride = "auto",
+}: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [hasVideoError, setHasVideoError] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [imgSrc, setImgSrc] = useState(
+    project.thumbnail ||
+      (project.youtubeId
+        ? `https://i.ytimg.com/vi/${project.youtubeId}/maxresdefault.jpg`
+        : "")
+  );
+  const [hasFallback, setHasFallback] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (videoRef.current && !hasVideoError) {
-      videoRef.current.play().catch(() => {
-        // Autoplay may be restricted by browser policy; poster remains visible
-      });
+  const isVertical =
+    aspectRatioOverride === "auto"
+      ? project.aspectRatio === "9:16"
+      : aspectRatioOverride === "9:16";
+
+  const indexStr = String(index + 1).padStart(2, "0");
+
+  const handleImageError = () => {
+    if (project.youtubeId && !hasFallback) {
+      setHasFallback(true);
+      setImgSrc(`https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`);
     }
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    // If YouTube returned 120x90 placeholder
+    const img = e.currentTarget;
+    if (img.naturalWidth <= 120 && project.youtubeId && !hasFallback) {
+      setHasFallback(true);
+      setImgSrc(`https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`);
     }
   };
 
   return (
-    <div className="relative group">
-      {/* Ambient Halo Glow (Inspired by Yash Edits ambient reel lighting) */}
-      <div className="absolute -inset-2 rounded-3xl bg-accent/5 group-hover:bg-accent/20 blur-2xl transition-all duration-500 pointer-events-none opacity-40 group-hover:opacity-100" />
-
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => onSelect(project)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onSelect(project);
-          }
-        }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className="relative w-full aspect-[9/16] rounded-2xl overflow-hidden bg-[#101010] border border-[#222222] group-hover:border-accent/80 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer flex flex-col justify-between shadow-2xl"
-        aria-label={`View project: ${project.title}`}
-      >
-        {/* Media Layer (Video preview + Fallback SVG Poster) */}
-        <div className="absolute inset-0 z-0 bg-[#080808]">
-        {/* SVG/Poster Image (Always reliable) */}
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onSelect(project)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(project);
+        }
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={cn(
+        "group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#121216] border border-white/[0.07] hover:border-[#D4AF37]/40 transition-all duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37] cursor-pointer shadow-lg select-none",
+        isVertical ? "aspect-[9/16]" : "aspect-[16/9]"
+      )}
+      aria-label={`View project: ${project.title}`}
+      data-cursor="play"
+    >
+      {/* BACKGROUND THUMBNAIL CONTAINER WITH 600ms GPU-ACCELERATED SCALE */}
+      <div className="absolute inset-0 z-0 bg-[#09090B] overflow-hidden">
         <img
-          src={project.thumbnail}
+          src={imgSrc}
           alt={project.title}
-          className={cn(
-            "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105",
-            isHovered && videoLoaded && !hasVideoError ? "opacity-0" : "opacity-100"
-          )}
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          className="w-full h-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
         />
 
-        {/* Muted HTML5 Video Preview for hover */}
-        {project.videoSrc && !hasVideoError && (
-          <video
-            ref={videoRef}
-            src={project.videoSrc}
-            muted
-            loop
-            playsInline
-            preload="none"
-            onLoadedData={() => setVideoLoaded(true)}
-            onError={() => setHasVideoError(true)}
-            className={cn(
-              "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
-              isHovered && videoLoaded ? "opacity-100" : "opacity-0"
-            )}
-          />
-        )}
-
-        {/* Gradient overlays for editorial text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/60 pointer-events-none" />
+        {/* Editorial Vignette & Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-[#09090B]/30 to-black/60 pointer-events-none" />
       </div>
 
-      {/* Top Header Information */}
-      <div className="relative z-10 p-4 flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-mono text-accent uppercase font-bold tracking-wider">
-          {project.category}
-        </span>
+      {/* TOP EDITORIAL HAIRLINE BAR */}
+      <div className="relative z-10 p-3.5 sm:p-4 flex items-center justify-between border-b border-white/[0.07] bg-[#09090B]/40 backdrop-blur-md">
+        <div className="flex items-center gap-2 font-mono text-[10px]">
+          <span className="text-[#D4AF37] font-semibold">{indexStr}</span>
+          <span className="text-white/20">{"//"}</span>
+          <span className="px-2 py-0.5 rounded-sm bg-white/[0.05] border border-white/[0.07] text-white/80 uppercase font-medium tracking-wider">
+            {project.category}
+          </span>
+        </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-mono text-[10px] text-white/60">
+          <span className="px-1.5 py-0.5 rounded-sm bg-black/50 border border-white/[0.06]">
+            {project.aspectRatio}
+          </span>
           {project.duration && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-[10px] font-mono text-white/80">
-              <Clock className="w-2.5 h-2.5 text-accent" />
+            <span className="flex items-center gap-1 text-white/50">
+              <Clock className="w-2.5 h-2.5 text-[#D4AF37]" />
               <span>{project.duration}</span>
             </span>
           )}
         </div>
       </div>
 
-      {/* Center Play Button Pill */}
-      <div className="relative z-10 flex items-center justify-center my-auto pointer-events-none">
+      {/* CENTER PLAY BADGE ON HOVER */}
+      <div className="relative z-10 my-auto flex items-center justify-center pointer-events-none">
         <div
           className={cn(
-            "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300",
+            "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300",
             isHovered
-              ? "bg-accent text-[#080808] scale-110 shadow-[0_0_25px_rgba(215,255,100,0.5)]"
-              : "bg-black/60 backdrop-blur-md text-white/90 border border-white/20"
+              ? "bg-[#D4AF37] text-[#09090B] scale-110 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+              : "bg-[#09090B]/70 text-white/80 border border-white/[0.12] backdrop-blur-sm"
           )}
         >
-          <Play className="w-6 h-6 fill-current ml-0.5" />
+          <Play className="w-4 h-4 fill-current ml-0.5" />
         </div>
       </div>
 
-      {/* Bottom Metadata & Title */}
-      <div className="relative z-10 p-5 bg-gradient-to-t from-black via-black/90 to-transparent pt-8">
-        <div className="text-[11px] font-mono text-[#8E8E93] uppercase tracking-wider mb-1 line-clamp-1">
-          {project.clientContext}
-        </div>
-        <h3 className="text-lg font-bold text-[#F5F5F2] group-hover:text-accent transition-colors tracking-tight line-clamp-2 mb-2 font-sans">
+      {/* BOTTOM METADATA & TITLE */}
+      <div className="relative z-10 p-4 sm:p-5 bg-gradient-to-t from-[#09090B] via-[#09090B]/90 to-transparent pt-6 border-t border-white/[0.06]">
+        {project.clientContext && (
+          <div className="text-[10px] font-mono text-white/40 uppercase tracking-wider mb-1 line-clamp-1">
+            {project.clientContext}
+          </div>
+        )}
+        <h3 className="text-sm sm:text-base font-display font-semibold text-[#F4F4F6] group-hover:text-[#D4AF37] transition-colors tracking-tight line-clamp-2 uppercase">
           {project.title}
         </h3>
 
-        {/* Mini technical tag */}
-        <div className="flex items-center justify-between pt-2 border-t border-white/10 text-[10px] font-mono text-[#A0A09C]">
-          <span className="text-accent">{project.pacingStyle.split("/")[0]}</span>
-          <span className="text-white/60 group-hover:text-white transition-colors">WATCH EDIT →</span>
+        {/* Footer Monospace Status */}
+        <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-white/[0.06] text-[10px] font-mono text-white/40">
+          <span className="text-[#D4AF37]/80 truncate">
+            {project.pacingStyle ? project.pacingStyle.split("/")[0] : "SURGICAL CUTS"}
+          </span>
+          <span className="flex items-center gap-1 text-white/60 group-hover:text-white transition-colors">
+            <span>WATCH</span>
+            <ArrowUpRight className="w-3 h-3 text-[#D4AF37]" />
+          </span>
         </div>
       </div>
-    </div>
     </div>
   );
 }

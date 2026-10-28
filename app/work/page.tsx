@@ -11,18 +11,13 @@ import { ReelCard } from "@/components/work/reel-card";
 import { projects as fallbackProjects, Project, ProjectCategory } from "@/data/projects";
 import {
   Search,
-  SlidersHorizontal,
-  Flame,
-  Volume2,
-  VolumeX,
   ArrowLeft,
   X,
-  Sparkles,
   ChevronDown,
-  LayoutGrid,
-  Filter,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const ALL_CATEGORIES: ProjectCategory[] = [
   "All Work",
@@ -51,7 +46,7 @@ export default function WorkArchivePage() {
         const res = await fetch("/api/projects");
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data)) {
             setAllProjects(data.filter((p: Project) => p.published !== false));
           }
         }
@@ -123,82 +118,76 @@ export default function WorkArchivePage() {
     <SmoothScroll>
       <ScrollProgressBar />
 
-      <main className="min-h-screen bg-[#050505] text-white selection:bg-[#D7FF64] selection:text-[#050505]">
+      <main className="min-h-screen bg-[#09090B] text-[#F4F4F6] selection:bg-[#D4AF37] selection:text-[#09090B]">
         <Navigation />
 
         {/* HERO ARCHIVE HEADER */}
-        <section className="pt-32 sm:pt-40 pb-12 sm:pb-16 relative overflow-hidden border-b border-white/[0.08]">
-          {/* Ambient Lighting Glows */}
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(215,255,100,0.06)_0%,transparent_70%)] pointer-events-none blur-3xl" />
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none opacity-40" />
-
-          <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        <section className="pt-32 sm:pt-40 pb-12 sm:pb-16 relative overflow-hidden border-b border-white/[0.07]">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
             {/* Top Breadcrumb & Status */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               <Link
                 href="/#work"
-                className="inline-flex items-center gap-2 text-xs font-mono text-white/50 hover:text-[#D7FF64] transition-colors uppercase tracking-wider group"
+                className="inline-flex items-center gap-2 text-xs font-mono text-white/50 hover:text-[#D4AF37] transition-colors uppercase tracking-wider group"
               >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 <span>BACK TO STUDIO OVERVIEW</span>
               </Link>
 
               <div className="flex items-center gap-2 text-xs font-mono text-white/40">
-                <span className="w-2 h-2 rounded-full bg-[#D7FF64] animate-pulse" />
-                <span>COMPLETE VAULT // DIRECTORS CUT ARCHIVE</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+                <span>COMPLETE EDITORIAL ARCHIVE</span>
               </div>
             </div>
 
             {/* Master Headline */}
             <div className="max-w-4xl">
-              <div className="flex items-center gap-2 font-mono text-xs text-[#D7FF64] uppercase tracking-widest mb-3">
-                <span>◆ SCENE 01 // PRODUCTION ARCHIVE</span>
+              <div className="flex items-center gap-2 font-mono text-[10px] text-[#D4AF37] uppercase tracking-[0.2em] mb-3">
+                <span>◆ ARCHIVE 01 // PRODUCTION VAULT</span>
                 <span className="text-white/20">|</span>
                 <span className="text-white/40">HIGH-RETENTION POST-PRODUCTION</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-outfit font-black uppercase tracking-tight text-white leading-[0.98]">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]">
                 THE COMPLETE <br />
-                <span className="font-serif italic font-normal text-[#D7FF64] text-5xl sm:text-7xl lg:text-[84px] lowercase tracking-normal">
+                <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
                   archive.
                 </span>
               </h1>
 
-              <p className="mt-4 text-base sm:text-lg text-white/70 max-w-2xl font-sans leading-relaxed">
-                Filter through our comprehensive catalog of commercial showreels, high-velocity talking head reels,
-                documentary essays, and kinetic typography. Engineered for creators and brands demanding cinematic pacing, visceral sound design, and narrative clarity.
+              <p className="mt-4 text-base text-white/70 max-w-2xl font-sans leading-relaxed">
+                Explore our full catalog of commercial showreels, talking head reels,
+                documentary cuts, and motion design. Engineered for high retention and narrative impact.
               </p>
             </div>
 
             {/* Studio Technical Specifications */}
-            <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl">
+            <div className="mt-8 pt-6 border-t border-white/[0.07] grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl">
               <div>
-                <div className="font-outfit font-black text-2xl text-white">4K UHD</div>
-                <div className="font-mono text-[11px] text-white/50 uppercase tracking-wider mt-0.5">Master Output</div>
+                <div className="font-display font-bold text-xl text-white">4K UHD</div>
+                <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Master Output</div>
               </div>
               <div>
-                <div className="font-outfit font-black text-2xl text-[#D7FF64]">REC.709</div>
-                <div className="font-mono text-[11px] text-white/50 uppercase tracking-wider mt-0.5">Color Workflow</div>
+                <div className="font-display font-bold text-xl text-[#D4AF37]">REC.709</div>
+                <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Color Profile</div>
               </div>
               <div>
-                <div className="font-outfit font-black text-2xl text-white">32-BIT</div>
-                <div className="font-mono text-[11px] text-white/50 uppercase tracking-wider mt-0.5">Audio Fidelity</div>
+                <div className="font-display font-bold text-xl text-white">32-BIT</div>
+                <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Audio Stems</div>
               </div>
               <div>
-                <div className="font-outfit font-black text-2xl text-white">PRO EDIT</div>
-                <div className="font-mono text-[11px] text-white/50 uppercase tracking-wider mt-0.5">Premiere & AE</div>
+                <div className="font-display font-bold text-xl text-white">PRO EDIT</div>
+                <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Premiere & AE</div>
               </div>
             </div>
           </div>
         </section>
 
         {/* ADVANCED FILTERING & SEARCH CONSOLE */}
-        <section className="py-8 bg-[#080808]/90 backdrop-blur-md border-b border-white/[0.08] sticky top-16 z-30">
-          <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-12">
-            
+        <section className="py-6 bg-[#09090B]/95 backdrop-blur-md border-b border-white/[0.07] sticky top-16 z-30">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
             {/* SEARCH BAR & CONTROLS ROW */}
-            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-5">
-              
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-4">
               {/* Search Input */}
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
@@ -209,8 +198,8 @@ export default function WorkArchivePage() {
                     setSearchQuery(e.target.value);
                     setVisibleCount(12);
                   }}
-                  placeholder="Search reels by title, creator, style, sound..."
-                  className="w-full pl-10 pr-9 py-2.5 rounded-full bg-white/[0.04] border border-white/15 text-white placeholder-white/40 text-xs font-mono focus:outline-none focus:border-[#D7FF64] focus:ring-1 focus:ring-[#D7FF64] transition-all"
+                  placeholder="Search projects by title, client, category..."
+                  className="w-full pl-10 pr-9 py-2 rounded-sm bg-[#121216] border border-white/[0.08] text-white placeholder-white/40 text-xs font-mono focus:outline-none focus:border-[#D4AF37] transition-colors"
                 />
                 {searchQuery && (
                   <button
@@ -229,17 +218,17 @@ export default function WorkArchivePage() {
                 <button
                   type="button"
                   onClick={() => setAudioMonitorEnabled((prev) => !prev)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-full border text-xs font-mono transition-all duration-300 ${
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-mono transition-all duration-200 ${
                     audioMonitorEnabled
-                      ? "bg-[#D7FF64]/15 border-[#D7FF64] text-[#D7FF64] shadow-[0_0_15px_rgba(215,255,100,0.25)]"
-                      : "bg-white/[0.03] border-white/10 text-white/60 hover:text-white hover:border-white/20"
+                      ? "bg-[#D4AF37]/15 border-[#D4AF37] text-[#D4AF37]"
+                      : "bg-[#121216] border-white/[0.07] text-white/60 hover:text-white"
                   }`}
-                  title="Toggle studio audio monitor on hover previews"
+                  title="Toggle audio monitor"
                 >
                   {audioMonitorEnabled ? (
                     <>
-                      <Volume2 className="w-3.5 h-3.5 text-[#D7FF64]" />
-                      <span className="font-bold">AUDIO: LIVE</span>
+                      <Volume2 className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      <span className="font-semibold">AUDIO: LIVE</span>
                     </>
                   ) : (
                     <>
@@ -250,27 +239,27 @@ export default function WorkArchivePage() {
                 </button>
 
                 {/* Sort Selector */}
-                <div className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/[0.03] border border-white/10 text-xs font-mono text-white/70">
-                  <span className="text-white/40 text-[11px] uppercase">SORT:</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#121216] border border-white/[0.07] text-[10px] font-mono text-white/70">
+                  <span className="text-white/40 uppercase">SORT:</span>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as any)}
-                    className="bg-transparent text-white focus:outline-none text-xs font-mono cursor-pointer"
+                    className="bg-transparent text-white focus:outline-none text-[10px] font-mono cursor-pointer"
                   >
-                    <option value="featured" className="bg-[#0e0e0e] text-white">Featured</option>
-                    <option value="title" className="bg-[#0e0e0e] text-white">Title (A-Z)</option>
-                    <option value="duration" className="bg-[#0e0e0e] text-white">Duration</option>
+                    <option value="featured" className="bg-[#121216] text-white">Featured</option>
+                    <option value="title" className="bg-[#121216] text-white">Title (A-Z)</option>
+                    <option value="duration" className="bg-[#121216] text-white">Duration</option>
                   </select>
                 </div>
 
                 {/* Format Toggle */}
-                <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.03] border border-white/10 text-[11px] font-mono">
+                <div className="flex items-center gap-1 p-0.5 rounded-sm bg-[#121216] border border-white/[0.07] text-[10px] font-mono">
                   <button
                     type="button"
                     onClick={() => setFormatFilter("all")}
-                    className={`px-3 py-1 rounded-full transition-all ${
+                    className={`px-2.5 py-1 rounded-sm transition-all ${
                       formatFilter === "all"
-                        ? "bg-white text-black font-bold shadow-sm"
+                        ? "bg-white text-black font-bold"
                         : "text-white/60 hover:text-white"
                     }`}
                   >
@@ -279,9 +268,9 @@ export default function WorkArchivePage() {
                   <button
                     type="button"
                     onClick={() => setFormatFilter("9:16")}
-                    className={`px-3 py-1 rounded-full transition-all ${
+                    className={`px-2.5 py-1 rounded-sm transition-all ${
                       formatFilter === "9:16"
-                        ? "bg-[#D7FF64] text-black font-bold shadow-sm"
+                        ? "bg-[#D4AF37] text-[#09090B] font-bold"
                         : "text-white/60 hover:text-white"
                     }`}
                   >
@@ -290,9 +279,9 @@ export default function WorkArchivePage() {
                   <button
                     type="button"
                     onClick={() => setFormatFilter("16:9")}
-                    className={`px-3 py-1 rounded-full transition-all ${
+                    className={`px-2.5 py-1 rounded-sm transition-all ${
                       formatFilter === "16:9"
-                        ? "bg-[#D7FF64] text-black font-bold shadow-sm"
+                        ? "bg-[#D4AF37] text-[#09090B] font-bold"
                         : "text-white/60 hover:text-white"
                     }`}
                   >
@@ -315,24 +304,17 @@ export default function WorkArchivePage() {
                       setSelectedCategory(cat);
                       setVisibleCount(12);
                     }}
-                    className={`relative px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-200 whitespace-nowrap flex items-center gap-2 ${
+                    className={`px-3 py-1.5 rounded-sm text-[11px] font-mono uppercase tracking-wider transition-all duration-200 whitespace-nowrap flex items-center gap-2 ${
                       isActive
-                        ? "text-[#050505] font-black"
-                        : "text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/10"
+                        ? "bg-[#D4AF37] text-[#09090B] font-bold shadow-sm"
+                        : "text-white/60 hover:text-white bg-[#121216] border border-white/[0.07]"
                     }`}
                   >
-                    {isActive && (
-                      <motion.div
-                        layoutId="archiveActiveFilter"
-                        className="absolute inset-0 bg-[#D7FF64] rounded-full shadow-[0_0_15px_rgba(215,255,100,0.3)]"
-                        transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                      />
-                    )}
-                    <span className="relative z-10">{cat}</span>
+                    <span>{cat}</span>
                     {typeof count === "number" && (
                       <span
-                        className={`relative z-10 text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                          isActive ? "bg-black/20 text-[#050505]" : "bg-white/10 text-white/50"
+                        className={`text-[9px] px-1.5 py-0.2 rounded-sm font-semibold ${
+                          isActive ? "bg-black/20 text-[#09090B]" : "bg-white/10 text-white/50"
                         }`}
                       >
                         {count}
@@ -342,19 +324,17 @@ export default function WorkArchivePage() {
                 );
               })}
             </div>
-
           </div>
         </section>
 
         {/* RESULTS FEED SECTION */}
-        <section className="py-16 sm:py-20 relative">
-          <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-12">
-            
+        <section className="py-14 sm:py-20 relative">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
             {/* Status bar */}
-            <div className="flex items-center justify-between text-xs font-mono text-white/50 mb-8 pb-3 border-b border-white/[0.08]">
+            <div className="flex items-center justify-between text-xs font-mono text-white/50 mb-8 pb-3 border-b border-white/[0.07]">
               <div>
-                SHOWING <span className="text-[#D7FF64] font-bold">{paginatedProjects.length}</span> OF{" "}
-                <span className="text-white font-bold">{filteredProjects.length}</span> AVAILABLE CUTS
+                SHOWING <span className="text-[#D4AF37] font-semibold">{paginatedProjects.length}</span> OF{" "}
+                <span className="text-white font-semibold">{filteredProjects.length}</span> ARCHIVE CUTS
                 {searchQuery && <span> FOR &quot;{searchQuery}&quot;</span>}
               </div>
 
@@ -366,7 +346,7 @@ export default function WorkArchivePage() {
                     setSelectedCategory("All Work");
                     setFormatFilter("all");
                   }}
-                  className="text-white/40 hover:text-[#D7FF64] transition-colors underline"
+                  className="text-white/40 hover:text-[#D4AF37] transition-colors"
                 >
                   RESET FILTERS
                 </button>
@@ -375,9 +355,9 @@ export default function WorkArchivePage() {
 
             {/* Projects Grid */}
             {filteredProjects.length === 0 ? (
-              <div className="py-24 text-center rounded-3xl border border-white/10 bg-[#0a0a0a]/60 backdrop-blur-md">
-                <p className="text-white/50 font-mono text-sm">
-                  No projects match your current filters.
+              <div className="py-24 text-center rounded-xl border border-white/[0.07] bg-[#121216]">
+                <p className="text-white/50 font-mono text-xs">
+                  NO PROJECTS MATCH YOUR CURRENT CRITERIA.
                 </p>
                 <button
                   type="button"
@@ -386,19 +366,20 @@ export default function WorkArchivePage() {
                     setSelectedCategory("All Work");
                     setFormatFilter("all");
                   }}
-                  className="mt-4 px-6 py-2.5 rounded-full bg-white/10 hover:bg-[#D7FF64] hover:text-black transition-all text-xs font-mono font-bold uppercase tracking-wider"
+                  className="mt-4 px-5 py-2 rounded-sm bg-[#D4AF37] text-[#09090B] font-mono text-xs font-bold uppercase tracking-wider"
                 >
                   Reset All Filters
                 </button>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {paginatedProjects.map((project) => (
+                {paginatedProjects.map((project, idx) => (
                   <ReelCard
                     key={project.id}
                     project={project}
                     onSelect={setSelectedProject}
                     audioMonitorEnabled={audioMonitorEnabled}
+                    index={idx}
                     className="h-full"
                   />
                 ))}
@@ -411,14 +392,13 @@ export default function WorkArchivePage() {
                 <button
                   type="button"
                   onClick={() => setVisibleCount((prev) => prev + 9)}
-                  className="px-8 py-4 rounded-full bg-white/[0.05] hover:bg-[#D7FF64] hover:text-[#050505] border border-white/15 text-white font-mono text-xs uppercase tracking-wider font-bold transition-all duration-300 shadow-xl hover:scale-105 active:scale-95 flex items-center gap-2 group"
+                  className="px-6 py-3 rounded-sm bg-[#121216] hover:bg-[#18181E] hover:border-[#D4AF37]/50 border border-white/[0.08] text-white font-mono text-xs uppercase tracking-wider font-semibold transition-all flex items-center gap-2 group"
                 >
                   <span>LOAD MORE EDITS ({filteredProjects.length - visibleCount} REMAINING)</span>
                   <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
                 </button>
               </div>
             )}
-
           </div>
         </section>
 

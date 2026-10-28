@@ -2,18 +2,20 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
-const GLYPHS = "!<>-_\\/[]{}—=+*^?#________ABCDEF0123456789";
+const GLYPHS = "0123456789ABCDEF:/[]";
 
 interface TextScrambleProps {
   text: string;
   className?: string;
   triggerOnHover?: boolean;
+  speed?: number;
 }
 
 export function TextScramble({
   text,
   className = "",
   triggerOnHover = false,
+  speed = 28,
 }: TextScrambleProps) {
   const [displayText, setDisplayText] = useState(text);
   const isScrambling = useRef(false);
@@ -30,7 +32,7 @@ export function TextScramble({
         text
           .split("")
           .map((char, index) => {
-            if (char === " ") return " ";
+            if (char === " " || char === "/" || char === ":") return char;
             if (index < iteration / 2) {
               return text[index];
             }
@@ -46,8 +48,8 @@ export function TextScramble({
       }
 
       iteration += 1;
-    }, 30);
-  }, [text]);
+    }, speed);
+  }, [text, speed]);
 
   useEffect(() => {
     scramble();
@@ -55,7 +57,7 @@ export function TextScramble({
 
   return (
     <span
-      className={className}
+      className={`font-mono ${className}`}
       onMouseEnter={triggerOnHover ? scramble : undefined}
     >
       {displayText}

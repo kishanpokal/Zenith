@@ -4,18 +4,18 @@ import React, { useEffect, useState } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export function CustomCursor() {
-  const [cursorState, setCursorState] = useState<"default" | "hover" | "play" | "drag">("default");
+  const [cursorState, setCursorState] = useState<"default" | "hover" | "play" | "watch">("default");
   const [isVisible, setIsVisible] = useState(false);
 
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth spring physics
-  const springX = useSpring(mouseX, { stiffness: 450, damping: 28 });
-  const springY = useSpring(mouseY, { stiffness: 450, damping: 28 });
+  // Smooth spring physics for fluid responsiveness
+  const springX = useSpring(mouseX, { stiffness: 600, damping: 35 });
+  const springY = useSpring(mouseY, { stiffness: 600, damping: 35 });
 
   useEffect(() => {
-    // Only enable on desktop pointer devices
+    // Disable completely on touch / mobile devices
     if (typeof window === "undefined" || window.matchMedia("(pointer: coarse)").matches) {
       return;
     }
@@ -25,7 +25,6 @@ export function CustomCursor() {
       mouseY.set(e.clientY);
       if (!isVisible) setIsVisible(true);
 
-      // Check hovered element
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
@@ -36,11 +35,11 @@ export function CustomCursor() {
           setCursorState("play");
           return;
         }
-        if (type === "drag") {
-          setCursorState("drag");
+        if (type === "watch") {
+          setCursorState("watch");
           return;
         }
-        if (type === "hover" || type === "go") {
+        if (type === "hover") {
           setCursorState("hover");
           return;
         }
@@ -57,7 +56,7 @@ export function CustomCursor() {
       setIsVisible(false);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
@@ -68,62 +67,48 @@ export function CustomCursor() {
 
   if (!isVisible) return null;
 
+  const isVideoBadge = cursorState === "play" || cursorState === "watch";
+
   return (
     <motion.div
-      className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center font-mono text-[10px] font-black uppercase tracking-wider select-none"
+      className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center font-mono select-none"
       style={{
         x: springX,
         y: springY,
       }}
     >
-      {/* Outer morphing ring */}
       <motion.div
         animate={{
-          width:
-            cursorState === "play"
-              ? 64
-              : cursorState === "drag"
-              ? 54
-              : cursorState === "hover"
-              ? 38
-              : 12,
-          height:
-            cursorState === "play"
-              ? 64
-              : cursorState === "drag"
-              ? 54
-              : cursorState === "hover"
-              ? 38
-              : 12,
-          backgroundColor:
-            cursorState === "play"
-              ? "#D7FF64"
-              : cursorState === "drag"
-              ? "rgba(215, 255, 100, 0.9)"
-              : cursorState === "hover"
-              ? "rgba(255, 255, 255, 0.12)"
-              : "rgba(255, 255, 255, 0.8)",
-          borderColor:
-            cursorState === "hover" ? "rgba(215, 255, 100, 0.6)" : "transparent",
-          boxShadow:
-            cursorState === "play"
-              ? "0 0 25px rgba(215, 255, 100, 0.6)"
-              : cursorState === "default"
-              ? "0 0 8px rgba(215, 255, 100, 0.4)"
-              : "none",
+          opacity: cursorState === "hover" ? 0 : 1,
+          scale: cursorState === "hover" ? 0.3 : 1,
+          width: isVideoBadge ? 110 : 6,
+          height: isVideoBadge ? 36 : 6,
+          borderRadius: 999,
+          backgroundColor: isVideoBadge
+            ? "rgba(18, 18, 22, 0.92)"
+            : "#D4AF37",
+          borderColor: isVideoBadge
+            ? "rgba(212, 175, 55, 0.5)"
+            : "transparent",
+          backdropFilter: isVideoBadge ? "blur(12px)" : "none",
         }}
-        transition={{ type: "spring", stiffness: 380, damping: 25 }}
-        className="rounded-full flex items-center justify-center text-[#050505] border"
+        transition={{
+          type: "spring",
+          stiffness: 450,
+          damping: 28,
+        }}
+        className="flex items-center justify-center border overflow-hidden shadow-xl"
       >
-        {cursorState === "play" && (
-          <span className="text-[#050505] font-black tracking-widest text-[9px] flex items-center gap-1">
-            ▶ PLAY
-          </span>
-        )}
-        {cursorState === "drag" && (
-          <span className="text-[#050505] font-bold text-[9px]">
-            ← →
-          </span>
+        {isVideoBadge && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="flex items-center gap-1.5 px-3 text-[10px] tracking-widest text-[#F4F4F6] font-semibold whitespace-nowrap"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+            <span>{cursorState === "play" ? "PLAY REEL" : "WATCH"}</span>
+          </motion.div>
         )}
       </motion.div>
     </motion.div>

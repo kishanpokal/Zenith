@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { siteConfig } from "@/data/site-config";
+import { ArrowUpRight, Mail, MessageSquare } from "lucide-react";
 
 interface ContactSectionProps {
   initialPackage?: string;
@@ -25,302 +26,121 @@ export function ContactSection({ initialPackage }: ContactSectionProps = {}) {
   };
 
   return (
-    <section className="final" id="contact" aria-labelledby="final-title">
-      <div className="final__pin">
-        {/* Floating 3D Clip Frames in Background */}
-        <div className="final__frames" aria-hidden="true">
-          <figure
-            className="final__f"
-            style={{
-              left: "6%",
-              top: "12%",
-              transform: "rotate(-6deg)",
-              opacity: 0.35,
-            }}
-          >
-            <img src="/images/projects/reel-6.jpg" alt="" />
-          </figure>
-          <figure
-            className="final__f"
-            style={{
-              right: "8%",
-              top: "14%",
-              transform: "rotate(5deg)",
-              opacity: 0.35,
-            }}
-          >
-            <img src="/images/projects/reel-7.jpg" alt="" />
-          </figure>
-          <figure
-            className="final__f"
-            style={{
-              left: "10%",
-              bottom: "10%",
-              transform: "rotate(4deg)",
-              opacity: 0.35,
-            }}
-          >
-            <img src="/images/projects/reel-8.jpg" alt="" />
-          </figure>
-          <figure
-            className="final__f"
-            style={{
-              right: "12%",
-              bottom: "12%",
-              transform: "rotate(-4deg)",
-              opacity: 0.35,
-            }}
-          >
-            <img src="/images/projects/reel-9.jpg" alt="" />
-          </figure>
-        </div>
+    <section
+      className="py-24 sm:py-32 bg-[#09090B] relative overflow-hidden select-none border-b border-white/[0.07]"
+      id="contact"
+      aria-labelledby="contact-title"
+    >
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        {/* Editorial Subtitle */}
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-4 text-[10px] font-mono text-white/70">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+            <span>SCENE 07 // INITIATE COLLABORATION</span>
+          </div>
 
-        {/* Pre-text */}
-        <div className="final__pre" aria-hidden="true" style={{ textAlign: "center" }}>
-          <p
-            style={{
-              letterSpacing: "0.3em",
-              marginBottom: "0.4rem",
-              color: "#94a3b8",
-              fontFamily: "var(--mono)",
-              fontSize: "12px",
-            }}
+          <h2
+            id="contact-title"
+            className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0] mb-4"
           >
-            YOU’VE SEEN THE WORK.
-          </p>
-          <p
-            style={{
-              letterSpacing: "0.3em",
-              marginBottom: "0.4rem",
-              color: "#94a3b8",
-              fontFamily: "var(--mono)",
-              fontSize: "12px",
-            }}
-          >
-            YOU KNOW THE PROCESS.
-          </p>
-          <p
-            style={{
-              letterSpacing: "0.3em",
-              marginBottom: "2.5rem",
-              color: "#94a3b8",
-              fontFamily: "var(--mono)",
-              fontSize: "12px",
-            }}
-          >
-            NOW LET’S BUILD <span className="text-[#D7FF64]">YOURS.</span>
-          </p>
-        </div>
-
-        {/* Climax Display Headline */}
-        <div
-          className="final__main"
-          style={{
-            textAlign: "center",
-            maxWidth: "960px",
-            margin: "0 auto",
-            position: "relative",
-            zIndex: 10,
-          }}
-        >
-          <h2 className="display final__title" id="final-title" style={{ marginBottom: "3rem" }}>
-            <span className="ln">
-              <span>YOUR NEXT</span>
-            </span>
-            <span className="ln">
-              <span className="text-[#D7FF64]">30 VIDEOS</span>
-            </span>
-            <span className="ln">
-              <span>COULD LOOK</span>
-            </span>
-            <span className="ln">
-              <span>VERY DIFFERENT.</span>
+            YOUR NEXT VIDEOS <br />
+            <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
+              could look different.
             </span>
           </h2>
 
-          {/* Yash Edits Signature Mega Button */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "3rem" }}>
-            <a
-              href={siteConfig.contact.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mega"
-              data-cursor="go"
-            >
-              <span className="mega__glow" aria-hidden="true"></span>
-              <span className="mega__text">WORK WITH ZENITH EDITS</span>
-              <span className="mega__arrow" aria-hidden="true">
-                <span>↗</span>
-                <span>↗</span>
-              </span>
-            </a>
-          </div>
-
-          <p className="final__alt mono" style={{ marginBottom: "4rem" }}>
-            <span>OR REACH OUT DIRECTLY — </span>
-            <a
-              className="link"
-              href={siteConfig.contact.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "#D7FF64", textDecoration: "underline" }}
-            >
-              WhatsApp Us Direct ↗
-            </a>
+          <p className="text-sm text-white/60 font-sans leading-relaxed">
+            Ready to elevate your post-production retention? Send a brief directly to our lead editor.
           </p>
+        </div>
 
-          {/* Quick Direct Email Form */}
-          <div
-            style={{
-              background: "rgba(10, 18, 40, 0.75)",
-              border: "1px solid rgba(148, 163, 184, 0.2)",
-              borderRadius: "24px",
-              padding: "clamp(24px, 4vw, 44px)",
-              maxWidth: "600px",
-              margin: "0 auto",
-              textAlign: "left",
-              backdropFilter: "blur(12px)",
-            }}
+        {/* WhatsApp Mega Action */}
+        <div className="flex justify-center mb-12">
+          <a
+            href={siteConfig.contact.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 rounded-sm bg-[#D4AF37] hover:bg-[#F59E0B] text-[#09090B] font-bold font-mono text-xs uppercase tracking-wider transition-all duration-200 shadow-lg hover:scale-[1.02] active:scale-[0.98] flex items-center gap-3 group"
           >
-            <p className="eyebrow" style={{ marginBottom: "1rem" }}>
-              <span className="eyebrow__dot"></span>Direct Inquiry
-            </p>
-            <form onSubmit={handleSubmit} style={{ display: "grid", gap: "1.2rem" }}>
-              <div>
-                <label
-                  className="mono"
-                  style={{
-                    display: "block",
-                    fontSize: "11px",
-                    color: "#94a3b8",
-                    marginBottom: "6px",
-                  }}
-                >
-                  YOUR NAME
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Alex Rivers"
-                  style={{
-                    width: "100%",
-                    background: "#030712",
-                    border: "1px solid rgba(148, 163, 184, 0.2)",
-                    borderRadius: "10px",
-                    padding: "12px 16px",
-                    color: "#ffffff",
-                    fontSize: "14px",
-                    outline: "none",
-                  }}
-                />
-              </div>
+            <MessageSquare className="w-4 h-4" />
+            <span>START ON WHATSAPP DIRECT</span>
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
+        </div>
 
-              <div>
-                <label
-                  className="mono"
-                  style={{
-                    display: "block",
-                    fontSize: "11px",
-                    color: "#94a3b8",
-                    marginBottom: "6px",
-                  }}
-                >
-                  EMAIL ADDRESS
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="alex@example.com"
-                  style={{
-                    width: "100%",
-                    background: "#030712",
-                    border: "1px solid rgba(148, 163, 184, 0.2)",
-                    borderRadius: "10px",
-                    padding: "12px 16px",
-                    color: "#ffffff",
-                    fontSize: "14px",
-                    outline: "none",
-                  }}
-                />
-              </div>
-
-              <div>
-                <label
-                  className="mono"
-                  style={{
-                    display: "block",
-                    fontSize: "11px",
-                    color: "#94a3b8",
-                    marginBottom: "6px",
-                  }}
-                >
-                  DESIRED VOLUME
-                </label>
-                <select
-                  value={formData.volume}
-                  onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "#030712",
-                    border: "1px solid rgba(148, 163, 184, 0.2)",
-                    borderRadius: "10px",
-                    padding: "12px 16px",
-                    color: "#ffffff",
-                    fontSize: "14px",
-                    outline: "none",
-                  }}
-                >
-                  <option value="Starter (30 Reels)">Starter — 30 Reels / mo ($299)</option>
-                  <option value="Growth (60 Reels)">Growth — 60 Reels / mo ($499)</option>
-                  <option value="Scale (100 Reels)">Scale — 100 Reels / mo ($799)</option>
-                  <option value="Custom Scope">Custom Scope / Single Project</option>
-                </select>
-              </div>
-
-              <div>
-                <label
-                  className="mono"
-                  style={{
-                    display: "block",
-                    fontSize: "11px",
-                    color: "#94a3b8",
-                    marginBottom: "6px",
-                  }}
-                >
-                  PROJECT OVERVIEW / GOALS
-                </label>
-                <textarea
-                  rows={3}
-                  value={formData.details}
-                  onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-                  placeholder="Tell us about your content, posting frequency, or channels..."
-                  style={{
-                    width: "100%",
-                    background: "#030712",
-                    border: "1px solid rgba(148, 163, 184, 0.2)",
-                    borderRadius: "10px",
-                    padding: "12px 16px",
-                    color: "#ffffff",
-                    fontSize: "14px",
-                    outline: "none",
-                    resize: "none",
-                  }}
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn--primary"
-                style={{ width: "100%", marginTop: "8px" }}
-              >
-                <span>Send Project Brief ↗</span>
-              </button>
-            </form>
+        {/* Direct Email Inquiry Form */}
+        <div className="max-w-xl mx-auto bg-[#121216] border border-white/[0.07] rounded-xl p-6 sm:p-8 shadow-xl">
+          <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/[0.07] text-[10px] font-mono text-white/50">
+            <span className="uppercase tracking-wider">PROJECT BRIEF DISPATCH</span>
+            <span className="text-[#D4AF37]">RESPONSE WITHIN 6 HOURS</span>
           </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-[10px] font-mono text-white/50 uppercase tracking-wider mb-1.5">
+                Full Name
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Alex Rivers"
+                className="w-full px-3.5 py-2.5 rounded-sm bg-[#09090B] border border-white/[0.08] text-white text-xs font-mono placeholder-white/30 focus:outline-none focus:border-[#D4AF37] transition-colors"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-mono text-white/50 uppercase tracking-wider mb-1.5">
+                Work Email Address
+              </label>
+              <input
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="alex@brand.com"
+                className="w-full px-3.5 py-2.5 rounded-sm bg-[#09090B] border border-white/[0.08] text-white text-xs font-mono placeholder-white/30 focus:outline-none focus:border-[#D4AF37] transition-colors"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-mono text-white/50 uppercase tracking-wider mb-1.5">
+                Scope / Retainer Level
+              </label>
+              <select
+                value={formData.volume}
+                onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-sm bg-[#09090B] border border-white/[0.08] text-white text-xs font-mono focus:outline-none focus:border-[#D4AF37] transition-colors cursor-pointer"
+              >
+                <option value="Starter (30 Reels)" className="bg-[#121216] text-white">Starter — 30 Reels / mo ($299)</option>
+                <option value="Growth (60 Reels)" className="bg-[#121216] text-white">Growth — 60 Reels / mo ($499)</option>
+                <option value="Scale (100 Reels)" className="bg-[#121216] text-white">Scale — 100 Reels / mo ($799)</option>
+                <option value="Custom Scope" className="bg-[#121216] text-white">Custom Commercial / Single Master Project</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-mono text-white/50 uppercase tracking-wider mb-1.5">
+                Project Overview & Channels
+              </label>
+              <textarea
+                rows={3}
+                value={formData.details}
+                onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                placeholder="Describe your current content, reference creators, or raw footage volume..."
+                className="w-full px-3.5 py-2.5 rounded-sm bg-[#09090B] border border-white/[0.08] text-white text-xs font-mono placeholder-white/30 focus:outline-none focus:border-[#D4AF37] transition-colors resize-none"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 rounded-sm bg-[#D4AF37] hover:bg-[#F59E0B] text-[#09090B] font-bold text-xs uppercase tracking-wider transition-colors shadow-sm flex items-center justify-center gap-2"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>Send Project Brief ↗</span>
+            </button>
+          </form>
         </div>
       </div>
     </section>

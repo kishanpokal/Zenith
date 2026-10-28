@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { Gauge, Scissors, Volume2, Palette, Sparkles, Activity } from "lucide-react";
+import { Gauge, Scissors, Volume2, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PillarMilestone {
@@ -72,13 +72,11 @@ export function PaceBreak() {
     offset: ["start 80%", "end 20%"],
   });
 
-  // Smooth scroll-driven playhead width: 4% to 96%
   const playheadPercent = useTransform(scrollYProgress, [0, 1], ["4%", "96%"]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     setScrollProgressRatio(latest);
 
-    // Frame-accurate timecode scrubbing from 00:00:00:00 to 00:00:24:00 (60 fps)
     const totalFrames = Math.floor(latest * 24 * 60);
     const secs = Math.floor(totalFrames / 60);
     const frames = totalFrames % 60;
@@ -86,7 +84,6 @@ export function PaceBreak() {
     const f = frames < 10 ? `0${frames}` : `${frames}`;
     setTimecode(`00:00:${s}:${f}`);
 
-    // Automatically advance the active milestone with scroll unless user clicked a tab
     if (!isManualOverride) {
       const idx = Math.min(3, Math.floor(latest * 4));
       setActiveTab(idx);
@@ -99,64 +96,58 @@ export function PaceBreak() {
   return (
     <section
       ref={sectionRef}
-      className="py-24 sm:py-32 bg-[#050505] relative overflow-hidden select-none"
+      className="py-20 sm:py-28 bg-[#09090B] relative overflow-hidden select-none border-b border-white/[0.07]"
       id="principles"
     >
-      {/* Background Ambience & Grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none opacity-40" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(215,255,100,0.04)_0%,transparent_70%)] pointer-events-none blur-3xl" />
-
-      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
-        
-        {/* SECTION HEADER: MINIMAL & EDITORIAL */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16 pb-6 border-b border-white/[0.08]">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        {/* SECTION HEADER */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/[0.07]">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-4 text-xs font-mono text-white/70">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D7FF64] animate-pulse" />
-              <span>SC 02 — EDITING CRAFT & PHILOSOPHY</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+              <span>SC 02 {"//"} EDITING CRAFT & PHILOSOPHY</span>
               <span className="text-white/20">|</span>
-              <span className="text-[#D7FF64] font-bold">FOUR PILLARS</span>
+              <span className="text-[#D4AF37] font-semibold">FOUR PILLARS</span>
             </div>
 
-            <h2 className="text-4xl sm:text-6xl lg:text-7xl font-outfit font-black uppercase tracking-tight text-white leading-none">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]">
               EVERY FRAME <br />
-              <span className="font-serif italic font-normal text-[#D7FF64] text-5xl sm:text-7xl lg:text-[84px] lowercase tracking-normal">
+              <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
                 has a job.
               </span>
             </h2>
           </div>
 
-          <div className="flex flex-col md:items-end gap-2">
-            <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
-              TIMELINE SCRUBBER // 60 FPS
+          <div className="flex flex-col md:items-end gap-1.5">
+            <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
+              TIMELINE SCRUBBER {"//"} 60 FPS
             </span>
-            <div className="font-mono text-[#D7FF64] font-bold text-base sm:text-lg tracking-widest bg-black/60 px-3.5 py-1.5 rounded-xl border border-white/10 shadow-lg">
+            <div className="font-mono text-[#D4AF37] font-semibold text-sm tracking-widest bg-[#121216] px-3 py-1 rounded-sm border border-white/[0.07]">
               {timecode}
             </div>
           </div>
         </div>
 
         {/* SCROLL-DRIVEN PLAYHEAD SCRUB TRACK */}
-        <div className="mb-10 p-4 sm:p-5 rounded-2xl bg-black/40 border border-white/10 relative overflow-hidden">
-          <div className="flex items-center justify-between text-[11px] font-mono text-white/40 mb-2.5">
+        <div className="mb-8 p-3.5 sm:p-4 rounded-xl bg-[#121216] border border-white/[0.07]">
+          <div className="flex items-center justify-between text-[10px] font-mono text-white/40 mb-2">
             <span className="flex items-center gap-1.5 text-white/70">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D7FF64]" />
-              <span>PLAYHEAD SCRUB POSITION</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+              <span>PLAYHEAD POSITION</span>
             </span>
-            <span className="text-[#D7FF64] font-bold">
+            <span className="text-[#D4AF37] font-semibold">
               {Math.round(scrollProgressRatio * 100)}% SCRUBBED
             </span>
           </div>
 
-          {/* Dynamic Scroll Progress Rail */}
-          <div className="relative h-2 rounded-full bg-white/10 overflow-hidden">
+          <div className="relative h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
             <motion.div
-              className="absolute top-0 bottom-0 left-0 bg-[#D7FF64] shadow-[0_0_12px_#D7FF64]"
+              className="absolute top-0 bottom-0 left-0 bg-[#D4AF37]"
               style={{ width: playheadPercent }}
             />
           </div>
 
-          <div className="flex justify-between items-center text-[9px] font-mono text-white/30 mt-2 px-1">
+          <div className="flex justify-between items-center text-[9px] font-mono text-white/30 mt-2 px-0.5">
             <span>00:00:00 (HOOK)</span>
             <span className="hidden sm:inline">00:00:08 (BUILD)</span>
             <span className="hidden sm:inline">00:00:16 (PAYOFF)</span>
@@ -178,22 +169,22 @@ export function PaceBreak() {
                   setIsManualOverride(true);
                 }}
                 className={cn(
-                  "p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden group",
+                  "p-3.5 sm:p-4 rounded-xl border text-left transition-all duration-200 relative overflow-hidden group",
                   isSelected
-                    ? "bg-[#D7FF64] text-[#050505] border-[#D7FF64] font-bold shadow-[0_0_25px_rgba(215,255,100,0.25)] scale-[1.02]"
-                    : "bg-white/[0.03] text-white/70 border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
+                    ? "bg-[#D4AF37] text-[#09090B] border-[#D4AF37] font-bold shadow-md scale-[1.01]"
+                    : "bg-[#121216] text-white/70 border-white/[0.07] hover:border-white/[0.18]"
                 )}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className={cn("text-[10px] font-mono", isSelected ? "text-[#050505]/70" : "text-[#D7FF64]")}>
+                  <span className={cn("text-[10px] font-mono", isSelected ? "text-[#09090B]/70" : "text-[#D4AF37]")}>
                     {m.index}
                   </span>
                   <TabIcon className="w-3.5 h-3.5" />
                 </div>
-                <div className="font-outfit font-black text-sm uppercase tracking-wider leading-none">
+                <div className="font-display font-bold text-sm uppercase tracking-wider leading-none">
                   {m.label}
                 </div>
-                <div className={cn("text-[9px] font-mono mt-1 truncate", isSelected ? "text-[#050505]/70" : "text-white/40")}>
+                <div className={cn("text-[9px] font-mono mt-1 truncate", isSelected ? "text-[#09090B]/75" : "text-white/40")}>
                   {m.badge}
                 </div>
               </button>
@@ -201,49 +192,42 @@ export function PaceBreak() {
           })}
         </div>
 
-        {/* ACTIVE CRAFT STAGE: MINIMAL & VISUAL-FIRST */}
-        <div className="rounded-3xl bg-[#0a0a0a] border border-white/10 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-          
-          {/* Corner Viewfinder Accents */}
-          <div className="absolute top-2 left-2 text-[#D7FF64]/40 font-mono text-xs pointer-events-none">┌</div>
-          <div className="absolute top-2 right-2 text-[#D7FF64]/40 font-mono text-xs pointer-events-none">┐</div>
-          <div className="absolute bottom-2 left-2 text-[#D7FF64]/40 font-mono text-xs pointer-events-none">└</div>
-          <div className="absolute bottom-2 right-2 text-[#D7FF64]/40 font-mono text-xs pointer-events-none">┘</div>
-
+        {/* ACTIVE CRAFT STAGE */}
+        <div className="rounded-xl bg-[#121216] border border-white/[0.07] p-6 sm:p-8 shadow-xl relative overflow-hidden">
           <div className="max-w-3xl mx-auto text-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={cur.index}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="inline-flex items-center gap-2 text-xs font-mono text-[#D7FF64] mb-3 uppercase tracking-widest font-bold">
+                <div className="inline-flex items-center gap-2 text-[10px] font-mono text-[#D4AF37] mb-2 uppercase tracking-widest font-semibold">
                   <Icon className="w-3.5 h-3.5" />
-                  <span>MILESTONE {cur.index} · {cur.badge}</span>
+                  <span>PILLAR {cur.index} {"//"} {cur.badge}</span>
                 </div>
 
-                <h3 className="text-3xl sm:text-5xl font-outfit font-black text-white uppercase tracking-tight leading-none mb-3">
+                <h3 className="text-2xl sm:text-4xl font-display font-bold text-[#F4F4F6] uppercase tracking-tight leading-tight mb-2">
                   {cur.headline}{" "}
-                  <span className="font-serif italic font-normal text-[#D7FF64] text-4xl sm:text-6xl lowercase">
+                  <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
                     {cur.highlight}
                   </span>
                 </h3>
 
-                <p className="text-sm sm:text-base text-white/70 max-w-xl mx-auto font-sans leading-relaxed mb-8">
+                <p className="text-xs sm:text-sm text-white/70 max-w-xl mx-auto font-sans leading-relaxed mb-6">
                   {cur.oneLiner}
                 </p>
 
                 {/* Live Micro-Visualizer */}
-                <div className="p-5 sm:p-6 rounded-2xl bg-black/60 border border-white/10">
+                <div className="p-4 sm:p-5 rounded-sm bg-[#09090B] border border-white/[0.07]">
                   {activeTab === 0 && (
                     <div>
-                      <svg viewBox="0 0 500 80" preserveAspectRatio="none" className="w-full h-16 sm:h-20">
+                      <svg viewBox="0 0 500 80" preserveAspectRatio="none" className="w-full h-14 sm:h-16">
                         <defs>
                           <linearGradient id="curveGlowSection" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#D7FF64" stopOpacity="0.3" />
-                            <stop offset="100%" stopColor="#D7FF64" stopOpacity="0" />
+                            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.25" />
+                            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
                           </linearGradient>
                         </defs>
                         <path
@@ -253,14 +237,14 @@ export function PaceBreak() {
                         <path
                           d="M 0 70 C 80 70, 140 10, 250 10 C 360 10, 420 70, 500 70"
                           fill="none"
-                          stroke="#D7FF64"
-                          strokeWidth="3"
+                          stroke="#D4AF37"
+                          strokeWidth="2.5"
                         />
-                        <circle cx="250" cy="10" r="5" fill="#D7FF64" />
+                        <circle cx="250" cy="10" r="4" fill="#D4AF37" />
                       </svg>
                       <div className="flex justify-between items-center text-[10px] font-mono text-white/40 mt-2">
                         <span>0.8s HOOK</span>
-                        <span className="text-[#D7FF64]">PEAK VELOCITY: 340%</span>
+                        <span className="text-[#D4AF37] font-semibold">PEAK VELOCITY: 340%</span>
                         <span>EASE-OUT LANDING</span>
                       </div>
                     </div>
@@ -268,21 +252,21 @@ export function PaceBreak() {
 
                   {activeTab === 1 && (
                     <div className="space-y-2 font-mono text-[10px]">
-                      <div className="h-8 rounded-lg bg-white/[0.04] border border-white/10 p-1 flex items-center gap-1.5">
+                      <div className="h-7 rounded-sm bg-white/[0.03] border border-white/[0.07] p-1 flex items-center gap-1.5">
                         <span className="w-6 text-white/40 font-bold">V1</span>
-                        <div className="h-full rounded bg-white/10 border border-white/20 flex-1 flex items-center justify-center text-white/80">
+                        <div className="h-full rounded-sm bg-white/[0.06] border border-white/[0.08] flex-1 flex items-center justify-center text-white/80">
                           SHOT A (RAW TAKE)
                         </div>
-                        <div className="h-full rounded bg-[#D7FF64]/20 border border-[#D7FF64]/40 flex-1 flex items-center justify-center text-[#D7FF64] font-bold">
+                        <div className="h-full rounded-sm bg-[#D4AF37]/15 border border-[#D4AF37]/35 flex-1 flex items-center justify-center text-[#D4AF37] font-semibold">
                           SHOT B (118% PUNCH-IN)
                         </div>
                       </div>
-                      <div className="h-8 rounded-lg bg-white/[0.04] border border-white/10 p-1 flex items-center gap-1.5">
+                      <div className="h-7 rounded-sm bg-white/[0.03] border border-white/[0.07] p-1 flex items-center gap-1.5">
                         <span className="w-6 text-white/40 font-bold">A1</span>
-                        <div className="h-full rounded bg-[#38BDF8]/20 border border-[#38BDF8]/40 flex-[1.4] flex items-center justify-center text-[#38BDF8] font-bold">
+                        <div className="h-full rounded-sm bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex-[1.4] flex items-center justify-center text-[#D4AF37] font-semibold">
                           J-CUT 4-FRAME AUDIO LEAD
                         </div>
-                        <div className="h-full rounded bg-white/10 border border-white/20 flex-1 flex items-center justify-center text-white/60">
+                        <div className="h-full rounded-sm bg-white/[0.06] border border-white/[0.08] flex-1 flex items-center justify-center text-white/60">
                           DIALOGUE SYNC
                         </div>
                       </div>
@@ -290,7 +274,7 @@ export function PaceBreak() {
                   )}
 
                   {activeTab === 2 && (
-                    <div className="flex items-end justify-center gap-1.5 h-16 sm:h-20 px-4">
+                    <div className="flex items-end justify-center gap-1.5 h-14 sm:h-16 px-4">
                       {Array.from({ length: 32 }).map((_, i) => {
                         const h = Math.abs(Math.sin(i * 0.35) * 75 + 15);
                         return (
@@ -299,9 +283,8 @@ export function PaceBreak() {
                             className="flex-1 rounded-t-sm transition-all duration-300"
                             style={{
                               height: `${h}%`,
-                              background:
-                                i % 3 === 0 ? "#D7FF64" : i % 3 === 1 ? "#38BDF8" : "#F43F5E",
-                              opacity: 0.85,
+                              background: i % 2 === 0 ? "#D4AF37" : "#F4F4F6",
+                              opacity: 0.8,
                             }}
                           />
                         );
@@ -311,14 +294,14 @@ export function PaceBreak() {
 
                   {activeTab === 3 && (
                     <div className="flex items-center justify-between gap-4 font-mono text-xs px-2">
-                      <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex-1 text-center">
-                        <span className="text-[10px] text-white/40 block mb-0.5 uppercase">INPUT</span>
-                        <span className="text-white/80 font-bold">FLAT S-LOG3</span>
+                      <div className="p-2.5 rounded-sm bg-white/[0.03] border border-white/[0.07] flex-1 text-center">
+                        <span className="text-[9px] text-white/40 block mb-0.5 uppercase">INPUT</span>
+                        <span className="text-white/80 font-semibold">FLAT S-LOG3</span>
                       </div>
-                      <div className="text-[#D7FF64] font-bold text-lg">→</div>
-                      <div className="p-3 rounded-xl bg-[#D7FF64]/10 border border-[#D7FF64]/30 flex-1 text-center">
-                        <span className="text-[10px] text-[#D7FF64] block mb-0.5 uppercase font-bold">GRADED</span>
-                        <span className="text-white font-bold">KODAK 2383 PRINT</span>
+                      <div className="text-[#D4AF37] font-bold text-base">→</div>
+                      <div className="p-2.5 rounded-sm bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex-1 text-center">
+                        <span className="text-[9px] text-[#D4AF37] block mb-0.5 uppercase font-semibold">GRADED</span>
+                        <span className="text-white font-semibold">KODAK 2383 PRINT</span>
                       </div>
                     </div>
                   )}
@@ -326,14 +309,12 @@ export function PaceBreak() {
 
                 <div className="mt-4 flex items-center justify-between text-[10px] font-mono text-white/40">
                   <span>ACTIVE SPEC: {cur.tag}</span>
-                  <span className="text-[#D7FF64]">STAGE {cur.index} / 04</span>
+                  <span className="text-[#D4AF37]">STAGE {cur.index} / 04</span>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
-
         </div>
-
       </div>
     </section>
   );

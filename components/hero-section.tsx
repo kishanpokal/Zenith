@@ -4,13 +4,17 @@ import React, { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { siteConfig } from "@/data/site-config";
 import { extractYouTubeId } from "@/data/projects";
-import { Play, Volume2, VolumeX, ArrowDown, Sparkles } from "lucide-react";
+import { Play, ArrowDown, ArrowUpRight, Volume2, VolumeX } from "lucide-react";
+import { SplitTextReveal } from "@/components/animations/scroll-reveal";
 
 interface HeroSectionProps {
   onOpenShowreelModal?: () => void;
   featuredThumbnail?: string;
   featuredTitle?: string;
   videoUrl?: string;
+  headline?: string;
+  headlineHighlight?: string;
+  subheadline?: string;
 }
 
 export function HeroSection({
@@ -18,6 +22,9 @@ export function HeroSection({
   featuredThumbnail,
   featuredTitle,
   videoUrl,
+  headline = "WE EDIT FOR",
+  headlineHighlight = "RETENTION.",
+  subheadline = "High-impact commercial and creator post-production engineered for ruthless retention. Surgical cut pacing, 12-track Foley sound design, and razor-sharp kinetic typography.",
 }: HeroSectionProps) {
   const [isMuted, setIsMuted] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -28,16 +35,16 @@ export function HeroSection({
   const youtubeId = extractYouTubeId(activeVideoUrl) || "m7DlpUFC5cs";
   const isDirectMp4 = activeVideoUrl && (activeVideoUrl.endsWith(".mp4") || activeVideoUrl.includes(".mp4?"));
 
-  // 3D Mouse Parallax & Physics Tilt
+  // Subtle 3D tilt physics for the stage mockup
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 28, stiffness: 140, mass: 0.35 };
+  const springConfig = { damping: 30, stiffness: 120, mass: 0.4 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const reelRotateX = useTransform(smoothY, [-0.5, 0.5], [6, -6]);
-  const reelRotateY = useTransform(smoothX, [-0.5, 0.5], [-8, 8]);
+  const reelRotateX = useTransform(smoothY, [-0.5, 0.5], [4, -4]);
+  const reelRotateY = useTransform(smoothX, [-0.5, 0.5], [-6, 6]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -80,52 +87,50 @@ export function HeroSection({
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative flex flex-col justify-center overflow-hidden bg-[#050505] pt-28 sm:pt-32 pb-8 sm:pb-10"
+      className="relative flex flex-col justify-center overflow-hidden bg-[#09090B] pt-28 sm:pt-36 pb-16 sm:pb-24 border-b border-white/[0.07]"
       id="top"
       aria-label="Zenith Studio Hero"
     >
-      {/* Deluxe Ambient Lighting: Subtle soft radial glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-[radial-gradient(ellipse_at_center,rgba(215,255,100,0.06)_0%,transparent_70%)] pointer-events-none blur-3xl" />
-      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:40px_40px] pointer-events-none" />
+      {/* Architectural Editorial Grid Lines */}
+      <div className="absolute inset-0 bg-editorial-grid pointer-events-none opacity-60" />
 
-      {/* Main Container */}
-      <div className="relative z-10 w-full max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-12 flex-1 flex flex-col justify-center">
-        
-        {/* Status Eyebrow */}
-        <div className="mb-8 flex items-center justify-between">
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-[#D7FF64] shadow-[0_0_12px_#D7FF64] animate-pulse" />
-            <span className="font-mono text-xs uppercase tracking-widest text-white/80">
-              ZENITH EDITS · ACCEPTING SELECT CREATORS
+      {/* Subtle Warm Amber ambient vignette */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none blur-3xl" />
+
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+        {/* Top Monospace Metadata Hairline Bar */}
+        <div className="mb-10 pb-4 border-b border-white/[0.07] flex flex-wrap items-center justify-between gap-4">
+          <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#F4F4F6]">
+              ZENITH EDITORIAL ARCHITECTURE
             </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-3 font-mono text-xs tracking-wider text-white/40">
-            <span>HIGH-RETENTION POST-PRODUCTION</span>
+          <div className="hidden sm:flex items-center gap-4 font-mono text-[11px] tracking-wider text-white/40">
+            <span>INDEX 01 // SHOWCASE</span>
             <span>·</span>
-            <span>4K PRORES NATIVE</span>
+            <span>COLOR GRADED KODAK 2383</span>
+            <span>·</span>
+            <span className="text-[#D4AF37]">4K PRORES 422</span>
           </div>
         </div>
 
-        {/* 2-Column Luxury Grid */}
+        {/* 2-Column Hero Structure */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column: Monumental Editorial Typography */}
+          {/* Left Column: Kinetic Typography & Value Proposition */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            
-            <h1 className="text-white select-none">
-              <span className="block font-outfit font-black text-5xl sm:text-7xl md:text-8xl lg:text-[92px] leading-[0.92] tracking-[-0.04em] uppercase">
-                WE EDIT FOR
-              </span>
-              <span className="block font-serif italic font-normal text-6xl sm:text-8xl md:text-9xl lg:text-[104px] text-[#D7FF64] leading-[0.94] tracking-[-0.02em] mt-1">
-                retention.
-              </span>
+            <h1 className="text-[#F4F4F6] select-none text-display-xl">
+              <SplitTextReveal
+                lines={[headline, headlineHighlight]}
+                lineClassName="text-[#F4F4F6]"
+                delay={0.1}
+                stagger={0.08}
+              />
             </h1>
 
-            {/* Clean, punchy 1-sentence value statement — zero clutter */}
-            <p className="mt-8 text-base sm:text-lg text-white/70 max-w-xl leading-relaxed font-sans font-light">
-              High-impact short-form post-production engineered for visionary creators and modern brands.
-              Surgical pacing, multi-track Foley sound design, and visuals that hold attention to the last frame.
+            <p className="mt-8 text-base sm:text-lg text-white/70 max-w-xl leading-relaxed font-sans font-normal">
+              {subheadline}
             </p>
 
             {/* CTAs */}
@@ -133,65 +138,59 @@ export function HeroSection({
               <button
                 type="button"
                 onClick={onOpenShowreelModal}
-                className="text-xs sm:text-sm tracking-widest uppercase font-bold flex items-center gap-3 px-8 py-4 rounded-full bg-[#D7FF64] text-[#050505] hover:bg-[#e6ff8f] transition-all duration-300 shadow-[0_0_35px_rgba(215,255,100,0.35)] hover:scale-[1.03] active:scale-[0.98] group"
+                className="text-xs tracking-widest uppercase font-semibold flex items-center gap-3 px-7 py-3.5 rounded-sm bg-[#D4AF37] text-[#09090B] hover:bg-[#F59E0B] transition-all duration-200 shadow-[0_4px_24px_rgba(212,175,55,0.25)] hover:scale-[1.02] active:scale-[0.98]"
                 data-cursor="play"
               >
-                <Play className="w-4 h-4 fill-current transition-transform group-hover:scale-125" />
+                <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Watch Showreel</span>
               </button>
 
               <a
                 href="#work"
                 onClick={scrollToWork}
-                className="text-xs sm:text-sm tracking-widest uppercase font-semibold flex items-center gap-2.5 px-8 py-4 rounded-full border border-white/15 bg-white/[0.03] text-white hover:bg-white/[0.08] hover:border-white/30 transition-all duration-300 backdrop-blur-md"
+                className="text-xs tracking-widest uppercase font-medium flex items-center gap-2.5 px-6 py-3.5 rounded-sm border border-white/[0.08] bg-[#121216] text-[#F4F4F6] hover:bg-[#18181E] hover:border-white/[0.18] transition-all duration-200"
               >
-                <span>Explore Work</span>
-                <ArrowDown className="w-4 h-4 text-white/60" />
+                <span>Selected Work</span>
+                <ArrowDown className="w-3.5 h-3.5 text-white/50" />
               </a>
             </div>
 
-            {/* Studio Production Standards */}
-            <div className="mt-10 pt-6 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-white/50">
+            {/* Technical Metadata Row */}
+            <div className="mt-12 pt-6 border-t border-white/[0.07] flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] font-mono text-white/50">
               <span className="flex items-center gap-1.5 text-white/80">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D7FF64]" />
-                <span>SURGICAL PACING</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                <span>FRAME-ACCURATE TIMING</span>
               </span>
               <span className="text-white/20">/</span>
               <span className="flex items-center gap-1.5 text-white/80">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D7FF64]" />
-                <span>MULTI-TRACK FOLEY</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                <span>MULTI-TRACK SOUND DESIGN</span>
               </span>
               <span className="text-white/20">/</span>
               <span className="flex items-center gap-1.5 text-white/80">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D7FF64]" />
-                <span>COLOR GRADE 2383</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                <span>COLOR HARMONY</span>
               </span>
             </div>
-
           </div>
 
-          {/* Right Column: 3D Floating Phone Mockup */}
+          {/* Right Column: Embedded Showreel Preview Stage */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
-            
-            {/* Subtle Backlight Glow */}
-            <div className="absolute w-[340px] h-[480px] bg-[#D7FF64]/10 rounded-full blur-[100px] pointer-events-none -z-10" />
-
-            {/* 3D Tilted Phone Frame */}
             <motion.div
               style={{
                 rotateX: reelRotateX,
                 rotateY: reelRotateY,
                 transformPerspective: 1200,
               }}
-              onClick={toggleSound}
-              className="relative z-10 w-[270px] sm:w-[310px] aspect-[9/16] rounded-[44px] p-2.5 bg-gradient-to-b from-white/20 via-white/5 to-white/10 border border-white/20 shadow-[0_25px_80px_-10px_rgba(0,0,0,0.95)] cursor-pointer group select-none ring-1 ring-white/10 transition-transform duration-300"
-              role="region"
-              aria-label="Zenith Featured Reel preview"
+              onClick={onOpenShowreelModal}
+              className="relative z-10 w-[280px] sm:w-[320px] aspect-[9/16] rounded-2xl p-2 bg-[#121216] border border-white/[0.08] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] cursor-pointer group select-none transition-all duration-300 hover:border-[#D4AF37]/50"
+              role="button"
+              tabIndex={0}
+              aria-label="Zenith Featured Reel preview — click to play"
+              data-cursor="play"
             >
-              {/* Inner Screen */}
-              <div className="relative w-full h-full rounded-[34px] overflow-hidden bg-black">
-                
-                {/* Video Layer */}
+              {/* Inner Video Container */}
+              <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
                 <div className="absolute inset-0 overflow-hidden bg-black pointer-events-none">
                   {isDirectMp4 ? (
                     <video
@@ -213,48 +212,48 @@ export function HeroSection({
                   )}
                 </div>
 
-                {/* Subtle Cinematic Vignette */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+                {/* Editorial Vignette & Hairline Frame */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
-                {/* Top Overlay Badge */}
-                <div className="absolute top-4 inset-x-4 flex items-center justify-between text-[10px] font-mono text-white/90 z-20 pointer-events-none">
-                  <span className="flex items-center gap-1.5 font-bold bg-black/70 px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10">
+                {/* Top Badge */}
+                <div className="absolute top-3 inset-x-3 flex items-center justify-between text-[10px] font-mono text-white/90 z-20 pointer-events-none">
+                  <span className="flex items-center gap-1.5 font-bold bg-[#09090B]/80 px-2.5 py-1 rounded-sm border border-white/[0.08]">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                     REC · 4K 60
                   </span>
-                  <span className="bg-black/70 px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10 text-[#D7FF64] font-bold">
+                  <span className="bg-[#09090B]/80 px-2.5 py-1 rounded-sm border border-white/[0.08] text-[#D4AF37] font-semibold">
                     REEL 01
                   </span>
                 </div>
 
-                {/* Sound Toggle Pill */}
-                <div className="absolute bottom-5 inset-x-5 flex items-center justify-between z-20 pointer-events-none">
-                  <div className="px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-white/90 text-xs font-mono flex items-center gap-2 pointer-events-auto">
+                {/* Bottom Sound / Expand Pill */}
+                <div className="absolute bottom-4 inset-x-4 flex items-center justify-between z-20">
+                  <button
+                    type="button"
+                    onClick={toggleSound}
+                    className="px-2.5 py-1 rounded-sm bg-[#09090B]/85 border border-white/[0.08] text-white/90 text-[10px] font-mono flex items-center gap-1.5 hover:text-[#D4AF37] transition-colors"
+                  >
                     {isMuted ? (
                       <>
-                        <VolumeX className="w-3.5 h-3.5 text-white/50" />
-                        <span className="text-[11px]">Click for sound</span>
+                        <VolumeX className="w-3 h-3 text-white/50" />
+                        <span>Muted</span>
                       </>
                     ) : (
                       <>
-                        <Volume2 className="w-3.5 h-3.5 text-[#D7FF64]" />
-                        <span className="text-[11px] text-[#D7FF64] font-bold">Audio live</span>
+                        <Volume2 className="w-3 h-3 text-[#D4AF37]" />
+                        <span className="text-[#D4AF37] font-semibold">Sound On</span>
                       </>
                     )}
+                  </button>
+
+                  <div className="flex items-center gap-1 text-[10px] font-mono text-[#D4AF37] bg-[#09090B]/85 px-2 py-1 rounded-sm border border-white/[0.08]">
+                    <span>[ EXPAND ]</span>
                   </div>
-
-                  <span className="text-[10px] font-mono text-white/40 bg-black/60 px-2 py-1 rounded-md border border-white/10">
-                    48kHz
-                  </span>
                 </div>
-
               </div>
             </motion.div>
-
           </div>
-
         </div>
-
       </div>
     </section>
   );

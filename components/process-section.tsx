@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { CloudUpload, Scissors, CheckCircle, ArrowRight, Sparkles } from "lucide-react";
+import { CloudUpload, Scissors, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PipelineStep {
@@ -21,7 +20,7 @@ const STEPS: PipelineStep[] = [
     phase: "PHASE 01",
     title: "Ingest",
     highlight: "& hook brief.",
-    tagline: "Drop raw takes into your private high-speed drive. One quick brief, zero friction.",
+    tagline: "Drop raw footage into your private cloud vault. Concise async brief, zero friction.",
     spec: "ASPERA / GOOGLE DRIVE",
     icon: CloudUpload,
   },
@@ -30,8 +29,8 @@ const STEPS: PipelineStep[] = [
     phase: "PHASE 02",
     title: "The Cut",
     highlight: "& sound architecture.",
-    tagline: "Velocity cutting, 24-track Foley beds, dynamic graphics, and Kodak 2383 color science.",
-    spec: "DAVINCI RESOLVE / AFTER EFFECTS",
+    tagline: "Velocity cutting, 12-track Foley beds, kinetic typography, and Kodak 2383 color science.",
+    spec: "PREMIERE / AFTER EFFECTS / DAVINCI",
     icon: Scissors,
   },
   {
@@ -39,7 +38,7 @@ const STEPS: PipelineStep[] = [
     phase: "PHASE 03",
     title: "Master Delivery",
     highlight: "& rapid revision.",
-    tagline: "Platform-optimized 4K exports in 24–48 hours. Direct access to your lead editor.",
+    tagline: "Platform-optimized 4K master exports within 24–48 hours. Direct access to your lead editor.",
     spec: "4K PRORES 422 HQ",
     icon: CheckCircle,
   },
@@ -50,38 +49,34 @@ export function ProcessSection() {
 
   return (
     <section
-      className="py-24 sm:py-32 bg-[#050505] relative overflow-hidden select-none"
+      className="py-20 sm:py-28 bg-[#09090B] relative overflow-hidden select-none border-b border-white/[0.07]"
       id="process"
       aria-label="Zenith Post-Production Process"
     >
-      {/* Background radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(215,255,100,0.04)_0%,transparent_70%)] pointer-events-none blur-3xl" />
-
-      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
-        
-        {/* Minimal Deluxe Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 pb-8 border-b border-white/[0.08]">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        {/* Minimal Editorial Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 pb-6 border-b border-white/[0.07]">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.03] border border-white/10 mb-4 text-xs font-mono text-white/70">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D7FF64] animate-pulse" />
-              <span>SCENE 03 · THE WORKFLOW</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+              <span>SCENE 03 // THE WORKFLOW</span>
             </div>
 
-            <h2 className="text-4xl sm:text-6xl lg:text-7xl font-outfit font-black uppercase tracking-tight text-white leading-none">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]">
               RAW FOOTAGE TO <br />
-              <span className="font-serif italic font-normal text-[#D7FF64] text-5xl sm:text-7xl lg:text-[84px] lowercase tracking-normal">
+              <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
                 ready-to-post.
               </span>
             </h2>
           </div>
 
-          <p className="text-sm sm:text-base text-white/60 max-w-md font-sans leading-relaxed">
-            A frictionless 3-stage pipeline. No account managers in between, just direct collaboration with your lead editor.
+          <p className="text-sm text-white/60 max-w-md font-sans leading-relaxed">
+            A frictionless 3-stage post-production pipeline. No account managers in between, just direct collaboration with your lead editor.
           </p>
         </div>
 
-        {/* 3 Deluxe Process Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {/* 3 Process Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {STEPS.map((step, idx) => {
             const isCurrent = activeStep === idx;
             const StepIcon = step.icon;
@@ -91,54 +86,48 @@ export function ProcessSection() {
                 key={step.num}
                 onClick={() => setActiveStep(idx)}
                 className={cn(
-                  "p-8 rounded-3xl border transition-all duration-300 relative cursor-pointer group flex flex-col justify-between min-h-[300px]",
+                  "p-7 rounded-xl border transition-all duration-300 relative cursor-pointer group flex flex-col justify-between min-h-[280px]",
                   isCurrent
-                    ? "bg-[#0b0b0b] border-[#D7FF64]/50 shadow-[0_0_35px_rgba(215,255,100,0.12)] scale-[1.01]"
-                    : "bg-[#080808] border-white/10 hover:border-white/20 hover:bg-[#0c0c0c]"
+                    ? "bg-[#121216] border-[#D4AF37]/50 shadow-lg scale-[1.01]"
+                    : "bg-[#121216]/60 border-white/[0.07] hover:border-white/[0.15] hover:bg-[#121216]"
                 )}
               >
-                {/* Subtle Glow on Active */}
-                {isCurrent && (
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#D7FF64]/10 rounded-full blur-2xl pointer-events-none" />
-                )}
-
                 <div>
                   {/* Top Bar: Number & Spec */}
-                  <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center justify-between mb-6">
                     <span
                       className={cn(
-                        "text-3xl font-outfit font-black tracking-tight",
-                        isCurrent ? "text-[#D7FF64]" : "text-white/30"
+                        "text-3xl font-display font-bold tracking-tight",
+                        isCurrent ? "text-[#D4AF37]" : "text-white/30"
                       )}
                     >
                       {step.num}
                     </span>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/10">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 px-2.5 py-0.5 rounded-sm bg-[#09090B] border border-white/[0.07]">
                       {step.phase}
                     </span>
                   </div>
 
-                  {/* Title & Serif Accent */}
-                  <h3 className="text-2xl sm:text-3xl font-outfit font-black text-white uppercase tracking-tight leading-snug mb-3">
+                  {/* Title */}
+                  <h3 className="text-xl sm:text-2xl font-display font-bold text-[#F4F4F6] uppercase tracking-tight leading-snug mb-2">
                     {step.title}{" "}
-                    <span className="font-serif italic font-normal text-[#D7FF64] lowercase block sm:inline">
+                    <span className="font-serif italic font-normal text-[#D4AF37] lowercase block sm:inline">
                       {step.highlight}
                     </span>
                   </h3>
 
-                  {/* 1-Sentence Punchy Copy */}
-                  <p className="text-sm text-white/70 font-sans font-light leading-relaxed">
+                  <p className="text-xs sm:text-sm text-white/70 font-sans font-normal leading-relaxed">
                     {step.tagline}
                   </p>
                 </div>
 
                 {/* Bottom Spec Badge */}
-                <div className="pt-6 mt-6 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-white/40">
+                <div className="pt-5 mt-5 border-t border-white/[0.07] flex items-center justify-between text-[10px] font-mono text-white/40">
                   <span className="flex items-center gap-2">
-                    <StepIcon className="w-3.5 h-3.5 text-[#D7FF64]" />
+                    <StepIcon className="w-3.5 h-3.5 text-[#D4AF37]" />
                     <span>{step.spec}</span>
                   </span>
-                  <span className={cn("transition-transform duration-300", isCurrent ? "translate-x-1 text-[#D7FF64]" : "text-white/20")}>
+                  <span className={cn("transition-transform duration-200", isCurrent ? "translate-x-1 text-[#D4AF37]" : "text-white/20")}>
                     →
                   </span>
                 </div>
@@ -147,21 +136,20 @@ export function ProcessSection() {
           })}
         </div>
 
-        {/* Minimal Timeline Progress Bar */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-between text-xs font-mono text-white/50">
+        {/* Minimal Timeline Turnaround Bar */}
+        <div className="p-4 rounded-sm bg-[#121216] border border-white/[0.07] flex items-center justify-between text-xs font-mono text-white/50">
           <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-[#D7FF64] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
             <span className="uppercase tracking-widest text-white/70">STUDIO TURNAROUND:</span>
-            <span className="text-[#D7FF64] font-bold">24 TO 48 HOURS</span>
+            <span className="text-[#D4AF37] font-semibold">24 TO 48 HOURS</span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-4 text-white/40">
-            <span>UNLIMITED REVISIONS UNTIL PICTURE LOCK</span>
+          <div className="hidden sm:flex items-center gap-4 text-white/40 text-[11px]">
+            <span>SURGICAL REVISIONS TO PICTURE LOCK</span>
             <span>·</span>
             <span>DIRECT SLACK / WHATSAPP CHANNEL</span>
           </div>
         </div>
-
       </div>
     </section>
   );

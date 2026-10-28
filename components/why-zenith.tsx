@@ -2,131 +2,119 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Check, X } from "lucide-react";
 
 export function WhyZenith() {
   const [activeTab, setActiveTab] = useState<"agency" | "zenith">("zenith");
 
   return (
-    <>
-      <section className="why wrap" id="why" aria-labelledby="why-title">
-        <header className="sec-head">
-          <p className="eyebrow">
-            <span className="eyebrow__dot"></span>SC 05 — The Difference
-          </p>
-          <h2 className="display why__title" id="why-title">
-            <span className="ln">
-              <span>FREELANCER FLEXIBILITY.</span>
-            </span>
-            <span className="ln">
-              <span className="text-[#D7FF64]">AGENCY-LEVEL EXECUTION.</span>
-            </span>
-          </h2>
-        </header>
+    <section className="py-20 sm:py-28 bg-[#09090B] border-b border-white/[0.07] relative select-none" id="why" aria-labelledby="why-title">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/[0.07]">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+              <span>SC 05 // THE DIFFERENCE</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]" id="why-title">
+              FREELANCER FLEXIBILITY. <br />
+              <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
+                agency execution.
+              </span>
+            </h2>
+          </div>
 
-        {/* Tab Toggle matching Yash Edits */}
-        <div className="why__toggle" role="tablist" aria-label="Compare">
-          <button
-            role="tab"
-            aria-selected={activeTab === "agency"}
-            onClick={() => setActiveTab("agency")}
-          >
-            Traditional agency
-          </button>
-          <button
-            role="tab"
-            aria-selected={activeTab === "zenith"}
-            onClick={() => setActiveTab("zenith")}
-          >
-            ZENITH EDITS
-          </button>
-          <span
-            className="why__pill"
-            aria-hidden="true"
-            style={{
-              width: "128px",
-              transform: activeTab === "agency" ? "translateX(0px)" : "translateX(160px)",
-              transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-          ></span>
+          <div className="flex items-center gap-1 p-1 rounded-sm bg-[#121216] border border-white/[0.07] text-[11px] font-mono self-start md:self-auto">
+            <button
+              type="button"
+              onClick={() => setActiveTab("agency")}
+              className={cn(
+                "px-3 py-1.5 rounded-sm transition-colors",
+                activeTab === "agency"
+                  ? "bg-white text-black font-bold"
+                  : "text-white/60 hover:text-white"
+              )}
+            >
+              Traditional Agency
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("zenith")}
+              className={cn(
+                "px-3 py-1.5 rounded-sm transition-colors",
+                activeTab === "zenith"
+                  ? "bg-[#D4AF37] text-[#09090B] font-bold"
+                  : "text-white/60 hover:text-white"
+              )}
+            >
+              ZENITH DIRECT
+            </button>
+          </div>
         </div>
 
-        {/* Comparison Routing Flow */}
-        <div className="why__grid" data-focus={activeTab}>
-          {/* Agency Column */}
+        {/* 2-Column Comparison */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Traditional Agency */}
           <div
-            className={cn("why__col why__col--agency", activeTab === "agency" && "is-focus")}
+            className={cn(
+              "p-6 sm:p-8 rounded-xl border transition-all duration-200 bg-[#121216]/50 border-white/[0.07]",
+              activeTab === "agency" && "border-white/30 bg-[#121216]"
+            )}
           >
-            <div className="why__path" aria-hidden="true">
-              <span className="node mono">YOU</span>
-              <i></i>
-              <span className="node mono">ACCOUNT MGR</span>
-              <i></i>
-              <span className="node mono">PROJECT MGR</span>
-              <i></i>
-              <span className="node mono">EDITOR ?</span>
-              <b className="why__packet"></b>
+            <div className="text-[10px] font-mono text-white/40 uppercase tracking-wider mb-4 pb-3 border-b border-white/[0.06]">
+              TRADITIONAL AGENCY MODEL
             </div>
-            <h3 className="why__h mono">TRADITIONAL AGENCY</h3>
-            <ul className="why__list">
-              <li>
-                <span>—</span>Account manager in the middle
+            <ul className="space-y-3.5 text-xs font-mono text-white/70">
+              <li className="flex items-center gap-2.5">
+                <X className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                <span>Account manager and sales reps in the middle</span>
               </li>
-              <li>
-                <span>—</span>Multiple handoffs & friction
+              <li className="flex items-center gap-2.5">
+                <X className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                <span>Multiple handoffs, lag, and miscommunicated briefs</span>
               </li>
-              <li>
-                <span>—</span>Random editor assignments
+              <li className="flex items-center gap-2.5">
+                <X className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                <span>Random junior editor assignments per project</span>
               </li>
-              <li>
-                <span>—</span>Slower revision cycles
+              <li className="flex items-center gap-2.5">
+                <X className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                <span>Slow 5–7 day turnaround on revisions</span>
               </li>
             </ul>
           </div>
 
-          <div className="why__vs mono" aria-hidden="true">
-            VS
-          </div>
-
-          {/* Zenith Direct Column */}
+          {/* Zenith Direct */}
           <div
-            className={cn("why__col why__col--yash", activeTab === "zenith" && "is-focus")}
+            className={cn(
+              "p-6 sm:p-8 rounded-xl border transition-all duration-200 bg-[#121216] border-[#D4AF37]/50 shadow-xl",
+              activeTab === "zenith" && "ring-1 ring-[#D4AF37]/40"
+            )}
           >
-            <div className="why__path why__path--direct" aria-hidden="true">
-              <span className="node mono">YOU</span>
-              <i></i>
-              <span className="node node--y mono">ZENITH EDITS</span>
-              <b className="why__packet"></b>
+            <div className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-wider mb-4 pb-3 border-b border-white/[0.06] font-semibold">
+              ZENITH EDITORIAL PIPELINE
             </div>
-            <h3 className="why__h mono">ZENITH EDITS</h3>
-            <ul className="why__list">
-              <li>
-                <span>✓</span>Direct communication on WhatsApp & Frame.io
+            <ul className="space-y-3.5 text-xs font-mono text-white/90">
+              <li className="flex items-center gap-2.5">
+                <Check className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+                <span>Direct async collaboration on WhatsApp & Frame.io</span>
               </li>
-              <li>
-                <span>✓</span>Dedicated creative editor on every cut
+              <li className="flex items-center gap-2.5">
+                <Check className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+                <span>Dedicated lead creative editor on every cut</span>
               </li>
-              <li>
-                <span>✓</span>Consistent visual & audio brand guidelines
+              <li className="flex items-center gap-2.5">
+                <Check className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+                <span>Consistent visual & psychoacoustic brand guidelines</span>
               </li>
-              <li>
-                <span>✓</span>Rapid 24–48h feedback turnaround
-              </li>
-              <li>
-                <span>✓</span>Surgical quality control before export
+              <li className="flex items-center gap-2.5">
+                <Check className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+                <span>Surgical 24–48h feedback and delivery turnaround</span>
               </li>
             </ul>
           </div>
-        </div>
-      </section>
-
-      {/* Editor Seam to Pricing */}
-      <div className="seam" data-seam="" aria-hidden="true">
-        <span className="seam__label mono">SC 06 — PRICING</span>
-        <span className="seam__tc mono">00:00:00:00</span>
-        <div className="seam__ruler">
-          <span className="seam__head"></span>
         </div>
       </div>
-    </>
+    </section>
   );
 }

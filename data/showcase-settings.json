@@ -1,0 +1,22 @@
+{
+  "hero": {
+    "youtubeUrl": "https://youtube.com/shorts/ASX9EFdHez0?feature=share",
+    "youtubeId": "ASX9EFdHez0",
+    "title": "Motion-1",
+    "headline": "WE EDIT FOR",
+    "headlineHighlight": "RETENTION.",
+    "subheadline": "High-impact commercial and creator post-production engineered for ruthless retention. Surgical cut pacing, 12-track Foley sound design, and razor-sharp kinetic typography.",
+    "thumbnail": "https://i.ytimg.com/vi/ASX9EFdHez0/maxresdefault.jpg"
+  },
+  "beforeAfter": {
+    "headline": "SAME FOOTAGE.",
+    "headlineHighlight": "different impact.",
+    "subheadline": "Drag the scrubber. Left is raw flat camera log with dead air. Right is the mastered editorial cut.",
+    "beforeImage": "/images/Raw Podcast Setup Before Color Grading.png",
+    "afterImage": "/images/Save Time, Work Smart.png",
+    "beforeLabel": "RAW LOG",
+    "afterLabel": "FINAL MASTER",
+    "beforeNotice": "DEAD AIR DETECTED: 00:00:02:14",
+    "footerNote": "Editing isn't adding clutter. It is removing friction from the viewer's attention."
+  }
+}

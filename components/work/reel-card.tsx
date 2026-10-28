@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
 import { Project } from "@/data/projects";
-import { Play, ArrowUpRight, Sparkles, Volume2 } from "lucide-react";
+import { Play, ArrowUpRight, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ReelCardProps {
@@ -13,6 +12,7 @@ interface ReelCardProps {
   featured?: boolean;
   className?: string;
   audioMonitorEnabled?: boolean;
+  index?: number;
 }
 
 export function ReelCard({
@@ -21,86 +21,41 @@ export function ReelCard({
   aspectOverride = "auto",
   featured = false,
   className,
-  audioMonitorEnabled = false,
+  index = 0,
 }: ReelCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-  const [playbackProgress, setPlaybackProgress] = useState(0);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [imgSrc, setImgSrc] = useState(
+    project.thumbnail ||
+      (project.youtubeId
+        ? `https://i.ytimg.com/vi/${project.youtubeId}/maxresdefault.jpg`
+        : "")
+  );
+  const [hasFallback, setHasFallback] = useState(false);
 
   const isVertical =
     aspectOverride === "auto"
       ? project.aspectRatio === "9:16"
       : aspectOverride === "9:16";
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-
-    if (videoRef.current && !videoError) {
-      const vid = videoRef.current;
-      vid.currentTime = 0;
-
-      if (audioMonitorEnabled) {
-        vid.muted = false;
-        vid.volume = 0;
-        let vol = 0;
-        if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
-        fadeIntervalRef.current = setInterval(() => {
-          vol = Math.min(0.7, vol + 0.1);
-          if (vid) vid.volume = vol;
-          if (vol >= 0.7 && fadeIntervalRef.current) {
-            clearInterval(fadeIntervalRef.current);
-          }
-        }, 30);
-      } else {
-        vid.muted = true;
-      }
-
-      vid.play().catch(() => {});
+  const handleImageError = () => {
+    if (project.youtubeId && !hasFallback) {
+      setHasFallback(true);
+      setImgSrc(`https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`);
     }
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setPlaybackProgress(0);
-
-    if (fadeIntervalRef.current) {
-      clearInterval(fadeIntervalRef.current);
-    }
-
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-      videoRef.current.muted = true;
-      videoRef.current.volume = 0;
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    if (img.naturalWidth <= 120 && project.youtubeId && !hasFallback) {
+      setHasFallback(true);
+      setImgSrc(`https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`);
     }
   };
-
-  const handleTimeUpdate = () => {
-    if (videoRef.current && videoRef.current.duration) {
-      setPlaybackProgress(
-        (videoRef.current.currentTime / videoRef.current.duration) * 100
-      );
-    }
-  };
-
-  // Derive editor craft tags
-  const craftTags =
-    project.editBreakdown && project.editBreakdown.length > 0
-      ? project.editBreakdown.slice(0, 3)
-      : [
-          "AE Expressions",
-          "Color Graded 2383",
-          "Sound Design 24-Track",
-        ];
 
   return (
     <div
       role="button"
       tabIndex={0}
-      data-cursor="play"
       onClick={() => onSelect(project)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -108,136 +63,82 @@ export function ReelCard({
           onSelect(project);
         }
       }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={cn(
-        "group relative bg-[#0a0a0a] border border-white/[0.08] hover:border-white/30 rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-[0_20px_50px_rgba(0,0,0,0.9)] transition-all duration-500 flex flex-col justify-between select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF64]",
-        featured && "border-[#D7FF64]/40 bg-[#0d0d0d]",
+        "group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#121216] border border-white/[0.07] hover:border-[#D4AF37]/40 transition-all duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37] cursor-pointer shadow-lg select-none",
+        isVertical ? "aspect-[9/16]" : "aspect-[16/9]",
         className
       )}
+      aria-label={`View ${project.title}`}
+      data-cursor="play"
     >
-      {/* Media Wrapper */}
-      <div
-        className={cn(
-          "relative w-full overflow-hidden bg-black flex items-center justify-center",
-          isVertical ? "aspect-[9/14] sm:aspect-[9/15]" : "aspect-[16/10]"
-        )}
-      >
-        {/* Poster Image */}
+      {/* THUMBNAIL WITH 600ms GPU-ACCELERATED SCALE */}
+      <div className="absolute inset-0 z-0 bg-[#09090B] overflow-hidden">
         <img
-          src={project.thumbnail}
+          src={imgSrc}
           alt={project.title}
-          className={cn(
-            "w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105",
-            isHovered && videoLoaded && !videoError ? "opacity-0" : "opacity-100"
-          )}
-          loading="lazy"
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          className="w-full h-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
         />
-
-        {/* 60 FPS Video Decoder Discipline: video decodes only on user hover */}
-        {project.videoSrc && !videoError && project.videoSrc.endsWith(".mp4") && (
-          <video
-            ref={videoRef}
-            src={project.videoSrc}
-            muted={!audioMonitorEnabled}
-            loop
-            playsInline
-            preload="none"
-            onLoadedData={() => setVideoLoaded(true)}
-            onError={() => setVideoError(true)}
-            onTimeUpdate={handleTimeUpdate}
-            className={cn(
-              "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
-              isHovered && videoLoaded ? "opacity-100" : "opacity-0"
-            )}
-          />
-        )}
-
-        {/* Cinematic Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40 group-hover:via-transparent transition-all duration-300 pointer-events-none" />
-
-        {/* Top Badges */}
-        <div className="absolute top-3 inset-x-3 flex items-center justify-between text-[11px] font-mono z-10 pointer-events-none">
-          <span className="px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-white/90 border border-white/10 uppercase tracking-wider font-medium text-[10px] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D7FF64]" />
-            <span>{project.category}</span>
-          </span>
-          <span className="px-2 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-white/70 border border-white/10 text-[10px]">
-            {project.aspectRatio} · {project.duration}
-          </span>
-        </div>
-
-        {/* Center Hover Play Pill */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div
-            className={cn(
-              "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300",
-              isHovered
-                ? "bg-[#D7FF64] text-[#050505] scale-110 shadow-[0_0_25px_rgba(215,255,100,0.5)]"
-                : "bg-black/60 backdrop-blur-md text-white/80 border border-white/15 scale-95 opacity-80 group-hover:opacity-100"
-            )}
-          >
-            <Play className="w-4 h-4 fill-current ml-0.5" />
-          </div>
-        </div>
-
-        {/* Live Audio Waveform & Audio Live Indicator (when audio monitor is on) */}
-        {isHovered && audioMonitorEnabled && (
-          <div className="absolute top-12 left-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md bg-black/80 backdrop-blur-md border border-[#D7FF64]/40 text-[#D7FF64] text-[9px] font-mono pointer-events-none">
-            <Volume2 className="w-3 h-3 animate-pulse" />
-            <div className="flex items-end gap-0.5 h-2.5">
-              <span className="w-0.5 h-1.5 bg-[#D7FF64] animate-pulse" />
-              <span className="w-0.5 h-2.5 bg-[#D7FF64]" />
-              <span className="w-0.5 h-1 bg-[#D7FF64] animate-bounce" />
-            </div>
-            <span>LIVE AUDIO</span>
-          </div>
-        )}
-
-        {/* Hover Scrub Playhead Bar across the bottom of the video */}
-        {isHovered && (
-          <div className="absolute bottom-0 inset-x-0 h-1 bg-white/10 z-20 pointer-events-none">
-            <div
-              className="h-full bg-[#D7FF64] shadow-[0_0_8px_#D7FF64] transition-all duration-100"
-              style={{ width: `${playbackProgress || 20}%` }}
-            />
-          </div>
-        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-[#09090B]/30 to-black/60 pointer-events-none" />
       </div>
 
-      {/* Content & Metadata */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
-        <div>
-          <h3 className="text-base font-outfit font-bold text-white uppercase tracking-tight group-hover:text-[#D7FF64] transition-colors line-clamp-1">
-            {project.title}
-          </h3>
-
-          <p className="text-xs text-white/60 line-clamp-2 mt-1.5 leading-relaxed font-sans">
-            {project.description}
-          </p>
-
-          {/* Layer Breakdown Tags on Hover */}
-          <div className="mt-3 flex flex-wrap gap-1.5 min-h-[22px]">
-            {craftTags.slice(0, 2).map((tag, idx) => (
-              <span
-                key={idx}
-                className={cn(
-                  "text-[9px] font-mono px-2 py-0.5 rounded border transition-all duration-300 truncate max-w-[170px]",
-                  isHovered
-                    ? "bg-[#D7FF64]/10 border-[#D7FF64]/30 text-[#D7FF64]"
-                    : "bg-white/[0.02] border-white/10 text-white/40"
-                )}
-              >
-                ◆ {tag}
-              </span>
-            ))}
-          </div>
+      {/* TOP EDITORIAL HAIRLINE BAR */}
+      <div className="relative z-10 p-3 sm:p-4 flex items-center justify-between border-b border-white/[0.07] bg-[#09090B]/40 backdrop-blur-md">
+        <div className="flex items-center gap-1.5 font-mono text-[10px]">
+          <span className="text-[#D4AF37] font-semibold">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <span className="text-white/20">{"//"}</span>
+          <span className="px-2 py-0.5 rounded-sm bg-white/[0.05] border border-white/[0.07] text-white/80 uppercase font-medium">
+            {project.category}
+          </span>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-white/50">
-          <span className="truncate max-w-[140px] text-white/70">{project.clientContext}</span>
-          <span className="text-white/80 group-hover:text-[#D7FF64] flex items-center gap-1 font-semibold transition-colors">
-            PLAY REEL <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        <div className="flex items-center gap-1.5 font-mono text-[10px] text-white/60">
+          <span className="px-1.5 py-0.5 rounded-sm bg-black/60 border border-white/[0.06]">
+            {project.aspectRatio}
+          </span>
+          {project.duration && (
+            <span className="flex items-center gap-1 text-white/50">
+              <Clock className="w-2.5 h-2.5 text-[#D4AF37]" />
+              <span>{project.duration}</span>
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* CENTER PLAY BADGE ON HOVER */}
+      <div className="relative z-10 my-auto flex items-center justify-center pointer-events-none">
+        <div
+          className={cn(
+            "w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300",
+            isHovered
+              ? "bg-[#D4AF37] text-[#09090B] scale-110 shadow-[0_0_18px_rgba(212,175,55,0.4)]"
+              : "bg-[#09090B]/70 text-white/80 border border-white/[0.12] backdrop-blur-sm"
+          )}
+        >
+          <Play className="w-4 h-4 fill-current ml-0.5" />
+        </div>
+      </div>
+
+      {/* BOTTOM INFO BAR */}
+      <div className="relative z-10 p-4 bg-gradient-to-t from-[#09090B] via-[#09090B]/90 to-transparent pt-6 border-t border-white/[0.06]">
+        {project.clientContext && (
+          <div className="text-[10px] font-mono text-white/40 uppercase tracking-wider mb-1 line-clamp-1">
+            {project.clientContext}
+          </div>
+        )}
+        <h4 className="text-sm font-display font-semibold text-[#F4F4F6] group-hover:text-[#D4AF37] transition-colors tracking-tight line-clamp-2 uppercase">
+          {project.title}
+        </h4>
+        <div className="flex items-center justify-between pt-2 mt-2 border-t border-white/[0.06] text-[10px] font-mono text-white/40">
+          <span className="text-[#D4AF37]/80">{project.aspectRatio === "9:16" ? "VERTICAL REEL" : "CINEMATIC 16:9"}</span>
+          <span className="flex items-center gap-1 text-white/60 group-hover:text-white transition-colors">
+            <span>WATCH</span>
+            <ArrowUpRight className="w-3 h-3 text-[#D4AF37]" />
           </span>
         </div>
       </div>

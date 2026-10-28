@@ -19,20 +19,29 @@ import { VideoLightbox } from "@/components/video-lightbox";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ScrollProgressBar } from "@/components/scroll-progress";
 import { CinematicPreloader } from "@/components/preloader";
-import { CuttingSeam } from "@/components/animations/cutting-seam";
 import { projects, Project } from "@/data/projects";
 
 export default function Home() {
   const [selectedShowreel, setSelectedShowreel] = useState<Project | null>(null);
   const [inquiryPackage, setInquiryPackage] = useState<string>("Talking-Head Reels");
   const [heroProject, setHeroProject] = useState<Project>(projects[0]);
+  const [settings, setSettings] = useState<any>(null);
 
   useEffect(() => {
-    async function loadHeroProject() {
+    async function loadSettingsAndHero() {
       try {
-        const res = await fetch("/api/projects");
-        if (res.ok) {
-          const list = await res.json();
+        const [settingsRes, projectsRes] = await Promise.all([
+          fetch("/api/settings"),
+          fetch("/api/projects"),
+        ]);
+
+        if (settingsRes.ok) {
+          const s = await settingsRes.json();
+          setSettings(s);
+        }
+
+        if (projectsRes.ok) {
+          const list = await projectsRes.json();
           if (Array.isArray(list) && list.length > 0) {
             const featured = list.find((p: Project) => p.featured) || list[0];
             setHeroProject(featured);
@@ -42,11 +51,25 @@ export default function Home() {
         // Fallback to default
       }
     }
-    loadHeroProject();
+    loadSettingsAndHero();
   }, []);
 
   const openHeroShowreel = () => {
-    setSelectedShowreel(heroProject);
+    if (settings?.hero?.youtubeId) {
+      setSelectedShowreel({
+        id: "hero-showreel",
+        title: settings.hero.title || "2026 Master Editorial Showreel",
+        youtubeId: settings.hero.youtubeId,
+        videoSrc: settings.hero.youtubeUrl,
+        aspectRatio: "16:9",
+        category: "Showreel",
+        clientContext: "Flagship Showreel",
+        description: settings.hero.subheadline || "",
+        thumbnail: settings.hero.thumbnail,
+      } as Project);
+    } else {
+      setSelectedShowreel(heroProject);
+    }
   };
 
   const handleSelectPackage = (packageName: string) => {
@@ -61,15 +84,19 @@ export default function Home() {
       {/* Razor-thin Top Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      <main className="min-h-screen bg-[#050505] text-white selection:bg-[#D7FF64] selection:text-[#050505]">
+      <main className="min-h-screen bg-[#09090B] text-[#F4F4F6] selection:bg-[#D4AF37] selection:text-[#09090B]">
         {/* SECTION A: Navigation */}
         <Navigation />
 
         {/* SECTION B: Hero Section */}
         <HeroSection
           onOpenShowreelModal={openHeroShowreel}
-          featuredThumbnail={heroProject?.thumbnail}
-          featuredTitle={heroProject?.title}
+          featuredThumbnail={settings?.hero?.thumbnail || heroProject?.thumbnail}
+          featuredTitle={settings?.hero?.title || heroProject?.title}
+          videoUrl={settings?.hero?.youtubeUrl || (heroProject?.youtubeId ? `https://www.youtube.com/watch?v=${heroProject.youtubeId}` : undefined)}
+          headline={settings?.hero?.headline}
+          headlineHighlight={settings?.hero?.headlineHighlight}
+          subheadline={settings?.hero?.subheadline}
         />
 
         {/* SECTION C: SC 01 — Selected Work */}
@@ -78,20 +105,24 @@ export default function Home() {
         {/* SECTION D: SC 02 — Editing Principles & Four Pillars */}
         <PaceBreak />
 
-        {/* Elegant Chapter Marker */}
-        <CuttingSeam label="SC 03 — CAPABILITIES & CRAFT" timecode="00:01:15:00" />
-
         {/* SECTION E: SC 03 — Services (Twelve Disciplines) */}
         <ServicesSection />
 
         {/* SECTION F: Raw vs. Final (Draggable Playhead Split Viewer) */}
-        <BeforeAfter />
+        <BeforeAfter
+          headline={settings?.beforeAfter?.headline}
+          headlineHighlight={settings?.beforeAfter?.headlineHighlight}
+          subheadline={settings?.beforeAfter?.subheadline}
+          beforeImage={settings?.beforeAfter?.beforeImage}
+          afterImage={settings?.beforeAfter?.afterImage}
+          beforeLabel={settings?.beforeAfter?.beforeLabel}
+          afterLabel={settings?.beforeAfter?.afterLabel}
+          beforeNotice={settings?.beforeAfter?.beforeNotice}
+          footerNote={settings?.beforeAfter?.footerNote}
+        />
 
         {/* SECTION G: Philosophy Statement Break */}
         <PhilosophyBreak />
-
-        {/* Elegant Chapter Marker */}
-        <CuttingSeam label="SC 04 — SEVEN-STAGE PIPELINE" timecode="00:02:10:00" />
 
         {/* SECTION H: SC 04 — Process */}
         <ProcessSection />

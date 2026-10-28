@@ -31,7 +31,7 @@ export function SelectedWork() {
         const res = await fetch("/api/projects");
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data)) {
             setAllProjects(data.filter((p: Project) => p.published !== false));
           }
         }
@@ -67,7 +67,7 @@ export function SelectedWork() {
     return p.category === selectedFilter;
   });
 
-  const displayList = filteredProjects.length > 0 ? filteredProjects : allProjects;
+  const displayList = filteredProjects;
 
   // Keyboard navigation (ArrowLeft & ArrowRight)
   useEffect(() => {
@@ -87,14 +87,11 @@ export function SelectedWork() {
   return (
     <>
       <section
-        className="work pt-6 sm:pt-10 pb-20 sm:pb-28 relative overflow-hidden bg-[#050505]"
+        className="work pt-8 sm:pt-12 pb-20 sm:pb-28 relative overflow-hidden bg-[#09090B] border-b border-white/[0.07]"
         id="work"
         aria-labelledby="work-title"
       >
-        {/* Subtle Ambient Film Glow Grid */}
-        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(rgba(215,255,100,0.15)_1px,transparent_1px)] [background-size:32px_32px]" />
-
-        <div className="work__pin max-w-[1360px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="work__pin max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
           {/* Studio Header (Timecode, Eyebrow, Title, Filter Pills, View Switcher, Audio Monitor) */}
           <WorkHeader
             categories={FILTER_CATEGORIES}

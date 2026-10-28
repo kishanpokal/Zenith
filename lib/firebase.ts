@@ -22,15 +22,13 @@ const PROJECTS_COLLECTION = "portfolio_projects";
  * Fetch all projects from Firestore (sorted by order asc).
  * If Firestore is empty, auto-seeds default projects.
  */
-export async function getProjectsFromDb(): Promise<Project[]> {
+export async function getProjectsFromDb(): Promise<Project[] | null> {
   try {
     const q = query(collection(db, PROJECTS_COLLECTION), orderBy("order", "asc"));
     const snapshot = await getDocs(q);
     
     if (snapshot.empty) {
-      // Auto seed initial projects so the portfolio is never blank
-      await seedDefaultProjects();
-      return DEFAULT_PROJECTS;
+      return [];
     }
     
     const list: Project[] = [];
@@ -39,8 +37,8 @@ export async function getProjectsFromDb(): Promise<Project[]> {
     });
     return list;
   } catch (error) {
-    console.warn("Firestore fetch error, falling back to local defaults:", error);
-    return DEFAULT_PROJECTS;
+    console.warn("Firestore fetch error, falling back to local database:", error);
+    return null;
   }
 }
 
