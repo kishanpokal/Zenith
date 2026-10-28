@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141414" />
+      <stop offset="50%" stop-color="#0a0a0a" />
+      <stop offset="100%" stop-color="#020202" />
+    </linearGradient>
+  </defs>
+  <rect width="720" height="1280" fill="url(#bg5)" />
+  <line x1="60" y1="0" x2="60" y2="1280" stroke="#222" stroke-width="1" stroke-dasharray="4 6" />
+  <line x1="660" y1="0" x2="660" y2="1280" stroke="#222" stroke-width="1" stroke-dasharray="4 6" />
+
+  <rect x="60" y="80" width="10" height="10" rx="5" fill="#FF3B30" />
+  <text x="80" y="90" fill="#FF3B30" font-family="monospace" font-size="16" letter-spacing="3" font-weight="700">REC 4K60</text>
+  <text x="500" y="90" fill="#D7FF64" font-family="monospace" font-size="16" letter-spacing="2">00:00:44:09</text>
+
+  <!-- Cinematic Framing Box -->
+  <g transform="translate(60, 240)">
+    <rect x="0" y="0" width="600" height="520" rx="16" fill="#181818" stroke="#333" stroke-width="2" />
+    
+    <!-- Film aspect letterbox preview -->
+    <rect x="0" y="0" width="600" height="70" fill="#080808" />
+    <rect x="0" y="450" width="600" height="70" fill="#080808" />
+
+    <text x="50" y="270" fill="#F5F5F2" font-family="serif" font-size="28" font-style="italic">"Discipline is not a feeling."</text>
+    <text x="50" y="320" fill="#D7FF64" font-family="monospace" font-size="14">COLOR: 35MM MONOCHROME TO REC.709 GRADE</text>
+  </g>
+
+  <text x="60" y="860" fill="#D7FF64" font-family="monospace" font-size="18" letter-spacing="3" font-weight="700">TALKING HEAD</text>
+  <text x="60" y="930" fill="#F5F5F2" font-family="sans-serif" font-size="44" font-weight="900" letter-spacing="-1">THE ARCHITECTURE</text>
+  <text x="60" y="985" fill="#F5F5F2" font-family="sans-serif" font-size="44" font-weight="900" letter-spacing="-1">OF DISCIPLINE</text>
+  <text x="60" y="1040" fill="#8E8E93" font-family="sans-serif" font-size="20">Author &amp; Keynote Speaker Manifesto</text>
+
+  <g transform="translate(60, 1140)">
+    <rect x="0" y="0" width="600" height="3" fill="#222" />
+    <rect x="0" y="0" width="310" height="3" fill="#D7FF64" />
+    <circle cx="310" cy="1.5" r="5" fill="#D7FF64" />
+    <text x="0" y="32" fill="#666" font-family="monospace" font-size="14">V1: 35MM GRADE</text>
+    <text x="440" y="32" fill="#D7FF64" font-family="monospace" font-size="14">A1: PIANO + LAV</text>
+  </g>
+</svg>

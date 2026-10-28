@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14130a" />
+      <stop offset="50%" stop-color="#0a0a06" />
+      <stop offset="100%" stop-color="#030302" />
+    </linearGradient>
+  </defs>
+  <rect width="720" height="1280" fill="url(#bg4)" />
+  <line x1="60" y1="0" x2="60" y2="1280" stroke="#2b2816" stroke-width="1" stroke-dasharray="4 6" />
+  <line x1="660" y1="0" x2="660" y2="1280" stroke="#2b2816" stroke-width="1" stroke-dasharray="4 6" />
+
+  <rect x="60" y="80" width="10" height="10" rx="5" fill="#FF3B30" />
+  <text x="80" y="90" fill="#FF3B30" font-family="monospace" font-size="16" letter-spacing="3" font-weight="700">REC 4K60</text>
+  <text x="500" y="90" fill="#D7FF64" font-family="monospace" font-size="16" letter-spacing="2">00:00:59:18</text>
+
+  <!-- Node pipeline illustration -->
+  <g transform="translate(60, 240)">
+    <rect x="0" y="0" width="600" height="520" rx="16" fill="#1b190f" stroke="#3d371d" stroke-width="2" />
+    <!-- Node boxes -->
+    <rect x="80" y="90" width="180" height="70" rx="10" fill="#282516" stroke="#D7FF64" stroke-width="1.5" />
+    <text x="100" y="130" fill="#D7FF64" font-family="monospace" font-size="14">AGENT_INGEST</text>
+
+    <line x1="260" y1="125" x2="340" y2="125" stroke="#D7FF64" stroke-width="3" stroke-dasharray="6 4" />
+
+    <rect x="340" y="90" width="180" height="70" rx="10" fill="#282516" stroke="#D7FF64" stroke-width="1.5" />
+    <text x="360" y="130" fill="#D7FF64" font-family="monospace" font-size="14">REASONING</text>
+
+    <path d="M 430 160 L 430 260 L 250 260 L 250 310" fill="none" stroke="#D7FF64" stroke-width="3" stroke-dasharray="6 4" />
+
+    <rect x="150" y="310" width="200" height="70" rx="10" fill="#282516" stroke="#D7FF64" stroke-width="1.5" />
+    <text x="175" y="350" fill="#FFFFFF" font-family="monospace" font-size="14">EXECUTION PIPELINE</text>
+
+    <text x="80" y="460" fill="#888" font-family="monospace" font-size="13">CODE PULSE SYNCED TO VOICE CADENCE</text>
+  </g>
+
+  <text x="60" y="860" fill="#D7FF64" font-family="monospace" font-size="18" letter-spacing="3" font-weight="700">BUSINESS &amp; EDUCATION</text>
+  <text x="60" y="930" fill="#F5F5F2" font-family="sans-serif" font-size="44" font-weight="900" letter-spacing="-1">HOW I BUILT AN</text>
+  <text x="60" y="985" fill="#F5F5F2" font-family="sans-serif" font-size="44" font-weight="900" letter-spacing="-1">AUTONOMOUS AGENT</text>
+  <text x="60" y="1040" fill="#8E8E93" font-family="sans-serif" font-size="20">AI Engineer &amp; Educator Breakdown</text>
+
+  <g transform="translate(60, 1140)">
+    <rect x="0" y="0" width="600" height="3" fill="#2b2816" />
+    <rect x="0" y="0" width="410" height="3" fill="#D7FF64" />
+    <circle cx="410" cy="1.5" r="5" fill="#D7FF64" />
+    <text x="0" y="32" fill="#666" font-family="monospace" font-size="14">V3: DIAGRAM GFX</text>
+    <text x="440" y="32" fill="#D7FF64" font-family="monospace" font-size="14">A1: TECH SFX</text>
+  </g>
+</svg>

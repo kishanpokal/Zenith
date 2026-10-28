@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <rect width="100" height="100" rx="20" fill="#121212"/>
+  <rect x="2" y="2" width="96" height="96" rx="18" stroke="#262626" stroke-width="2"/>
+  <!-- Zenith Stylized Z Geometric Cutter Mark -->
+  <path d="M26 30H74L38 70H74" stroke="#D7FF64" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="26" cy="30" r="4" fill="#D7FF64"/>
+  <circle cx="74" cy="70" r="4" fill="#D7FF64"/>
+</svg>

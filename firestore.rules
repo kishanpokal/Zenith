@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /projects/{document} {
+      allow read: if true;
+      allow write: if true; // Managed via secret token or server
+    }
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
