@@ -37,7 +37,9 @@ const serifFont = Instrument_Serif({
 export const metadata: Metadata = {
   title: `${siteConfig.brand.name} — Editorial Video Architecture & High-Retention Post-Production`,
   description: siteConfig.brand.subheadline,
-  metadataBase: new URL("https://zenithedits.com"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://zenithdeigitalstudio.vercel.app"
+  ),
   keywords: [
     "video editing",
     "editorial post-production",
