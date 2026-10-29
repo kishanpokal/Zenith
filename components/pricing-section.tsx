@@ -151,23 +151,32 @@ export function PricingSection({
                 </div>
 
                 {/* CTA Button */}
-                <a
-                  href={`${siteConfig.contact.whatsappUrl}?text=${encodeURIComponent(
+                {(() => {
+                  const whatsappBase = siteConfig.contact.whatsappNumber
+                    ? `https://wa.me/${siteConfig.contact.whatsappNumber}`
+                    : siteConfig.contact.whatsappUrl.split("?")[0];
+                  const planWhatsAppUrl = `${whatsappBase}?text=${encodeURIComponent(
                     whatsappMsg
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => onSelectPackage?.(plan.name)}
-                  className={cn(
-                    "w-full py-3 rounded-sm text-xs font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors min-h-[44px]",
-                    isPop
-                      ? "bg-[#D4AF37] text-[#09090B] hover:bg-[#F59E0B] shadow-sm"
-                      : "bg-[#09090B] text-white hover:bg-[#18181E] border border-white/[0.08]"
-                  )}
-                >
-                  <span>{plan.ctaText || "Discuss your project"}</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
+                  )}`;
+
+                  return (
+                    <a
+                      href={planWhatsAppUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => onSelectPackage?.(plan.name)}
+                      className={cn(
+                        "w-full py-3 rounded-sm text-xs font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors min-h-[44px]",
+                        isPop
+                          ? "bg-[#D4AF37] text-[#09090B] hover:bg-[#F59E0B] shadow-sm"
+                          : "bg-[#09090B] text-white hover:bg-[#18181E] border border-white/[0.08]"
+                      )}
+                    >
+                      <span>{plan.ctaText || "Discuss your project"}</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  );
+                })()}
               </div>
             );
           })}

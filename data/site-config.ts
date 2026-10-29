@@ -15,7 +15,9 @@ export interface SiteConfig {
   };
   contact: {
     email: string;
-    whatsappNumber: string; // international format without spaces e.g. "1234567890" or empty
+    phoneNumber?: string; // international formatted phone number e.g. "+91 63535 84747"
+    phoneUrl?: string; // tel: link for one-click calling
+    whatsappNumber: string; // international format without spaces e.g. "916353584747"
     whatsappUrl: string;
     whatsappDisplay: string;
     instagramHandle: string;
@@ -49,11 +51,13 @@ export const siteConfig: SiteConfig = {
     },
   },
   contact: {
-    // Replace with your real contact details or set via environment variables
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@zenithedits.com",
-    whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "", // e.g. "12125550199"
-    whatsappUrl: "https://wa.me/919204569048?text=Hi%20Zenith%20Edits!%20I%20want%20to%20start%20a%20project.",
-    whatsappDisplay: "+1 (Direct WhatsApp)",
+    // Portfolio contact channels: email & mobile/WhatsApp
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "zeniithdigitalworks@gmail.com",
+    phoneNumber: process.env.NEXT_PUBLIC_CONTACT_PHONE || "+91 63535 84747",
+    phoneUrl: `tel:${process.env.NEXT_PUBLIC_CONTACT_PHONE_RAW || "+916353584747"}`,
+    whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "916353584747",
+    whatsappUrl: `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "916353584747"}?text=Hi%20Zenith%20Edits!%20I%20want%20to%20start%20a%20project.`,
+    whatsappDisplay: "+91 63535 84747",
     instagramHandle: "@zenith.edits",
     instagramUrl: "https://instagram.com",
     turnaroundNotice: "Direct communication with your lead editor on every cut.",

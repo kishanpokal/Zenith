@@ -8,6 +8,16 @@ export function CinematicPreloader() {
   const [isSplitting, setIsSplitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 
+  const handleComplete = () => {
+    setIsSplitting(true);
+    try {
+      sessionStorage.setItem("zenith_preloader_shown", "true");
+    } catch {}
+    setTimeout(() => {
+      setIsComplete(true);
+    }, 450);
+  };
+
   useEffect(() => {
     // Check if client has already seen preloader in this session
     if (typeof window !== "undefined") {
@@ -20,7 +30,7 @@ export function CinematicPreloader() {
       } catch {}
     }
 
-    const duration = 1400; // 1.4 seconds fast and snappy
+    const duration = 1200; // 1.2 seconds fast and snappy
     const startTime = performance.now();
 
     const interval = setInterval(() => {
@@ -30,18 +40,20 @@ export function CinematicPreloader() {
 
       if (rawPct >= 100) {
         clearInterval(interval);
-        // Trigger razor cut split
-        setIsSplitting(true);
-        try {
-          sessionStorage.setItem("zenith_preloader_shown", "true");
-        } catch {}
-        setTimeout(() => {
-          setIsComplete(true);
-        }, 650);
+        handleComplete();
       }
-    }, 24);
+    }, 20);
 
-    return () => clearInterval(interval);
+    // Hard failsafe timer to prevent freezing under any circumstances
+    const safetyTimer = setTimeout(() => {
+      clearInterval(interval);
+      handleComplete();
+    }, 1800);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(safetyTimer);
+    };
   }, []);
 
   // When animation finishes or already seen in session, unmount completely
@@ -68,7 +80,9 @@ export function CinematicPreloader() {
   return (
     <div
       id="zenith-preloader"
-      className="fixed inset-0 z-[99999] pointer-events-none select-none overflow-hidden bg-[#09090B]"
+      onClick={handleComplete}
+      className="fixed inset-0 z-[99999] select-none overflow-hidden bg-[#09090B] cursor-pointer"
+      title="Click to skip"
     >
       {/* TOP LETTERBOX HALF */}
       <motion.div
@@ -91,8 +105,18 @@ export function CinematicPreloader() {
             <span className="text-white/40 hidden sm:inline">24 FPS</span>
           </div>
 
-          {/* Top Right: Corner Bracket + Technical Camera Specs */}
+          {/* Top Right: Corner Bracket + Technical Camera Specs & Skip hint */}
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleComplete();
+              }}
+              className="text-white/40 hover:text-[#D4AF37] transition-colors text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]"
+            >
+              SKIP ↗
+            </button>
             <span className="text-white/50 text-[10px] hidden sm:inline">
               4K ULTRA HD
             </span>

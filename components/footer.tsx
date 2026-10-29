@@ -86,21 +86,30 @@ export function Footer() {
                   href={siteConfig.contact.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/80 hover:text-[#D4AF37] transition-colors"
+                  className="text-white/80 hover:text-[#D4AF37] transition-colors flex items-center gap-1.5"
                 >
-                  WhatsApp Direct ↗
+                  <span>WhatsApp: {siteConfig.contact.whatsappDisplay}</span>
+                  <span className="text-[#D4AF37]">↗</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={siteConfig.contact.phoneUrl || `tel:${siteConfig.contact.whatsappNumber}`}
+                  className="text-white/80 hover:text-[#D4AF37] transition-colors flex items-center gap-1.5"
+                >
+                  <span>Mobile: {siteConfig.contact.whatsappDisplay}</span>
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="text-white/60 hover:text-white transition-colors truncate block"
+                  className="text-white/60 hover:text-[#D4AF37] transition-colors truncate block"
                 >
                   {siteConfig.contact.email}
                 </a>
               </li>
               <li className="text-white/40 text-[10px] pt-1">
-                Global Remote (EST / GMT / IST)
+                Direct Communication · Fast Response
               </li>
             </ul>
           </div>

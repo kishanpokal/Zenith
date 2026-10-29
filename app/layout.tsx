@@ -98,6 +98,43 @@ export default function RootLayout({
                   document.documentElement.classList.add('zenith-skip-preloader');
                 }
               } catch (e) {}
+
+              // Failsafe: Automatically dismiss preloader after 1.8s so page is never frozen
+              (function() {
+                function dismissPreloader() {
+                  try {
+                    sessionStorage.setItem('zenith_preloader_shown', 'true');
+                  } catch (e) {}
+                  var pre = document.getElementById('zenith-preloader');
+                  if (pre) {
+                    pre.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
+                    pre.style.opacity = '0';
+                    pre.style.pointerEvents = 'none';
+                    setTimeout(function() {
+                      if (pre && pre.parentNode) {
+                        pre.parentNode.removeChild(pre);
+                      }
+                    }, 450);
+                  }
+                }
+
+                // Global failsafe timer
+                setTimeout(dismissPreloader, 1800);
+
+                // Click-to-skip failsafe
+                document.addEventListener('click', function(e) {
+                  if (e.target && (e.target.closest && e.target.closest('#zenith-preloader'))) {
+                    dismissPreloader();
+                  }
+                });
+
+                // Keypress failsafe (Escape or Space to skip)
+                document.addEventListener('keydown', function(e) {
+                  if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+                    dismissPreloader();
+                  }
+                });
+              })();
             `,
           }}
         />
