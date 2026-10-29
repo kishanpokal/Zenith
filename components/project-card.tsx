@@ -63,15 +63,17 @@ export function ProjectCard({
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={cn(
-        "group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#121216] border border-white/[0.07] hover:border-[#D4AF37]/40 transition-all duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37] cursor-pointer shadow-lg select-none",
-        isVertical ? "aspect-[9/16]" : "aspect-[16/9]"
-      )}
+      className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#121216] border border-white/[0.07] hover:border-[#D4AF37]/40 transition-all duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37] cursor-pointer shadow-lg select-none"
       aria-label={`View project: ${project.title}`}
       data-cursor="play"
     >
-      {/* BACKGROUND THUMBNAIL CONTAINER WITH 600ms GPU-ACCELERATED SCALE */}
-      <div className="absolute inset-0 z-0 bg-[#09090B] overflow-hidden">
+      {/* 1. THUMBNAIL CONTAINER — Pristine & Uncluttered, Never obscured by text */}
+      <div
+        className={cn(
+          "relative w-full overflow-hidden bg-[#09090B]",
+          isVertical ? "aspect-[9/16]" : "aspect-video"
+        )}
+      >
         <img
           src={imgSrc}
           alt={project.title}
@@ -80,65 +82,51 @@ export function ProjectCard({
           className="w-full h-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
         />
 
-        {/* Editorial Vignette & Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-[#09090B]/30 to-black/60 pointer-events-none" />
-      </div>
+        {/* Subtle Edge Vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
 
-      {/* TOP EDITORIAL HAIRLINE BAR */}
-      <div className="relative z-10 p-3.5 sm:p-4 flex items-center justify-between border-b border-white/[0.07] bg-[#09090B]/40 backdrop-blur-md">
-        <div className="flex items-center gap-2 font-mono text-[10px]">
-          <span className="text-[#D4AF37] font-semibold">{indexStr}</span>
-          <span className="text-white/20">{"//"}</span>
-          <span className="px-2 py-0.5 rounded-sm bg-white/[0.05] border border-white/[0.07] text-white/80 uppercase font-medium tracking-wider">
-            {project.category}
-          </span>
+        {/* TOP-RIGHT ONLY: Compact Duration/Format Pill Badge */}
+        <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5 text-[10px] font-mono bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded border border-white/10 text-white/90">
+          <Clock className="w-2.5 h-2.5 text-[#D4AF37]" />
+          <span>{project.duration || "02:14"} {"//"} {project.aspectRatio === "9:16" ? "9:16" : "4K"}</span>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-[10px] text-white/60">
-          <span className="px-1.5 py-0.5 rounded-sm bg-black/50 border border-white/[0.06]">
-            {project.aspectRatio}
-          </span>
-          {project.duration && (
-            <span className="flex items-center gap-1 text-white/50">
-              <Clock className="w-2.5 h-2.5 text-[#D4AF37]" />
-              <span>{project.duration}</span>
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* CENTER PLAY BADGE — FROSTED GLASS ON MOBILE / GLOW ON HOVER */}
-      <div className="relative z-10 my-auto flex items-center justify-center pointer-events-none">
-        <div
-          className={cn(
-            "flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all duration-300 backdrop-blur-md border",
-            isHovered
-              ? "bg-[#D4AF37] text-[#09090B] border-[#D4AF37] scale-105 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
-              : "bg-[#09090B]/85 text-[#F4F4F6] border-white/[0.15] shadow-lg"
-          )}
-        >
-          <Play className={cn("w-3.5 h-3.5 fill-current", isHovered ? "text-[#09090B]" : "text-[#D4AF37]")} />
-          <span className="type-timecode text-[10px] tracking-wider font-semibold">WATCH EDIT</span>
-        </div>
-      </div>
-
-      {/* BOTTOM METADATA & TITLE WITH GRADIENT SCRIM */}
-      <div className="relative z-10 p-4 sm:p-5 bg-gradient-to-t from-[#09090B] via-[#09090B]/95 to-transparent pt-8 border-t border-white/[0.06]">
-        {project.clientContext && (
-          <div className="type-timecode text-white/40 mb-1 line-clamp-1">
-            {project.clientContext}
+        {/* CENTER ONLY: Tactile 48px × 48px Frosted-Glass Play Button */}
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          <div
+            className={cn(
+              "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg border",
+              isHovered
+                ? "bg-[#D4AF37] text-[#09090B] border-[#D4AF37] scale-110 shadow-[0_0_24px_rgba(212,175,55,0.4)]"
+                : "bg-black/50 text-[#F4F4F6] border-white/20 backdrop-blur-md"
+            )}
+          >
+            <Play className={cn("w-4 h-4 fill-current ml-0.5", isHovered ? "text-[#09090B]" : "text-[#D4AF37]")} />
           </div>
-        )}
-        <h3 className="type-card-title text-[#F4F4F6] group-hover:text-[#D4AF37] transition-colors line-clamp-2 uppercase">
-          {project.title}
-        </h3>
+        </div>
+      </div>
 
-        {/* Footer Monospace Status */}
-        <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-white/[0.06] type-timecode text-white/40">
-          <span className="text-[#D4AF37]/90 truncate">
+      {/* 2. OUTSIDE EDITORIAL FOOTER STRIP — Moved below thumbnail container */}
+      <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 bg-[#121216] border-t border-white/[0.06]">
+        <div>
+          <div className="flex items-center justify-between gap-2 font-mono text-[10px] text-white/50 mb-1.5">
+            <span className="text-[#D4AF37] font-semibold">{indexStr} {"//"} {project.category}</span>
+            {project.clientContext && (
+              <span className="text-white/40 truncate max-w-[150px]">{project.clientContext}</span>
+            )}
+          </div>
+
+          <h3 className="type-card-title text-[#F4F4F6] group-hover:text-[#D4AF37] transition-colors line-clamp-2 uppercase">
+            {project.title}
+          </h3>
+        </div>
+
+        {/* Monospace Footer Status */}
+        <div className="flex items-center justify-between pt-3 mt-3 border-t border-white/[0.06] type-timecode text-white/40">
+          <span className="text-[#D4AF37]/90 truncate text-[10px]">
             {project.pacingStyle ? project.pacingStyle.split("/")[0] : "SURGICAL CUTS"}
           </span>
-          <span className="flex items-center gap-1 text-white/70 group-hover:text-white transition-colors">
+          <span className="flex items-center gap-1 text-white/70 group-hover:text-white transition-colors text-[10px] shrink-0">
             <span>WATCH</span>
             <ArrowUpRight className="w-3 h-3 text-[#D4AF37]" />
           </span>

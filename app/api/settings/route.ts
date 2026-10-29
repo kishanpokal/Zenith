@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
 import { extractAuthToken, verifyAdminToken } from "@/lib/auth";
+import { PricingSettings, DEFAULT_PRICING_SETTINGS } from "@/data/pricing";
 
 const SETTINGS_PATH = path.join(process.cwd(), "data", "showcase-settings.json");
 
@@ -16,6 +17,9 @@ export interface ShowcaseSettings {
     subheadline: string;
     thumbnail: string;
   };
+  retentionReels?: {
+    reelIds: string[];
+  };
   beforeAfter: {
     headline: string;
     headlineHighlight: string;
@@ -27,17 +31,25 @@ export interface ShowcaseSettings {
     beforeNotice: string;
     footerNote: string;
   };
+  pricing: PricingSettings;
 }
 
 const DEFAULT_SETTINGS: ShowcaseSettings = {
   hero: {
-    youtubeUrl: "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
-    youtubeId: "aqz-KE-bpKQ",
-    title: "2026 Master Editorial Showreel",
+    youtubeUrl: "https://youtube.com/shorts/ASX9EFdHez0?feature=share",
+    youtubeId: "ASX9EFdHez0",
+    title: "Motion-1",
     headline: "WE EDIT FOR",
     headlineHighlight: "RETENTION.",
-    subheadline: "High-impact commercial and creator post-production engineered for ruthless retention. Surgical cut pacing, 12-track Foley sound design, and razor-sharp kinetic typography.",
-    thumbnail: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1200&auto=format&fit=crop",
+    subheadline: "High-impact video editing for creators and brands. Fast cuts, clean sound, and motion graphics that keep viewers watching.",
+    thumbnail: "https://i.ytimg.com/vi/ASX9EFdHez0/maxresdefault.jpg",
+  },
+  retentionReels: {
+    reelIds: [
+      "proj-1793179416247-16uu5",
+      "proj-1793243601981-angsz",
+      "proj-1793243623115-h32uv",
+    ],
   },
   beforeAfter: {
     headline: "SAME FOOTAGE.",
@@ -50,6 +62,7 @@ const DEFAULT_SETTINGS: ShowcaseSettings = {
     beforeNotice: "DEAD AIR DETECTED: 00:00:02:14",
     footerNote: "Editing isn't adding clutter. It is removing friction from the viewer's attention.",
   },
+  pricing: DEFAULT_PRICING_SETTINGS,
 };
 
 function readSettings(): ShowcaseSettings {
@@ -61,7 +74,21 @@ function readSettings(): ShowcaseSettings {
     const parsed = JSON.parse(raw);
     return {
       hero: { ...DEFAULT_SETTINGS.hero, ...(parsed.hero || {}) },
+      retentionReels: {
+        reelIds:
+          parsed.retentionReels?.reelIds && Array.isArray(parsed.retentionReels.reelIds)
+            ? parsed.retentionReels.reelIds.slice(0, 3)
+            : (DEFAULT_SETTINGS.retentionReels?.reelIds || []),
+      },
       beforeAfter: { ...DEFAULT_SETTINGS.beforeAfter, ...(parsed.beforeAfter || {}) },
+      pricing: {
+        ...DEFAULT_PRICING_SETTINGS,
+        ...(parsed.pricing || {}),
+        plans:
+          parsed.pricing?.plans && Array.isArray(parsed.pricing.plans) && parsed.pricing.plans.length > 0
+            ? parsed.pricing.plans
+            : DEFAULT_PRICING_SETTINGS.plans,
+      },
     };
   } catch {
     return DEFAULT_SETTINGS;
@@ -137,9 +164,23 @@ export async function POST(req: NextRequest) {
       updatedBeforeAfter.afterImage = sanitizeImagePath(updatedBeforeAfter.afterImage);
     }
 
+    const updatedPricing: PricingSettings = body.pricing
+      ? {
+          ...current.pricing,
+          ...body.pricing,
+          plans: Array.isArray(body.pricing.plans) ? body.pricing.plans : current.pricing.plans,
+        }
+      : current.pricing;
+
+    const updatedRetentionReels = body.retentionReels && Array.isArray(body.retentionReels.reelIds)
+      ? { reelIds: body.retentionReels.reelIds.slice(0, 3) }
+      : current.retentionReels;
+
     const newSettings: ShowcaseSettings = {
       hero: updatedHero,
+      retentionReels: updatedRetentionReels,
       beforeAfter: updatedBeforeAfter,
+      pricing: updatedPricing,
     };
 
     writeSettings(newSettings);

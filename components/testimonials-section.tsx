@@ -8,8 +8,8 @@ export function TestimonialsSection() {
   if (!testimonialsConfig.showSection) return null;
 
   return (
-    <section className="py-20 sm:py-28 bg-[#09090B] border-b border-white/[0.07] relative">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+    <section className="section-editorial bg-[#09090B] border-b border-white/[0.07] relative">
+      <div className="container-editorial">
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
           <div className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] text-[#D4AF37] uppercase mb-3">

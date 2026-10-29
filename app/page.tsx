@@ -18,12 +18,19 @@ import { SmoothScroll } from "@/components/smooth-scroll";
 import { ScrollProgressBar } from "@/components/scroll-progress";
 import { CinematicPreloader } from "@/components/preloader";
 import { projects, Project } from "@/data/projects";
+import initialSettings from "@/data/showcase-settings.json";
+import initialProjectsDb from "@/data/projects-db.json";
+
+const defaultHero: Project =
+  (initialProjectsDb as unknown as Project[]).find((p) => p.featured) ||
+  (initialProjectsDb as unknown as Project[])[0] ||
+  projects[0];
 
 export default function Home() {
   const [selectedShowreel, setSelectedShowreel] = useState<Project | null>(null);
   const [inquiryPackage, setInquiryPackage] = useState<string>("Talking-Head Reels");
-  const [heroProject, setHeroProject] = useState<Project>(projects[0]);
-  const [settings, setSettings] = useState<any>(null);
+  const [heroProject, setHeroProject] = useState<Project>(defaultHero);
+  const [settings, setSettings] = useState<any>(initialSettings);
 
   useEffect(() => {
     async function loadSettingsAndHero() {
@@ -41,7 +48,10 @@ export default function Home() {
         if (projectsRes.ok) {
           const list = await projectsRes.json();
           if (Array.isArray(list) && list.length > 0) {
-            const featured = list.find((p: Project) => p.featured) || list[0];
+            const featured =
+              list.find((p: Project) => p.featured && p.published !== false) ||
+              list.find((p: Project) => p.published !== false) ||
+              list[0];
             setHeroProject(featured);
           }
         }
@@ -54,13 +64,14 @@ export default function Home() {
 
   const openHeroShowreel = () => {
     if (settings?.hero?.youtubeId) {
+      const isShort = settings?.hero?.youtubeUrl?.includes("shorts") || heroProject?.aspectRatio === "9:16";
       setSelectedShowreel({
         id: "hero-showreel",
-        title: settings.hero.title || "2026 Master Editorial Showreel",
+        title: settings.hero.title || (isShort ? "Featured Reel" : "2026 Master Editorial Showreel"),
         youtubeId: settings.hero.youtubeId,
         videoSrc: settings.hero.youtubeUrl,
-        aspectRatio: "16:9",
-        category: "Showreel",
+        aspectRatio: isShort ? "9:16" : "16:9",
+        category: isShort ? "Short-Form / Reel" : "Showreel",
         clientContext: "Flagship Showreel",
         description: settings.hero.subheadline || "",
         thumbnail: settings.hero.thumbnail,
@@ -73,6 +84,11 @@ export default function Home() {
   const handleSelectPackage = (packageName: string) => {
     setInquiryPackage(packageName);
   };
+
+  const heroAspectRatio: "9:16" | "16:9" =
+    settings?.hero?.aspectRatio === "16:9" && !settings?.hero?.youtubeUrl?.includes("shorts")
+      ? "16:9"
+      : "9:16";
 
   return (
     <SmoothScroll>
@@ -95,13 +111,17 @@ export default function Home() {
           headline={settings?.hero?.headline}
           headlineHighlight={settings?.hero?.headlineHighlight}
           subheadline={settings?.hero?.subheadline}
+          aspectRatio={heroAspectRatio}
         />
 
         {/* SECTION 2: Curated Work Showcase (16:9 Long-Form & Commercials) */}
         <SelectedWork onSelectProject={(p) => setSelectedShowreel(p)} />
 
-        {/* SECTION 3: Dedicated 9:16 Vertical Reels & Shorts Strip */}
-        <VerticalReelsSection onSelectProject={(p) => setSelectedShowreel(p)} />
+        {/* SECTION 3: Dedicated 9:16 Vertical Reels & Shorts Strip (Top 3 Chosen in Admin) */}
+        <VerticalReelsSection
+          onSelectProject={(p) => setSelectedShowreel(p)}
+          retentionReelIds={settings?.retentionReels?.reelIds}
+        />
 
         {/* SECTION 4: Inside the Timeline: The Editing Craft & Interactive Before/After + 3 Pillars */}
         <BeforeAfter
@@ -119,12 +139,19 @@ export default function Home() {
         {/* SECTION 5: Streamlined Services, 4-Step Process & Transparent Packages */}
         <ServicesSection />
         <ProcessSection />
-        <PricingSection onSelectPackage={handleSelectPackage} />
+        <PricingSection
+          onSelectPackage={handleSelectPackage}
+          pricingSettings={settings?.pricing}
+        />
 
         {/* SECTION 6: Client Proof, FAQ & Direct Booking CTA */}
         <TestimonialsSection />
         <FAQSection />
-        <ContactSection initialPackage={inquiryPackage} />
+        <ContactSection
+          initialPackage={inquiryPackage}
+          plans={settings?.pricing?.plans}
+          currencySymbol={settings?.pricing?.currencySymbol}
+        />
 
         {/* Footer */}
         <Footer />

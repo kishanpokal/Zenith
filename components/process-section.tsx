@@ -58,11 +58,11 @@ export function ProcessSection() {
 
   return (
     <section
-      className="py-20 sm:py-28 bg-[#09090B] relative overflow-hidden select-none border-b border-white/[0.07]"
+      className="section-editorial bg-[#09090B] relative overflow-hidden select-none border-b border-white/[0.07]"
       id="process"
       aria-label="Zenith Post-Production Process"
     >
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+      <div className="container-editorial relative z-10">
         {/* Minimal Editorial Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16 pb-6 border-b border-white/[0.07]">
           <div>
@@ -84,8 +84,38 @@ export function ProcessSection() {
           </p>
         </div>
 
-        {/* 4 Process Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        {/* MOBILE VERTICAL TIMELINE (< md): Clean left-border timeline with zero cramped columns */}
+        <div className="md:hidden border-l border-white/15 pl-5 space-y-8 mb-10 ml-2">
+          {STEPS.map((step) => {
+            const StepIcon = step.icon;
+            return (
+              <div key={step.num} className="relative">
+                {/* Timeline node */}
+                <span className="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-[#121216] border-2 border-[#D4AF37]" />
+
+                <div className="flex items-center gap-2 mb-1 text-[10px] font-mono text-[#D4AF37]">
+                  <span className="font-bold">{step.num} {"//"} {step.phase}</span>
+                </div>
+
+                <h3 className="type-card-title text-[#F4F4F6] uppercase leading-snug">
+                  {step.title} <span className="font-editorial text-[#D4AF37] lowercase">{step.highlight}</span>
+                </h3>
+
+                <p className="type-body text-xs leading-relaxed mt-1.5 mb-2.5">
+                  {step.tagline}
+                </p>
+
+                <div className="inline-flex items-center gap-1.5 text-[9px] font-mono text-white/50 bg-[#121216] px-2.5 py-1 rounded-sm border border-white/[0.07]">
+                  <StepIcon className="w-3 h-3 text-[#D4AF37]" />
+                  <span>{step.spec}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* LAPTOP / DESKTOP 4-STEP HORIZONTAL NLE TIMELINE (>= md) */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {STEPS.map((step, idx) => {
             const isCurrent = activeStep === idx;
             const StepIcon = step.icon;

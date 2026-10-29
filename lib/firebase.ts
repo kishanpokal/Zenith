@@ -1,5 +1,16 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, deleteDoc, query, orderBy } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  setDoc,
+  deleteDoc,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { Project, DEFAULT_PROJECTS } from "@/data/projects";
 
 const firebaseConfig = {
@@ -15,8 +26,84 @@ const firebaseConfig = {
 // Initialize Firebase App singleton
 export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 const PROJECTS_COLLECTION = "portfolio_projects";
+const VAULT_CONFIG_COLLECTION = "admin_config";
+const VAULT_CONFIG_DOC = "secret_vault";
+const DEFAULT_URL_TOKEN = process.env.ADMIN_SECRET_TOKEN || "zenith-vault-2026";
+
+let cachedFirestoreToken: string = DEFAULT_URL_TOKEN;
+let lastTokenFetchTime = 0;
+
+/**
+ * Returns currently cached Firestore vault token for fast synchronous validations.
+ */
+export function getCachedFirestoreToken(): string {
+  return cachedFirestoreToken;
+}
+
+/**
+ * Fetches the secret admin URL token from Firestore collection 'admin_config'.
+ * Re-reads from Firestore to detect monthly rotations in the Firebase Console.
+ */
+export async function getAdminUrlTokenFromDb(): Promise<string> {
+  const now = Date.now();
+  // Cache for 5 seconds to ensure fast SSR response while detecting edits quickly
+  if (cachedFirestoreToken && now - lastTokenFetchTime < 5000) {
+    return cachedFirestoreToken;
+  }
+
+  try {
+    const docRef = doc(db, VAULT_CONFIG_COLLECTION, VAULT_CONFIG_DOC);
+    const snap = await getDoc(docRef);
+
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data && data.token && typeof data.token === "string" && data.token.trim().length > 0) {
+        cachedFirestoreToken = data.token.trim();
+        lastTokenFetchTime = now;
+        return cachedFirestoreToken;
+      }
+    }
+
+    // Auto-create document in Firestore if not present
+    await setDoc(
+      docRef,
+      {
+        token: DEFAULT_URL_TOKEN,
+        description:
+          "Secret admin URL path token. Edit this token field anytime in Firebase Console to rotate your admin URL and prevent leaks.",
+        updatedAt: new Date().toISOString(),
+      },
+      { merge: true }
+    );
+
+    cachedFirestoreToken = DEFAULT_URL_TOKEN;
+    lastTokenFetchTime = now;
+    return cachedFirestoreToken;
+  } catch (err) {
+    console.warn("Firestore vault token read error, using fallback:", err);
+    return cachedFirestoreToken;
+  }
+}
+
+/**
+ * Updates the secret admin URL token in Firestore.
+ */
+export async function updateAdminUrlTokenInDb(newToken: string): Promise<void> {
+  const docRef = doc(db, VAULT_CONFIG_COLLECTION, VAULT_CONFIG_DOC);
+  await setDoc(
+    docRef,
+    {
+      token: newToken.trim(),
+      updatedAt: new Date().toISOString(),
+    },
+    { merge: true }
+  );
+  cachedFirestoreToken = newToken.trim();
+  lastTokenFetchTime = Date.now();
+}
 
 /**
  * Fetch all projects from Firestore (sorted by order asc).

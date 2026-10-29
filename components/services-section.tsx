@@ -88,7 +88,7 @@ export function ServicesSection() {
               key={i}
               className="w-1.5 rounded-t-sm bg-[#D4AF37]"
               style={{
-                height: `${Math.abs(Math.sin(i * 0.4) * 80 + 20)}%`,
+                height: `${Math.round(Math.abs(Math.sin(i * 0.4) * 80 + 20))}%`,
                 opacity: 0.8,
               }}
             />
@@ -123,8 +123,8 @@ export function ServicesSection() {
   ];
 
   return (
-    <section className="py-20 sm:py-28 bg-[#09090B] relative overflow-hidden border-b border-white/[0.07]" id="services">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+    <section className="section-editorial bg-[#09090B] relative overflow-hidden border-b border-white/[0.07]" id="services">
+      <div className="container-editorial relative z-10">
         {/* SECTION HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16 pb-6 border-b border-white/[0.07]">
           <div>

@@ -29,6 +29,75 @@ const ALL_CATEGORIES: ProjectCategory[] = [
   "Motion Graphics",
 ];
 
+function matchesCategory(project: Project, category: string): boolean {
+  if (category === "All Work") return true;
+
+  const cat = (project.category || "").toLowerCase().trim();
+  const title = (project.title || "").toLowerCase();
+  const desc = (project.description || "").toLowerCase();
+
+  if (category === "Talking Head") {
+    return (
+      cat === "talking head" ||
+      cat.includes("talking") ||
+      cat.includes("podcast") ||
+      title.includes("talking head") ||
+      title.includes("podcast") ||
+      desc.includes("talking head") ||
+      desc.includes("podcast")
+    );
+  }
+
+  if (category === "Motion Graphics") {
+    return (
+      cat === "motion graphics" ||
+      cat.includes("motion") ||
+      cat.includes("vfx") ||
+      cat.includes("animation") ||
+      title.includes("motion") ||
+      desc.includes("motion graphics") ||
+      desc.includes("animation")
+    );
+  }
+
+  if (category === "YouTube Longform") {
+    if (cat === "talking head" || cat === "motion graphics") return false;
+    return (
+      cat === "youtube longform" ||
+      cat === "longform" ||
+      cat === "commercial" ||
+      cat === "documentary" ||
+      (project.aspectRatio === "16:9" && !cat.includes("short"))
+    );
+  }
+
+  if (category === "Shorts & Reels") {
+    // If explicitly categorized as Talking Head or Motion Graphics, let those specific tabs handle them
+    if (
+      cat === "talking head" ||
+      cat.includes("talking") ||
+      cat.includes("podcast") ||
+      cat === "motion graphics" ||
+      cat.includes("motion") ||
+      title.includes("talking head") ||
+      title.includes("podcast") ||
+      title.includes("motion")
+    ) {
+      return false;
+    }
+
+    return (
+      cat === "shorts & reels" ||
+      cat === "short-form / reel" ||
+      cat === "reel" ||
+      cat === "shorts" ||
+      project.aspectRatio === "9:16"
+    );
+  }
+
+  return cat === category.toLowerCase().trim();
+}
+
 export default function WorkArchivePage() {
   const [allProjects, setAllProjects] = useState<Project[]>(fallbackProjects);
   const [selectedCategory, setSelectedCategory] = useState<string>("All Work");
@@ -60,15 +129,7 @@ export default function WorkArchivePage() {
   // Dynamic Category Counts
   const categoryCounts = useMemo(() => {
     return ALL_CATEGORIES.reduce((acc, cat) => {
-      if (cat === "All Work") {
-        acc[cat] = allProjects.length;
-      } else if (cat === "Shorts & Reels") {
-        acc[cat] = allProjects.filter((p) => p.aspectRatio === "9:16").length;
-      } else if (cat === "YouTube Longform") {
-        acc[cat] = allProjects.filter((p) => p.aspectRatio === "16:9").length;
-      } else {
-        acc[cat] = allProjects.filter((p) => p.category === cat).length;
-      }
+      acc[cat] = allProjects.filter((p) => matchesCategory(p, cat)).length;
       return acc;
     }, {} as Record<string, number>);
   }, [allProjects]);
@@ -95,10 +156,7 @@ export default function WorkArchivePage() {
         if (formatFilter === "16:9" && p.aspectRatio !== "16:9") return false;
 
         // Category Filter
-        if (selectedCategory === "All Work") return true;
-        if (selectedCategory === "Shorts & Reels") return p.aspectRatio === "9:16";
-        if (selectedCategory === "YouTube Longform") return p.aspectRatio === "16:9";
-        return p.category === selectedCategory;
+        return matchesCategory(p, selectedCategory);
       })
       .sort((a, b) => {
         if (sortBy === "duration") {
@@ -122,8 +180,8 @@ export default function WorkArchivePage() {
         <Navigation />
 
         {/* HERO ARCHIVE HEADER */}
-        <section className="pt-32 sm:pt-40 pb-12 sm:pb-16 relative overflow-hidden border-b border-white/[0.07]">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        <section className="pt-24 lg:pt-28 pb-10 sm:pb-14 relative overflow-hidden border-b border-white/[0.07]">
+          <div className="container-editorial relative z-10">
             {/* Top Breadcrumb & Status */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               <Link
@@ -148,35 +206,35 @@ export default function WorkArchivePage() {
                 <span className="text-white/40">HIGH-RETENTION POST-PRODUCTION</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]">
                 THE COMPLETE <br />
                 <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
                   archive.
                 </span>
               </h1>
 
-              <p className="mt-4 text-base text-white/70 max-w-2xl font-sans leading-relaxed">
+              <p className="mt-4 text-sm sm:text-base text-white/70 max-w-2xl font-sans leading-relaxed">
                 Explore our full catalog of commercial showreels, talking head reels,
                 documentary cuts, and motion design. Engineered for high retention and narrative impact.
               </p>
             </div>
 
             {/* Studio Technical Specifications */}
-            <div className="mt-8 pt-6 border-t border-white/[0.07] grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl">
+            <div className="mt-8 pt-6 border-t border-white/[0.07] grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-3xl">
               <div>
-                <div className="font-display font-bold text-xl text-white">4K UHD</div>
+                <div className="font-display font-bold text-lg sm:text-xl text-white">4K UHD</div>
                 <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Master Output</div>
               </div>
               <div>
-                <div className="font-display font-bold text-xl text-[#D4AF37]">REC.709</div>
+                <div className="font-display font-bold text-lg sm:text-xl text-[#D4AF37]">REC.709</div>
                 <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Color Profile</div>
               </div>
               <div>
-                <div className="font-display font-bold text-xl text-white">32-BIT</div>
+                <div className="font-display font-bold text-lg sm:text-xl text-white">32-BIT</div>
                 <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Audio Stems</div>
               </div>
               <div>
-                <div className="font-display font-bold text-xl text-white">PRO EDIT</div>
+                <div className="font-display font-bold text-lg sm:text-xl text-white">PRO EDIT</div>
                 <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Premiere & AE</div>
               </div>
             </div>
@@ -184,10 +242,10 @@ export default function WorkArchivePage() {
         </section>
 
         {/* ADVANCED FILTERING & SEARCH CONSOLE */}
-        <section className="py-6 bg-[#09090B]/95 backdrop-blur-md border-b border-white/[0.07] sticky top-16 z-30">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+        <section className="py-4 bg-[#09090B]/95 backdrop-blur-md border-b border-white/[0.07] sticky top-14 lg:top-16 z-30">
+          <div className="container-editorial">
             {/* SEARCH BAR & CONTROLS ROW */}
-            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-4">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 mb-3">
               {/* Search Input */}
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
@@ -199,7 +257,7 @@ export default function WorkArchivePage() {
                     setVisibleCount(12);
                   }}
                   placeholder="Search projects by title, client, category..."
-                  className="w-full pl-10 pr-9 py-2 rounded-sm bg-[#121216] border border-white/[0.08] text-white placeholder-white/40 text-xs font-mono focus:outline-none focus:border-[#D4AF37] transition-colors"
+                  className="w-full pl-10 pr-9 py-2.5 rounded-sm bg-[#121216] border border-white/[0.08] text-white placeholder-white/40 text-xs font-mono focus:outline-none focus:border-[#D4AF37] transition-colors"
                 />
                 {searchQuery && (
                   <button
@@ -213,7 +271,7 @@ export default function WorkArchivePage() {
               </div>
 
               {/* Right Utility Controls */}
-              <div className="flex flex-wrap items-center gap-3 self-end md:self-auto">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 self-end md:self-auto">
                 {/* Audio Monitor Toggle */}
                 <button
                   type="button"
@@ -274,7 +332,7 @@ export default function WorkArchivePage() {
                         : "text-white/60 hover:text-white"
                     }`}
                   >
-                    9:16 REELS
+                    9:16
                   </button>
                   <button
                     type="button"
@@ -285,14 +343,14 @@ export default function WorkArchivePage() {
                         : "text-white/60 hover:text-white"
                     }`}
                   >
-                    16:9 WIDE
+                    16:9
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* CATEGORY TABS ROW */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {/* CATEGORY TABS ROW: Single horizontal touch-scroll strip */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap touch-pan-x">
               {ALL_CATEGORIES.map((cat) => {
                 const isActive = selectedCategory === cat;
                 const count = categoryCounts[cat];
@@ -304,7 +362,7 @@ export default function WorkArchivePage() {
                       setSelectedCategory(cat);
                       setVisibleCount(12);
                     }}
-                    className={`px-3 py-1.5 rounded-sm text-[11px] font-mono uppercase tracking-wider transition-all duration-200 whitespace-nowrap flex items-center gap-2 ${
+                    className={`px-3 py-1.5 rounded-sm text-[11px] font-mono uppercase tracking-wider transition-all duration-200 whitespace-nowrap flex items-center gap-2 shrink-0 ${
                       isActive
                         ? "bg-[#D4AF37] text-[#09090B] font-bold shadow-sm"
                         : "text-white/60 hover:text-white bg-[#121216] border border-white/[0.07]"
@@ -328,8 +386,8 @@ export default function WorkArchivePage() {
         </section>
 
         {/* RESULTS FEED SECTION */}
-        <section className="py-14 sm:py-20 relative">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+        <section className="section-editorial relative">
+          <div className="container-editorial">
             {/* Status bar */}
             <div className="flex items-center justify-between text-xs font-mono text-white/50 mb-8 pb-3 border-b border-white/[0.07]">
               <div>

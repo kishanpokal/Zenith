@@ -13,6 +13,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { CustomVideoStage } from "@/components/cinema-player/custom-video-stage";
+import { cn } from "@/lib/utils";
 
 interface VideoLightboxProps {
   project: Project | null;
@@ -49,56 +50,62 @@ export function VideoLightbox({ project, onClose, onNext, onPrev }: VideoLightbo
       role="dialog"
       aria-modal="true"
       aria-label={`Project playback: ${project.title}`}
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 lg:p-6 bg-[#09090B]/95 backdrop-blur-xl animate-in fade-in duration-200 select-none h-[100dvh] max-h-[100dvh]"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#09090B]/95 backdrop-blur-2xl animate-in fade-in duration-200 select-none overflow-y-auto"
       onClick={onClose}
     >
-      {/* Main Cinema Box */}
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className={`relative w-full ${
-          isVertical ? "max-w-4xl" : "max-w-6xl"
-        } max-h-[96dvh] bg-[#121216] border border-white/[0.08] rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row`}
-      >
-        {/* Top Close Controls */}
-        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-40 flex items-center gap-2">
-          {onPrev && (
-            <button
-              type="button"
-              onClick={onPrev}
-              className="w-10 h-10 sm:w-8 sm:h-8 min-w-[40px] min-h-[40px] sm:min-w-0 sm:min-h-0 rounded-sm bg-[#09090B]/85 hover:bg-[#18181E] border border-white/[0.12] text-white flex items-center justify-center transition-colors"
-              title="Previous project (←)"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-          )}
-
-          {onNext && (
-            <button
-              type="button"
-              onClick={onNext}
-              className="w-10 h-10 sm:w-8 sm:h-8 min-w-[40px] min-h-[40px] sm:min-w-0 sm:min-h-0 rounded-sm bg-[#09090B]/85 hover:bg-[#18181E] border border-white/[0.12] text-white flex items-center justify-center transition-colors"
-              title="Next project (→)"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          )}
-
+      {/* Pinned High-Contrast [ ✕ CLOSE ] button inside top-right safe area */}
+      <div className="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 flex items-center gap-2">
+        {onPrev && (
           <button
             type="button"
-            onClick={onClose}
-            className="w-11 h-11 sm:w-8 sm:h-8 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 rounded-sm bg-[#09090B]/90 hover:bg-[#18181E] border border-white/[0.15] text-[#D4AF37] sm:text-white flex items-center justify-center transition-colors shadow-lg"
-            title="Close viewer (ESC)"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPrev();
+            }}
+            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#121216]/90 hover:bg-[#18181E] border border-white/20 text-white flex items-center justify-center transition-all shadow-xl"
+            title="Previous project (←)"
           >
-            <X className="w-5 h-5 sm:w-4 sm:h-4" />
+            <ChevronLeft className="w-4 h-4" />
           </button>
-        </div>
+        )}
 
-        {/* Video Player Column */}
-        <div
-          className={`w-full ${
-            isVertical ? "lg:w-5/12 p-2 sm:p-4" : "lg:w-7/12 p-3 sm:p-6"
-          } bg-[#09090B] flex flex-col items-center justify-center relative border-b lg:border-b-0 lg:border-r border-white/[0.08] overflow-hidden`}
+        {onNext && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onNext();
+            }}
+            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#121216]/90 hover:bg-[#18181E] border border-white/20 text-white flex items-center justify-center transition-all shadow-xl"
+            title="Next project (→)"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        )}
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="h-11 min-w-[44px] min-h-[44px] px-3.5 rounded-full bg-[#121216] hover:bg-[#D4AF37] border border-[#D4AF37]/50 text-[#D4AF37] hover:text-[#09090B] font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-2xl cursor-pointer"
+          title="Close viewer (ESC)"
+          aria-label="Close video player"
         >
+          <X className="w-4 h-4" />
+          <span className="hidden sm:inline">CLOSE</span>
+        </button>
+      </div>
+
+      {/* Adaptive Video Container: Centered 16:9 widescreen or 80dvh 9:16 vertical reel */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={cn(
+          "relative transition-all duration-300 my-auto",
+          isVertical
+            ? "aspect-[9/16] h-[80dvh] max-h-[780px] w-auto mx-auto flex flex-col justify-center"
+            : "w-full max-w-5xl aspect-video px-2 sm:px-6"
+        )}
+      >
+        <div className="bg-[#121216] border border-white/[0.08] rounded-2xl overflow-hidden shadow-2xl p-2 sm:p-4">
           <CustomVideoStage
             youtubeId={project.youtubeId}
             videoSrc={project.videoSrc}
@@ -108,110 +115,6 @@ export function VideoLightbox({ project, onClose, onNext, onPrev }: VideoLightbo
             timecode={project.timecode}
             duration={project.duration}
           />
-        </div>
-
-        {/* Project Breakdown Details Column */}
-        <div
-          className={`w-full ${
-            isVertical ? "lg:w-7/12" : "lg:w-5/12"
-          } p-6 sm:p-8 overflow-y-auto max-h-[50vh] lg:max-h-[92vh] flex flex-col justify-between`}
-        >
-          <div>
-            {/* Header badges */}
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="px-2.5 py-0.5 rounded-sm bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[10px] font-mono font-bold text-[#D4AF37] uppercase">
-                {project.category}
-              </span>
-              <span className="px-2.5 py-0.5 rounded-sm bg-white/[0.04] border border-white/[0.07] text-[10px] font-mono text-white/70">
-                {project.aspectRatio} · {project.duration}
-              </span>
-              <span className="px-2.5 py-0.5 rounded-sm bg-white/[0.04] border border-white/[0.07] text-[10px] font-mono text-white/50">
-                STUDIO MASTER
-              </span>
-            </div>
-
-            {/* Title */}
-            <h2 className="text-lg sm:text-xl font-display font-bold text-[#F4F4F6] uppercase tracking-tight mb-2">
-              {project.title}
-            </h2>
-
-            {project.clientContext && (
-              <div className="text-xs font-mono text-white/50 mb-4">
-                Client / Brand: <strong className="text-white/90">{project.clientContext}</strong>
-              </div>
-            )}
-
-            {/* Description */}
-            {project.description && (
-              <p className="text-xs sm:text-sm text-white/70 leading-relaxed mb-6 font-sans">
-                {project.description}
-              </p>
-            )}
-
-            {/* Editing Craft Breakdown */}
-            {project.editBreakdown && project.editBreakdown.length > 0 && (
-              <div className="space-y-2.5 mb-6">
-                <div className="text-[10px] font-mono uppercase tracking-widest text-[#D4AF37] flex items-center gap-2">
-                  <Scissors className="w-3.5 h-3.5" />
-                  <span>What We Did in This Edit</span>
-                </div>
-
-                <div className="space-y-1.5">
-                  {project.editBreakdown.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start gap-2 text-xs text-white/80 bg-[#09090B]/60 p-2.5 rounded-sm border border-white/[0.06]"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37] mt-0.5 shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Sound & Pacing Specs */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
-              <div className="bg-[#09090B]/60 p-3 rounded-sm border border-white/[0.06]">
-                <div className="flex items-center gap-1.5 text-[9px] font-mono text-white/40 uppercase mb-1">
-                  <Music className="w-3 h-3 text-[#D4AF37]" />
-                  <span>Sound Design</span>
-                </div>
-                <div className="text-xs text-white/80 leading-snug font-sans">
-                  {project.soundDesignNotes || "Full audio & sound effects mix"}
-                </div>
-              </div>
-
-              <div className="bg-[#09090B]/60 p-3 rounded-sm border border-white/[0.06]">
-                <div className="flex items-center gap-1.5 text-[9px] font-mono text-white/40 uppercase mb-1">
-                  <Layers className="w-3 h-3 text-[#D4AF37]" />
-                  <span>Pacing</span>
-                </div>
-                <div className="text-xs text-white/80 leading-snug font-sans">
-                  {project.pacingStyle || "Fast cuts with zero dead pauses"}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Action in modal */}
-          <div className="pt-4 border-t border-white/[0.08] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            <div className="text-[10px] font-mono text-white/40">
-              VIDEO EDITING STUDIO
-            </div>
-            <a
-              href="#contact"
-              onClick={() => {
-                onClose();
-                const el = document.getElementById("contact");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="px-4 py-2.5 rounded-sm bg-[#D4AF37] hover:bg-[#F59E0B] text-[#09090B] font-bold text-xs uppercase tracking-wider text-center transition-colors shadow-md flex items-center justify-center gap-1.5"
-            >
-              <span>Start a Project Like This</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
         </div>
       </div>
     </div>

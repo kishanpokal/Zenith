@@ -30,11 +30,17 @@ function writeLocalDb(projects: Project[]) {
 }
 
 export async function GET(req: NextRequest) {
+  const token = extractAuthToken(req);
+  const isAdmin = verifyAdminToken(token);
+
   try {
     // Attempt Firestore first
     const projects = await getProjectsFromDb();
     if (Array.isArray(projects)) {
       writeLocalDb(projects);
+      if (!isAdmin) {
+        return NextResponse.json(projects.filter((p) => p.published !== false));
+      }
       return NextResponse.json(projects);
     }
   } catch (err) {
@@ -43,6 +49,9 @@ export async function GET(req: NextRequest) {
 
   const localProjects = readLocalDb();
   localProjects.sort((a, b) => (a.order || 0) - (b.order || 0));
+  if (!isAdmin) {
+    return NextResponse.json(localProjects.filter((p) => p.published !== false));
+  }
   return NextResponse.json(localProjects);
 }
 
@@ -63,7 +72,7 @@ export async function POST(req: NextRequest) {
     const newProject: Project = {
       id: body.id || `proj-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       title: body.title || "Untitled Project",
-      category: body.category || (isShorts ? "Short-Form / Reel" : "Commercial"),
+      category: body.category || (isShorts ? "Shorts & Reels" : "YouTube Longform"),
       clientContext: body.clientContext || "Creator / Brand",
       description: body.description || "",
       duration: body.duration || (isShorts ? "0:30" : "1:00"),

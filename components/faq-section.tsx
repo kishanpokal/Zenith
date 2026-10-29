@@ -52,13 +52,13 @@ export function FaqSection() {
 
   return (
     <section
-      className="py-20 sm:py-28 bg-[#09090B] border-b border-white/[0.07]"
+      className="section-editorial bg-[#09090B] border-b border-white/[0.07]"
       id="faq"
       aria-labelledby="faq-title"
     >
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+      <div className="container-editorial">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 pb-6 border-b border-white/[0.07]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-14 pb-6 border-b border-white/[0.07]">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
@@ -78,8 +78,8 @@ export function FaqSection() {
           </p>
         </div>
 
-        {/* Accordion List */}
-        <div className="divide-y divide-white/[0.07] border-y border-white/[0.07] max-w-4xl mx-auto">
+        {/* Accordion List: Constrained to max-w-3xl for optimal 60-75ch line length */}
+        <div className="divide-y divide-white/[0.07] border-y border-white/[0.07] max-w-3xl mx-auto">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
@@ -88,13 +88,13 @@ export function FaqSection() {
                   type="button"
                   onClick={() => toggle(idx)}
                   aria-expanded={isOpen}
-                  className="w-full py-6 flex items-center justify-between text-left group gap-4"
+                  className="w-full py-4 sm:py-5 flex items-center justify-between text-left group gap-4 min-h-[52px]"
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-xs text-[#D4AF37] font-semibold">
+                  <div className="flex items-center gap-3.5 sm:gap-4">
+                    <span className="font-mono text-xs text-[#D4AF37] font-semibold shrink-0">
                       {faq.num}
                     </span>
-                    <span className="text-base sm:text-lg font-display font-semibold text-[#F4F4F6] group-hover:text-[#D4AF37] transition-colors uppercase tracking-tight">
+                    <span className="text-sm sm:text-base font-display font-semibold text-[#F4F4F6] group-hover:text-[#D4AF37] transition-colors uppercase tracking-tight">
                       {faq.question}
                     </span>
                   </div>
@@ -105,7 +105,7 @@ export function FaqSection() {
                 </button>
 
                 {isOpen && (
-                  <div className="pb-6 pl-10 pr-4 text-xs sm:text-sm text-white/70 leading-relaxed font-sans max-w-2xl animate-in fade-in duration-200">
+                  <div className="pb-5 pl-8 sm:pl-10 pr-4 text-xs sm:text-sm text-white/70 leading-relaxed font-sans max-w-2xl animate-in fade-in duration-200">
                     <p>{faq.answer}</p>
                   </div>
                 )}

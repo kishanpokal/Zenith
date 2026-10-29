@@ -41,18 +41,18 @@ export function EditingCraft() {
   const activeModule = craftModules.find((m) => m.id === activeTab)!;
 
   return (
-    <section id="craft" className="py-24 bg-[#0a0a0a] border-b border-[#1c1c1c] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="craft" className="section-editorial bg-[#09090B] border-b border-white/[0.07] relative">
+      <div className="container-editorial">
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-accent uppercase mb-3">
+        <div className="max-w-3xl mb-12 sm:mb-16 pb-6 border-b border-white/[0.07]">
+          <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-[#D4AF37] uppercase mb-3">
             <Zap className="w-3.5 h-3.5" />
             <span>02 — THE CRAFT</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#F5F5F2] tracking-tighter uppercase font-sans mb-4">
+          <h2 className="type-section-title text-[#F4F4F6] mb-4">
             GOOD EDITING IS FELT.
           </h2>
-          <p className="text-base sm:text-lg text-[#A0A09C] leading-relaxed">
+          <p className="type-body text-sm sm:text-base leading-relaxed">
             The best cuts don&apos;t announce themselves—they keep the viewer locked in without cognitive friction. Here is how we build high-retention stories.
           </p>
         </div>
@@ -69,17 +69,17 @@ export function EditingCraft() {
                 className={cn(
                   "p-4 rounded-xl text-left border transition-all duration-200 flex flex-col justify-between h-28 relative overflow-hidden",
                   isActive
-                    ? "bg-[#141414] border-accent text-[#F5F5F2] shadow-[0_0_20px_rgba(215,255,100,0.12)]"
-                    : "bg-[#0d0d0d] border-[#1f1f1f] text-[#8E8E93] hover:border-[#333] hover:text-[#D1D1CB]"
+                    ? "bg-[#141414] border-[#D4AF37] text-[#F5F5F2] shadow-[0_0_20px_rgba(212,175,55,0.15)]"
+                    : "bg-[#0d0d0d] border-white/[0.07] text-[#8E8E93] hover:border-white/20 hover:text-[#D1D1CB]"
                 )}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="font-mono text-xs font-bold text-accent">{m.number}</span>
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />}
+                  <span className="font-mono text-xs font-bold text-[#D4AF37]">{m.number}</span>
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />}
                 </div>
 
                 <div>
-                  <div className="text-sm font-black tracking-wider uppercase font-sans">
+                  <div className="text-sm font-bold tracking-wider uppercase font-sans text-white">
                     {m.title}
                   </div>
                   <div className="text-[11px] font-mono text-[#8E8E93] line-clamp-1 mt-0.5">
@@ -88,7 +88,7 @@ export function EditingCraft() {
                 </div>
 
                 {isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]" />
                 )}
               </button>
             );
@@ -96,35 +96,35 @@ export function EditingCraft() {
         </div>
 
         {/* Dynamic Editorial Module Card */}
-        <div className="bg-[#101010] border border-[#222222] rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="bg-[#121216] border border-white/[0.07] rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Explanation Column (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded bg-[#181818] border border-[#2a2a2a] text-xs font-mono text-accent">
+              <span className="px-2.5 py-0.5 rounded bg-[#181818] border border-white/[0.08] text-xs font-mono text-[#D4AF37]">
                 PRINCIPLE {activeModule.number}
               </span>
-              <span className="text-xs font-mono text-[#777] uppercase">
+              <span className="text-xs font-mono text-white/50 uppercase">
                 {activeModule.technicalMetric}
               </span>
             </div>
 
-            <h3 className="text-2xl sm:text-3xl font-black text-[#F5F5F2] uppercase tracking-tight font-sans">
+            <h3 className="type-card-title text-[#F4F4F6] uppercase">
               {activeModule.headline}
             </h3>
 
-            <blockquote className="border-l-2 border-accent pl-4 text-base italic text-[#E5E5E0] font-serif">
+            <blockquote className="border-l-2 border-[#D4AF37] pl-4 text-base italic text-[#E5E5E0] font-serif">
               &ldquo;{activeModule.quote}&rdquo;
             </blockquote>
 
-            <p className="text-sm text-[#A0A09C] leading-relaxed">
+            <p className="type-body text-xs sm:text-sm leading-relaxed">
               {activeModule.description}
             </p>
 
             {/* Keypoints list */}
-            <div className="space-y-2 pt-2 border-t border-[#1f1f1f]">
+            <div className="space-y-2 pt-2 border-t border-white/[0.07]">
               {activeModule.keyPoints.map((point, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs text-[#D1D1CB] font-mono">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] shrink-0" />
                   <span>{point}</span>
                 </div>
               ))}

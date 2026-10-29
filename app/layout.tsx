@@ -90,6 +90,17 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (sessionStorage.getItem('zenith_preloader_shown')) {
+                  document.documentElement.classList.add('zenith-skip-preloader');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body className="bg-[#09090B] text-[#F4F4F6] min-h-screen selection:bg-[#D4AF37] selection:text-black antialiased font-sans relative">
         {/* Subtle fixed SVG film grain noise overlay */}

@@ -145,8 +145,8 @@ export function WorkHeader({
 
       {/* DUAL FILTER CONSOLE: FORMAT TOGGLE & CATEGORY CHIPS */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2 border-b border-white/[0.07] pb-4">
-        {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {/* Category Pills: Single horizontal touch-scroll strip on mobile, wrapping on desktop */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap touch-pan-x">
           {categories.map((category) => {
             const isActive = selectedFilter === category;
             const count = categoryCounts[category];
@@ -155,7 +155,7 @@ export function WorkHeader({
                 key={category}
                 type="button"
                 onClick={() => onSelectFilter(category)}
-                className={`px-3 py-1.5 rounded-sm text-[11px] font-mono uppercase tracking-wider transition-all duration-200 whitespace-nowrap flex items-center gap-2 ${
+                className={`px-3 py-1.5 rounded-sm text-[11px] font-mono uppercase tracking-wider transition-all duration-200 whitespace-nowrap flex items-center gap-2 shrink-0 ${
                   isActive
                     ? "bg-[#D4AF37] text-[#09090B] font-bold shadow-sm"
                     : "text-white/60 hover:text-white bg-[#121216] border border-white/[0.07]"
@@ -178,7 +178,7 @@ export function WorkHeader({
 
         {/* Aspect Ratio Format Switcher */}
         {onChangeFormatFilter && (
-          <div className="flex items-center gap-1 p-1 rounded-sm bg-[#121216] border border-white/[0.07] text-[10px] font-mono self-start md:self-auto flex-shrink-0">
+          <div className="flex items-center gap-1 p-1 rounded-sm bg-[#121216] border border-white/[0.07] text-[10px] font-mono self-start md:self-auto shrink-0">
             <span className="px-2 text-white/40 uppercase">FORMAT:</span>
             <button
               type="button"

@@ -7,18 +7,17 @@ export function CinematicPreloader() {
   const [progress, setProgress] = useState(0);
   const [isSplitting, setIsSplitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [hasCheckedSession, setHasCheckedSession] = useState(false);
 
   useEffect(() => {
     // Check if client has already seen preloader in this session
     if (typeof window !== "undefined") {
-      const alreadyShown = sessionStorage.getItem("zenith_preloader_shown");
-      if (alreadyShown) {
-        setIsComplete(true);
-        setHasCheckedSession(true);
-        return;
-      }
-      setHasCheckedSession(true);
+      try {
+        const alreadyShown = sessionStorage.getItem("zenith_preloader_shown");
+        if (alreadyShown) {
+          setIsComplete(true);
+          return;
+        }
+      } catch {}
     }
 
     const duration = 1400; // 1.4 seconds fast and snappy
@@ -33,9 +32,9 @@ export function CinematicPreloader() {
         clearInterval(interval);
         // Trigger razor cut split
         setIsSplitting(true);
-        if (typeof window !== "undefined") {
+        try {
           sessionStorage.setItem("zenith_preloader_shown", "true");
-        }
+        } catch {}
         setTimeout(() => {
           setIsComplete(true);
         }, 650);
@@ -45,7 +44,8 @@ export function CinematicPreloader() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!hasCheckedSession || isComplete) {
+  // When animation finishes or already seen in session, unmount completely
+  if (isComplete) {
     return null;
   }
 
@@ -66,7 +66,10 @@ export function CinematicPreloader() {
   }
 
   return (
-    <div className="fixed inset-0 z-[99999] pointer-events-none select-none overflow-hidden">
+    <div
+      id="zenith-preloader"
+      className="fixed inset-0 z-[99999] pointer-events-none select-none overflow-hidden bg-[#09090B]"
+    >
       {/* TOP LETTERBOX HALF */}
       <motion.div
         initial={{ y: 0 }}

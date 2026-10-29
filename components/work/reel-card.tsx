@@ -67,7 +67,7 @@ export function ReelCard({
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "group relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#121216] border border-white/[0.07] hover:border-[#D4AF37]/40 transition-all duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37] cursor-pointer shadow-lg select-none",
-        isVertical ? "aspect-[9/16]" : "aspect-[16/9]",
+        isVertical ? "aspect-[9/16] w-full max-w-[320px] sm:max-w-[340px] mx-auto" : "aspect-[16/9] w-full",
         className
       )}
       aria-label={`View ${project.title}`}
@@ -110,18 +110,17 @@ export function ReelCard({
         </div>
       </div>
 
-      {/* CENTER PLAY BADGE — FROSTED GLASS ON MOBILE / GLOW ON HOVER */}
+      {/* CENTER PLAY BADGE — TACTILE 48px × 48px FROSTED GLASS */}
       <div className="relative z-10 my-auto flex items-center justify-center pointer-events-none">
         <div
           className={cn(
-            "flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 backdrop-blur-md border",
+            "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-md border shadow-lg",
             isHovered
-              ? "bg-[#D4AF37] text-[#09090B] border-[#D4AF37] scale-105 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
-              : "bg-[#09090B]/85 text-[#F4F4F6] border-white/[0.15] shadow-lg"
+              ? "bg-[#D4AF37] text-[#09090B] border-[#D4AF37] scale-110 shadow-[0_0_24px_rgba(212,175,55,0.4)]"
+              : "bg-black/50 text-[#F4F4F6] border-white/20"
           )}
         >
-          <Play className={cn("w-3.5 h-3.5 fill-current", isHovered ? "text-[#09090B]" : "text-[#D4AF37]")} />
-          <span className="type-timecode text-[10px] tracking-wider font-semibold">WATCH EDIT</span>
+          <Play className={cn("w-4 h-4 fill-current ml-0.5", isHovered ? "text-[#09090B]" : "text-[#D4AF37]")} />
         </div>
       </div>
 

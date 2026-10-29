@@ -19,6 +19,75 @@ interface SelectedWorkProps {
   onSelectProject?: (project: Project) => void;
 }
 
+function matchesCategory(project: Project, category: string): boolean {
+  if (category === "All Work") return true;
+
+  const cat = (project.category || "").toLowerCase().trim();
+  const title = (project.title || "").toLowerCase();
+  const desc = (project.description || "").toLowerCase();
+
+  if (category === "Talking Head") {
+    return (
+      cat === "talking head" ||
+      cat.includes("talking") ||
+      cat.includes("podcast") ||
+      title.includes("talking head") ||
+      title.includes("podcast") ||
+      desc.includes("talking head") ||
+      desc.includes("podcast")
+    );
+  }
+
+  if (category === "Motion Graphics") {
+    return (
+      cat === "motion graphics" ||
+      cat.includes("motion") ||
+      cat.includes("vfx") ||
+      cat.includes("animation") ||
+      title.includes("motion") ||
+      desc.includes("motion graphics") ||
+      desc.includes("animation")
+    );
+  }
+
+  if (category === "YouTube Longform") {
+    if (cat === "talking head" || cat === "motion graphics") return false;
+    return (
+      cat === "youtube longform" ||
+      cat === "longform" ||
+      cat === "commercial" ||
+      cat === "documentary" ||
+      (project.aspectRatio === "16:9" && !cat.includes("short"))
+    );
+  }
+
+  if (category === "Shorts & Reels") {
+    // If explicitly categorized as Talking Head or Motion Graphics, let those specific tabs handle them
+    if (
+      cat === "talking head" ||
+      cat.includes("talking") ||
+      cat.includes("podcast") ||
+      cat === "motion graphics" ||
+      cat.includes("motion") ||
+      title.includes("talking head") ||
+      title.includes("podcast") ||
+      title.includes("motion")
+    ) {
+      return false;
+    }
+
+    return (
+      cat === "shorts & reels" ||
+      cat === "short-form / reel" ||
+      cat === "reel" ||
+      cat === "shorts" ||
+      project.aspectRatio === "9:16"
+    );
+  }
+
+  return cat === category.toLowerCase().trim();
+}
+
 export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
   const [allProjects, setAllProjects] = useState<Project[]>(fallbackProjects);
   const [selectedFilter, setSelectedFilter] = useState<string>("All Work");
@@ -54,29 +123,22 @@ export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
     fetchLiveProjects();
   }, []);
 
-  // Compute category project counts
+  // On homepage Selected Work, only show projects marked as featured by Admin
+  const featuredProjects = allProjects.filter((p) => p.featured && p.published !== false);
+  const baseProjects = featuredProjects.length > 0 ? featuredProjects : allProjects.filter((p) => p.published !== false);
+
+  // Compute category project counts based on featured projects
   const categoryCounts = FILTER_CATEGORIES.reduce((acc, cat) => {
-    if (cat === "All Work") {
-      acc[cat] = allProjects.length;
-    } else if (cat === "Shorts & Reels") {
-      acc[cat] = allProjects.filter((p) => p.aspectRatio === "9:16").length;
-    } else if (cat === "YouTube Longform") {
-      acc[cat] = allProjects.filter((p) => p.aspectRatio === "16:9").length;
-    } else {
-      acc[cat] = allProjects.filter((p) => p.category === cat).length;
-    }
+    acc[cat] = baseProjects.filter((p) => matchesCategory(p, cat)).length;
     return acc;
   }, {} as Record<string, number>);
 
   // Filter projects by category and format
-  const filteredProjects = allProjects.filter((p) => {
+  const filteredProjects = baseProjects.filter((p) => {
     if (formatFilter === "9:16" && p.aspectRatio !== "9:16") return false;
     if (formatFilter === "16:9" && p.aspectRatio !== "16:9") return false;
 
-    if (selectedFilter === "All Work") return true;
-    if (selectedFilter === "Shorts & Reels") return p.aspectRatio === "9:16";
-    if (selectedFilter === "YouTube Longform") return p.aspectRatio === "16:9";
-    return p.category === selectedFilter;
+    return matchesCategory(p, selectedFilter);
   });
 
   const displayList = filteredProjects;
@@ -99,11 +161,11 @@ export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
   return (
     <>
       <section
-        className="work pt-8 sm:pt-12 pb-20 sm:pb-28 relative overflow-hidden bg-[#09090B] border-b border-white/[0.07]"
+        className="work section-editorial relative overflow-hidden bg-[#09090B] border-b border-white/[0.07]"
         id="work"
         aria-labelledby="work-title"
       >
-        <div className="work__pin max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="container-editorial relative z-10">
           {/* Studio Header (Timecode, Eyebrow, Title, Filter Pills, View Switcher, Audio Monitor) */}
           <WorkHeader
             categories={FILTER_CATEGORIES}

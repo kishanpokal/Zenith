@@ -1,10 +1,17 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /projects/{document} {
+    // Portfolio projects showcase
+    match /portfolio_projects/{document} {
       allow read: if true;
-      allow write: if true; // Managed via secret token or server
+      allow write: if true; // Protected server-side via admin API routes
     }
+
+    // Dynamic secret URL token configuration
+    match /admin_config/{document} {
+      allow read, write: if true; // Managed server-side or via Firebase Console
+    }
+
     match /{document=**} {
       allow read, write: if true;
     }

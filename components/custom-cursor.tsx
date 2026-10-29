@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export function CustomCursor() {
+  const [isTouchDevice, setIsTouchDevice] = useState(true);
   const [cursorState, setCursorState] = useState<"default" | "hover" | "play" | "watch">("default");
   const [isVisible, setIsVisible] = useState(false);
 
@@ -16,9 +17,14 @@ export function CustomCursor() {
 
   useEffect(() => {
     // Disable completely on touch / mobile devices
-    if (typeof window === "undefined" || window.matchMedia("(pointer: coarse)").matches) {
-      return;
-    }
+    if (typeof window === "undefined") return;
+    const isTouch =
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0;
+    
+    setIsTouchDevice(isTouch);
+    if (isTouch) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -65,7 +71,7 @@ export function CustomCursor() {
     };
   }, [mouseX, mouseY, isVisible]);
 
-  if (!isVisible) return null;
+  if (isTouchDevice || !isVisible) return null;
 
   const isVideoBadge = cursorState === "play" || cursorState === "watch";
 
@@ -89,7 +95,7 @@ export function CustomCursor() {
             : "#D4AF37",
           borderColor: isVideoBadge
             ? "rgba(212, 175, 55, 0.5)"
-            : "transparent",
+            : "rgba(212, 175, 55, 0)",
           backdropFilter: isVideoBadge ? "blur(12px)" : "none",
         }}
         transition={{

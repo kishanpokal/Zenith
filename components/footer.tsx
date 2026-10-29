@@ -8,9 +8,9 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#09090B] border-t border-white/[0.07] text-[#F4F4F6]" aria-label="Footer">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-16 sm:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 sm:gap-12 pb-14 border-b border-white/[0.07]">
+    <footer className="bg-[#09090B] border-t border-white/[0.07] text-[#F4F4F6] pb-24 md:pb-0" aria-label="Footer">
+      <div className="container-editorial py-14 sm:py-16 lg:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 sm:gap-12 pb-12 sm:pb-14 border-b border-white/[0.07]">
           {/* Brand Column */}
           <div className="md:col-span-5 flex flex-col justify-between">
             <div>

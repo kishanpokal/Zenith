@@ -79,22 +79,22 @@ export function CustomVideoStage({
       ref={containerRef}
       className={cn(
         "relative w-full flex flex-col items-center select-none",
-        isVertical && "max-h-full justify-center"
+        isVertical ? "max-w-[320px] sm:max-w-[340px] xl:max-w-[360px] mx-auto" : "max-w-full"
       )}
     >
       {/* TOP STUDIO TOOLBAR (LUT, Guides, Timecode) */}
-      <div className="w-full flex items-center justify-between gap-2 mb-2 px-1 text-[10px] font-mono">
-        <div className="flex items-center gap-1.5 flex-wrap">
+      <div className="w-full flex items-center justify-between gap-1.5 mb-2 px-1 text-[10px] font-mono">
+        <div className="flex items-center gap-1 flex-wrap">
           {/* LUT PROFILE SELECTOR */}
-          <div className="flex items-center gap-1 bg-[#121216] p-0.5 rounded-sm border border-white/[0.07]">
-            <span className="text-white/40 px-1 text-[9px]">LUT:</span>
+          <div className="flex items-center gap-0.5 bg-[#121216] p-0.5 rounded-sm border border-white/[0.07]">
+            <span className="text-white/40 px-1 text-[8px] sm:text-[9px]">LUT:</span>
             {(["kodak", "teal-orange", "s-log", "mono"] as LutMode[]).map((mode) => (
               <button
                 key={mode}
                 type="button"
                 onClick={() => setLutMode(mode)}
                 className={cn(
-                  "px-2 py-0.5 rounded-sm uppercase tracking-wider text-[9px] transition-all",
+                  "px-1.5 sm:px-2 py-0.5 rounded-sm uppercase tracking-wider text-[8px] sm:text-[9px] transition-all",
                   lutMode === mode
                     ? "bg-[#D4AF37] text-[#09090B] font-bold"
                     : "text-white/50 hover:text-white"
@@ -110,33 +110,33 @@ export function CustomVideoStage({
             type="button"
             onClick={() => setShowSafeGuides(!showSafeGuides)}
             className={cn(
-              "px-2 py-1 rounded-sm border text-[9px] hidden sm:flex items-center gap-1 transition-all",
+              "px-1.5 py-0.5 rounded-sm border text-[8px] sm:text-[9px] flex items-center gap-1 transition-all",
               showSafeGuides
                 ? "bg-[#D4AF37]/20 border-[#D4AF37] text-[#D4AF37]"
                 : "bg-[#121216] border-white/[0.07] text-white/50 hover:text-white"
             )}
             title="Action Safe Guides"
           >
-            <Grid className="w-3 h-3" />
-            <span>GUIDES</span>
+            <Grid className="w-2.5 h-2.5" />
+            <span className="hidden sm:inline">GUIDES</span>
           </button>
         </div>
 
         {/* Live SMPTE Timecode */}
-        <div className="flex items-center gap-2 bg-[#121216] px-2.5 py-1 rounded-sm border border-white/[0.07] text-white/90">
+        <div className="flex items-center gap-1.5 bg-[#121216] px-2 py-0.5 rounded-sm border border-white/[0.07] text-white/90 shrink-0">
           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-          <span className="text-white/40 hidden sm:inline">TC:</span>
-          <span className="text-[#D4AF37] font-semibold">{smpteFrame}</span>
+          <span className="text-white/40 hidden sm:inline text-[9px]">TC:</span>
+          <span className="text-[#D4AF37] font-semibold text-[9px] sm:text-[10px]">{smpteFrame}</span>
         </div>
       </div>
 
       {/* MAIN SCREEN CANVAS */}
       <div
         className={cn(
-          "relative rounded-xl overflow-hidden bg-black border border-white/[0.08] shadow-2xl transition-all duration-300",
+          "relative overflow-hidden bg-black border border-white/[0.08] shadow-2xl transition-all duration-300 w-full",
           isVertical
-            ? "aspect-[9/16] h-[64dvh] sm:h-[75dvh] max-h-[740px] w-auto max-w-full shrink-0"
-            : "w-full max-w-full aspect-[16/9]"
+            ? "aspect-[9/16] rounded-t-xl"
+            : "aspect-video rounded-t-xl"
         )}
       >
         {/* VIDEO CONTENT LAYER */}
@@ -146,9 +146,9 @@ export function CustomVideoStage({
         >
           {youtubeId ? (
             <iframe
-              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&rel=0&modestbranding=1&playsinline=1`}
               title={title}
-              className="w-full h-full border-0 absolute inset-0"
+              className="w-full h-full border-0 absolute inset-0 object-cover"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
@@ -158,6 +158,8 @@ export function CustomVideoStage({
               poster={thumbnail}
               playsInline
               autoPlay
+              muted
+              loop
               controls
               className="w-full h-full object-cover"
             />
@@ -166,7 +168,7 @@ export function CustomVideoStage({
 
         {/* PRO SAFE ZONE GUIDES OVERLAY (Action & Title Safe) */}
         {showSafeGuides && (
-          <div className="absolute inset-0 pointer-events-none border border-[#D4AF37]/30 m-4 flex flex-col justify-between p-2 z-20">
+          <div className="absolute inset-0 pointer-events-none border border-[#D4AF37]/30 m-3 sm:m-4 flex flex-col justify-between p-2 z-20">
             <div className="flex justify-between text-[8px] font-mono text-[#D4AF37]/70">
               <span>90% ACTION SAFE</span>
               <span>80% TITLE SAFE</span>
@@ -179,6 +181,22 @@ export function CustomVideoStage({
             </div>
           </div>
         )}
+      </div>
+
+      {/* BOTTOM SLIM TIMECODE & STATUS BAR (36px height max) */}
+      <div className="w-full h-8 max-h-[36px] bg-[#121216] border border-white/[0.08] border-t-0 rounded-b-xl px-3 flex items-center justify-between text-[10px] font-mono text-white/60">
+        <div className="flex items-center gap-2 truncate">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse shrink-0" />
+          <span className="text-white/80 font-medium truncate uppercase text-[9px] sm:text-[10px]">{title}</span>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-[#D4AF37] font-semibold tracking-wider font-mono text-[9px] sm:text-[10px]">
+            {isVertical ? "9:16 REEL" : "4K UHD"}
+          </span>
+          <span className="px-1.5 py-0.5 rounded-sm bg-white/[0.06] text-white/70 text-[9px] hidden sm:inline">
+            {isVertical ? "4K 60FPS" : "4K"}
+          </span>
+        </div>
       </div>
     </div>
   );
