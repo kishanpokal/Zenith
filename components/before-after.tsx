@@ -19,29 +19,29 @@ interface BeforeAfterProps {
 const EDITORIAL_PILLARS = [
   {
     index: "01",
-    title: "Pacing & Retention",
-    highlight: "Surgical Velocity",
+    title: "Fast Pacing & Cuts",
+    highlight: "Zero Boring Pauses",
     description:
-      "Nonlinear bezier curves mapped to vocal cadence. Dead air is mathematically extracted. J-cut audio leads visuals by 4 frames to continuously tug attention forward.",
-    spec: "0.8s HOOK VELOCITY · ZERO DEAD AIR",
+      "We cut out all dead air and awkward pauses. The video moves with energy so viewers stay hooked from the first second to the last.",
+    spec: "FAST HOOKS · SMOOTH FLOW",
     icon: Gauge,
   },
   {
     index: "02",
-    title: "Sound Design & Mix",
-    highlight: "Multi-Track Foley",
+    title: "Sound & Music",
+    highlight: "Clear Audio Mix",
     description:
-      "12-track immersive psycho-acoustics. 40Hz sub-bass drops, tactile paper snaps, atmospheric foley, and crystal-clear dialogue de-noised and mastered to -14 LUFS.",
-    spec: "32-BIT FLOAT STEREO · TACTILE FOLEY",
+      "Clear voice, punchy sound effects (whooshes, pops, hits), and background music that matches the exact mood of your video.",
+    spec: "CLEAN VOICE · IMPACTFUL SOUND EFFECTS",
     icon: Volume2,
   },
   {
     index: "03",
-    title: "Color & Motion",
-    highlight: "Kodak 2383 Grade",
+    title: "Color & Captions",
+    highlight: "Cinematic Look",
     description:
-      "DaVinci Resolve color transformation using authentic Kodak 2383 35mm film emulation, highlight roll-off, and responsive kinetic typography tracked to screen action.",
-    spec: "DAVINCI RESOLVE CST · ORGANIC GRAIN",
+      "Rich colors that make your camera footage look professional, paired with animated subtitles and graphics that highlight key ideas.",
+    spec: "VIBRANT COLOR · ANIMATED CAPTIONS",
     icon: Palette,
   },
 ];
@@ -49,13 +49,13 @@ const EDITORIAL_PILLARS = [
 export function BeforeAfter({
   headline = "SAME FOOTAGE.",
   headlineHighlight = "different impact.",
-  subheadline = "Drag the scrubber. Left is raw flat camera log with dead air. Right is the mastered editorial cut.",
+  subheadline = "Drag the slider to see how raw camera footage transforms into a polished, high-performing video.",
   beforeImage = "/images/projects/reel-5.jpg",
   afterImage = "/images/projects/reel-5.jpg",
-  beforeLabel = "RAW LOG // CLIP_0042.MOV",
-  afterLabel = "FINAL MASTER // KODAK 2383",
-  beforeNotice = "DEAD AIR DETECTED: 00:00:02:14",
-  footerNote = "Editing isn't adding clutter. It is removing friction from the viewer's attention.",
+  beforeLabel = "RAW FOOTAGE",
+  afterLabel = "FINISHED EDIT",
+  beforeNotice = "RAW CAMERA TAKE",
+  footerNote = "Great editing cuts out the boring parts so only the best moments remain.",
 }: BeforeAfterProps) {
   const [split, setSplit] = useState(50);
 
@@ -67,7 +67,7 @@ export function BeforeAfter({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 type-timecode text-white/70">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-              <span>SCENE 04 {"//"} THE EDITING CRAFT & PROOF</span>
+              <span>BEFORE & AFTER</span>
             </div>
 
             <h2 className="type-section-title text-[#F4F4F6]" id="ba-title">
@@ -148,14 +148,14 @@ export function BeforeAfter({
           {footerNote}
         </p>
 
-        {/* 3 CONCISE EDITORIAL CRAFT PILLARS */}
+        {/* 3 CORE PILLARS */}
         <div className="mt-16 pt-12 border-t border-white/[0.07]">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="type-timecode text-[#D4AF37] mb-2 block">
-              INSIDE THE EDITORIAL TIMELINE
+              OUR EDITING STANDARDS
             </span>
             <h3 className="type-card-title text-[#F4F4F6] text-xl sm:text-2xl uppercase">
-              Three Pillars of ruthless retention
+              Three core elements of every edit
             </h3>
           </div>
 

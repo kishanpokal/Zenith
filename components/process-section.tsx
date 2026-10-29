@@ -17,38 +17,38 @@ interface PipelineStep {
 const STEPS: PipelineStep[] = [
   {
     num: "01",
-    phase: "PHASE 01",
-    title: "Brief",
-    highlight: "& Ingest",
-    tagline: "Drop raw takes into your private cloud vault. We align on hook velocity, references, and core retention goals.",
-    spec: "ASPERA / DRIVE / DROPBOX",
+    phase: "STEP 01",
+    title: "Send",
+    highlight: "Footage",
+    tagline: "Upload your raw video files to Google Drive or Dropbox with a short note on what you need.",
+    spec: "GOOGLE DRIVE / DROPBOX",
     icon: CloudUpload,
   },
   {
     num: "02",
-    phase: "PHASE 02",
-    title: "Assembly",
-    highlight: "& Rough Cut",
-    tagline: "Surgical dead-air excision, narrative sequencing, and speed graphs mapped to speech cadence.",
-    spec: "PREMIERE / DAVINCI CUT",
+    phase: "STEP 02",
+    title: "First",
+    highlight: "Cut",
+    tagline: "We remove pauses, build a strong hook, and edit the main story so the video flows smoothly.",
+    spec: "FAST PACING & FLOW",
     icon: Scissors,
   },
   {
     num: "03",
-    phase: "PHASE 03",
-    title: "SFX, Motion",
-    highlight: "& Color Grade",
-    tagline: "12-track Foley psychoacoustics, custom kinetic typography, and Kodak 2383 35mm film print emulation.",
-    spec: "AFTER EFFECTS / RESOLVE CST",
+    phase: "STEP 03",
+    title: "Sound &",
+    highlight: "Effects",
+    tagline: "We add animated captions, sound effects, background music, and vibrant cinematic colors.",
+    spec: "CAPTIONS, SFX & COLOR",
     icon: Sparkles,
   },
   {
     num: "04",
-    phase: "PHASE 04",
-    title: "4K Master",
-    highlight: "& Fast Delivery",
-    tagline: "Platform-optimized 4K master exports within 24–48 hours with rapid frame-accurate revision cycles.",
-    spec: "4K PRORES 422 HQ",
+    phase: "STEP 04",
+    title: "Final",
+    highlight: "Delivery",
+    tagline: "You get your finished 4K video within 24 to 48 hours, ready to post on your channels.",
+    spec: "READY TO POST",
     icon: CheckCircle2,
   },
 ];
@@ -68,7 +68,7 @@ export function ProcessSection() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 type-timecode text-white/70">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-              <span>SCENE 05 {"//"} THE 4-STEP PIPELINE</span>
+              <span>HOW IT WORKS</span>
             </div>
 
             <h2 className="type-section-title text-[#F4F4F6]">
@@ -80,7 +80,7 @@ export function ProcessSection() {
           </div>
 
           <p className="type-body text-sm max-w-md md:text-right">
-            A frictionless 4-stage post-production pipeline. No account managers in between, just direct collaboration with your lead editor.
+            A simple 4-step editing process with direct access to your lead editor.
           </p>
         </div>
 
@@ -149,14 +149,14 @@ export function ProcessSection() {
         <div className="p-4 rounded-sm bg-[#121216] border border-white/[0.07] flex items-center justify-between type-timecode text-white/50">
           <div className="flex items-center gap-3">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-            <span className="text-white/70">STUDIO TURNAROUND:</span>
+            <span className="text-white/70">FAST DELIVERY:</span>
             <span className="text-[#D4AF37] font-semibold">24 TO 48 HOURS</span>
           </div>
 
           <div className="hidden sm:flex items-center gap-4 text-white/40">
-            <span>SURGICAL REVISIONS TO PICTURE LOCK</span>
+            <span>FAST REVISIONS UNTIL APPROVED</span>
             <span>·</span>
-            <span>DIRECT SLACK / WHATSAPP CHANNEL</span>
+            <span>DIRECT CHAT WITH YOUR EDITOR</span>
           </div>
         </div>
       </div>

@@ -24,7 +24,7 @@ export function HeroSection({
   videoUrl,
   headline = "WE EDIT FOR",
   headlineHighlight = "RETENTION.",
-  subheadline = "High-impact commercial and creator post-production engineered for ruthless retention. Surgical cut pacing, 12-track Foley sound design, and razor-sharp kinetic typography.",
+  subheadline = "High-impact video editing for creators and brands. Fast cuts, clean sound, and motion graphics that keep viewers watching.",
 }: HeroSectionProps) {
   const [isMuted, setIsMuted] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -103,10 +103,10 @@ export function HeroSection({
           {/* Left Column: Kinetic Typography & Value Proposition */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             {/* Editorial Eyebrow Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-sm bg-[#121216] border border-white/[0.07] mb-6 self-start shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-[#121216] border border-white/[0.07] mb-6 self-start shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
               <span className="type-timecode text-[#F4F4F6]">
-                ZENITH EDITORIAL ARCHITECTURE
+                VIDEO EDITING STUDIO
               </span>
             </div>
 
@@ -145,25 +145,25 @@ export function HeroSection({
               </a>
             </div>
 
-            {/* Technical Metadata Row */}
+            {/* Technical Metadata Row - Simplified English */}
             <div className="mt-8 sm:mt-10 pt-4 border-t border-white/[0.07] flex flex-wrap items-center gap-x-5 gap-y-2 type-timecode text-white/50">
               <span className="flex items-center gap-1.5 text-white/80">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                <span>FRAME-ACCURATE TIMING</span>
+                <span>FAST PACING</span>
               </span>
               <span className="text-white/20">/</span>
               <span className="flex items-center gap-1.5 text-white/80">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                <span>MULTI-TRACK SOUND</span>
+                <span>PRO SOUND</span>
               </span>
               <span className="text-white/20">/</span>
               <span className="flex items-center gap-1.5 text-white/80">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                <span>COLOR HARMONY</span>
+                <span>CLEAN COLOR</span>
               </span>
               <span className="text-white/20">/</span>
               <span className="hidden sm:inline-flex items-center gap-1.5 text-[#D4AF37]/90">
-                <span>4K PRORES 422</span>
+                <span>4K QUALITY</span>
               </span>
             </div>
           </div>

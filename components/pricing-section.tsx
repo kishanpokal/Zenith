@@ -27,13 +27,13 @@ const PLANS: Plan[] = [
     name: "STARTER",
     volume: "30 REELS / MO",
     price: "$299",
-    tagline: "For creators establishing momentum and weekly output.",
+    tagline: "For creators looking for consistent weekly posts.",
     features: [
       "30 High-retention vertical reels",
-      "Surgical cut cadence & zero dead air",
-      "Dynamic typography & contextual B-roll",
-      "Multi-track Foley sound architecture",
-      "Rec.709 color grade · 48h delivery",
+      "Fast pacing with zero dead pauses",
+      "Animated subtitles & clean B-roll",
+      "Sound effects & background music",
+      "48-hour delivery & fast revisions",
     ],
     ctaText: "Start with 30",
     whatsappMessage: "Hi Zenith! I want to start a project with the Starter package (30 reels / $299).",
@@ -44,13 +44,13 @@ const PLANS: Plan[] = [
     volume: "60 REELS / MO",
     price: "$499",
     popular: true,
-    tagline: "For scaling creators demanding maximum narrative velocity.",
+    tagline: "For active creators wanting maximum reach and speed.",
     features: [
       "60 High-retention vertical reels",
-      "Advanced kinetic vector motion design",
-      "Psycho-acoustic Foley & 40Hz sub risers",
-      "Kodak 2383 cinematic film print LUT",
-      "Priority 24-48h turnaround & revisions",
+      "Custom motion graphics & animations",
+      "Full sound design & audio mixing",
+      "Cinematic color grading",
+      "Fast 24-48h turnaround & priority edits",
     ],
     ctaText: "Scale with 60",
     whatsappMessage: "Hi Zenith! I want to start a project with the Growth package (60 reels / $499).",
@@ -58,15 +58,15 @@ const PLANS: Plan[] = [
   {
     id: "vip",
     name: "VIP RETAINER",
-    volume: "ENTERPRISE VOLUME",
+    volume: "CUSTOM VOLUME",
     price: "CUSTOM",
-    tagline: "For multi-platform creators and agencies demanding dedicated talent.",
+    tagline: "For brands and channels needing a dedicated editing team.",
     features: [
-      "Short-form reels + YouTube longform cuts",
-      "Dedicated lead post-production editor",
-      "Custom brand typography & vector assets",
-      "Same-day 24h turnaround pipeline",
-      "Direct private Slack / WhatsApp channel",
+      "Short-form reels & YouTube long videos",
+      "Dedicated lead video editor",
+      "Custom brand style & graphics",
+      "Fastest same-day turnaround",
+      "Direct chat on WhatsApp & Slack",
     ],
     ctaText: "Inquire VIP Retainer",
     whatsappMessage: "Hi Zenith! I want to discuss a custom VIP Retainer for my channel/brand.",
@@ -86,19 +86,19 @@ export function PricingSection({ onSelectPackage }: PricingSectionProps = {}) {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-              <span>SC 04 // INVESTMENT TIERS</span>
+              <span>PACKAGES & PRICING</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]">
-              CONTENT ENGINES <br />
+              SIMPLE PRICING. <br />
               <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
-                scaled.
+                zero guesswork.
               </span>
             </h2>
           </div>
 
-          <p className="text-sm text-white/60 max-w-md font-sans leading-relaxed md:text-right">
-            Choose your volume. Zenith manages ingest, cutting, sound design, and master export with zero friction.
+          <p className="text-sm text-white/70 max-w-md font-sans leading-relaxed md:text-right">
+            Choose a package that fits your publishing schedule. No surprise fees.
           </p>
         </div>
 

@@ -55,14 +55,14 @@ export function CinematicPreloader() {
   const frames = totalFrames % 24;
   const smpte = `00:00:${String(seconds).padStart(2, "0")}:${String(frames).padStart(2, "0")}`;
 
-  // NLE Status readout based on progress
-  let statusText = "[ INGESTING RAW FOOTAGE... ]";
+  // Simple, clear status readout
+  let statusText = "[ LOADING FOOTAGE... ]";
   if (progress >= 35 && progress < 70) {
-    statusText = "[ SYNCING TIME-CODE & AUDIO WAVEFORMS... ]";
+    statusText = "[ EDITING TIMELINE... ]";
   } else if (progress >= 70 && progress < 98) {
-    statusText = "[ APPLYING COLOR GRADE: ZENITH_OBSIDIAN.CUBE ]";
+    statusText = "[ ADDING SOUND & COLOR... ]";
   } else if (progress >= 98) {
-    statusText = "[ TIMELINE LOCKED // READY FOR PLAYBACK ]";
+    statusText = "[ READY TO PLAY ]";
   }
 
   return (
@@ -85,13 +85,13 @@ export function CinematicPreloader() {
                 REC ●
               </span>
             </div>
-            <span className="text-white/40 hidden sm:inline">TC_SYNC_LOCKED</span>
+            <span className="text-white/40 hidden sm:inline">24 FPS</span>
           </div>
 
           {/* Top Right: Corner Bracket + Technical Camera Specs */}
           <div className="flex items-center gap-3">
             <span className="text-white/50 text-[10px] hidden sm:inline">
-              24.000 FPS {"//"} 4K DCI {"//"} REC.709
+              4K ULTRA HD
             </span>
             <span className="text-[#D4AF37] text-sm select-none">┐</span>
           </div>
@@ -101,7 +101,7 @@ export function CinematicPreloader() {
         <div className="text-center pb-2">
           <div className="inline-flex items-center gap-2 text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.3em] mb-1">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-            <span>STUDIO POST-PRODUCTION PIPELINE</span>
+            <span>VIDEO EDITING STUDIO</span>
           </div>
           <h1 className="font-display font-extrabold text-2xl sm:text-4xl text-[#F4F4F6] tracking-tight uppercase">
             ZENITH <span className="font-serif italic font-normal text-[#D4AF37] lowercase">editorial.</span>

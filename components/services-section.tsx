@@ -27,30 +27,30 @@ export function ServicesSection() {
   const suites: ServiceSuite[] = [
     {
       number: "01",
-      title: "Timeline",
-      highlight: "Architecture",
-      tagline: "Dynamic speed graphs, surgical trims, and J-cut audio leads that eliminate dead air.",
+      title: "Video",
+      highlight: "Editing",
+      tagline: "Fast cuts, hook structure, and smooth transitions that eliminate all boring pauses.",
       icon: Scissors,
-      software: "Premiere Pro / DaVinci Cut",
-      tags: ["Speed Ramps", "J-Cut Leads", "Zero Dead Air", "Loop Anchors"],
+      software: "Premiere / DaVinci",
+      tags: ["Fast Pacing", "Hook Structure", "Zero Dead Air", "Smooth Flow"],
       renderPreview: (isHovered) => (
         <div className="space-y-1.5 font-mono text-[9px] w-full">
           <div className="h-6 rounded-sm bg-white/[0.03] border border-white/[0.07] p-1 flex items-center gap-1">
-            <span className="text-white/40 font-bold px-1">V1</span>
+            <span className="text-white/40 font-bold px-1">VIDEO</span>
             <div className={cn("h-full rounded-sm flex-1 flex items-center justify-center font-bold transition-all duration-300", isHovered ? "bg-[#D4AF37] text-[#09090B]" : "bg-[#D4AF37]/20 text-[#D4AF37]")}>
               0.8s HOOK
             </div>
             <div className="h-full rounded-sm bg-white/[0.06] flex-[2] flex items-center justify-center text-white/70">
-              A-ROLL CUT
+              FAST CUTS
             </div>
           </div>
           <div className="h-6 rounded-sm bg-white/[0.03] border border-white/[0.07] p-1 flex items-center gap-1">
-            <span className="text-white/40 font-bold px-1">A1</span>
+            <span className="text-white/40 font-bold px-1">AUDIO</span>
             <div className="h-full rounded-sm bg-[#D4AF37]/15 text-[#D4AF37] flex-[1.4] flex items-center justify-center font-semibold">
-              AUDIO LEAD-IN
+              VOICE INTRO
             </div>
             <div className="h-full rounded-sm bg-white/[0.06] flex-[2] flex items-center justify-center text-white/60">
-              VOICE EQ -18dB
+              MUSIC & SFX
             </div>
           </div>
         </div>
@@ -58,17 +58,17 @@ export function ServicesSection() {
     },
     {
       number: "02",
-      title: "Kinetic",
-      highlight: "Typography",
-      tagline: "Expressive motion typography, tracked UI elements, and custom vector callouts.",
+      title: "Captions &",
+      highlight: "Motion",
+      tagline: "Eye-catching animated subtitles, on-screen callouts, and clean motion graphics.",
       icon: Sparkles,
-      software: "After Effects Expressions",
-      tags: ["Kinetic Type", "UI Overlays", "Match Moving", "Brand Assets"],
+      software: "After Effects",
+      tags: ["Animated Subtitles", "Custom Graphics", "Popups & Icons", "High Retention"],
       renderPreview: (isHovered) => (
         <div className="h-12 rounded-sm bg-white/[0.02] border border-white/[0.07] flex items-center justify-between px-3 font-mono text-[10px]">
-          <span className="text-white/60">◆ MOTION KEY:</span>
+          <span className="text-white/60">STYLE:</span>
           <span className={cn("font-semibold uppercase tracking-wider transition-colors", isHovered ? "text-[#D4AF37]" : "text-white")}>
-            VELOCITY CURVE [0.16, 1, 0.3, 1]
+            BOLD ANIMATED CAPTIONS
           </span>
         </div>
       ),
@@ -76,11 +76,11 @@ export function ServicesSection() {
     {
       number: "03",
       title: "Sound",
-      highlight: "Architecture",
-      tagline: "12-track psychoacoustic Foley beds, sub-bass transient hits, and pristine dialogue mastering.",
+      highlight: "Design",
+      tagline: "Clear voice audio, punchy sound effects (whooshes, pops, impacts), and balanced music.",
       icon: Volume2,
-      software: "Fairlight / iZotope RX",
-      tags: ["40Hz Sub Risers", "Transient Foley", "Dialog De-noise", "-14 LUFS"],
+      software: "Pro Audio Mix",
+      tags: ["Voice Clean-up", "Sound Effects", "Background Music", "Balanced Levels"],
       renderPreview: () => (
         <div className="flex items-end justify-center gap-1 h-12 px-3">
           {Array.from({ length: 24 }).map((_, i) => (
@@ -100,22 +100,22 @@ export function ServicesSection() {
       number: "04",
       title: "Color",
       highlight: "Grading",
-      tagline: "Film print emulation using genuine Kodak 2383 look-up tables with organic highlight rolloff.",
+      tagline: "Rich, cinematic color adjustments that make your camera footage look vibrant and professional.",
       icon: Palette,
-      software: "DaVinci Resolve Studio",
-      tags: ["Kodak 2383 LUT", "Log Transform", "Film Density", "Organic Grain"],
+      software: "DaVinci Resolve",
+      tags: ["Cinematic Grade", "Vibrant Colors", "Skin Tone Fix", "4K Export"],
       renderPreview: (isHovered) => (
         <div className="h-12 rounded-sm bg-white/[0.02] border border-white/[0.07] flex items-center justify-between px-3 font-mono text-[10px]">
           <div className="text-center flex-1">
-            <span className="text-white/40 block text-[8px]">LOG RAW</span>
-            <span className="text-white/70 font-semibold">FLAT S-LOG3</span>
+            <span className="text-white/40 block text-[8px]">RAW</span>
+            <span className="text-white/70 font-semibold">FLAT CAMERA</span>
           </div>
           <div className={cn("text-xs font-bold px-2 transition-colors", isHovered ? "text-[#D4AF37]" : "text-white/30")}>
             →
           </div>
           <div className="text-center flex-1">
-            <span className="text-[#D4AF37] block text-[8px] font-semibold">GRADED</span>
-            <span className="text-white font-semibold">KODAK 2383</span>
+            <span className="text-[#D4AF37] block text-[8px] font-semibold">FINAL</span>
+            <span className="text-white font-semibold">CINEMATIC GRADE</span>
           </div>
         </div>
       ),
@@ -130,19 +130,19 @@ export function ServicesSection() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-              <span>SC 03 {"//"} CAPABILITIES & CRAFT</span>
+              <span>SERVICES</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]">
-              BUILT FOR <br />
+              WHAT WE <br />
               <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
-                impact.
+                do.
               </span>
             </h2>
           </div>
 
-          <p className="text-sm text-white/60 font-sans max-w-md leading-relaxed md:text-right">
-            Four specialized post-production disciplines. Every project engineered with frame-accurate timeline rigor.
+          <p className="text-sm text-white/70 font-sans max-w-md leading-relaxed md:text-right">
+            Everything you need to turn raw video files into polished, high-performing content.
           </p>
         </div>
 

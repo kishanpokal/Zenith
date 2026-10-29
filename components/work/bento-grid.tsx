@@ -158,7 +158,7 @@ export function BentoGrid({
               <div className="absolute top-4 inset-x-4 flex items-center justify-between text-xs font-mono z-20">
                 <span className="px-2.5 py-1 rounded-sm bg-[#D4AF37] text-[#09090B] font-bold uppercase tracking-wider text-[10px] flex items-center gap-1.5 shadow-sm">
                   <Sparkles className="w-3 h-3" />
-                  FLAGSHIP EDITORIAL
+                  FEATURED
                 </span>
 
                 <div className="flex items-center gap-2">
@@ -166,12 +166,12 @@ export function BentoGrid({
                     type="button"
                     onClick={toggleGradeMode}
                     className="flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-black/80 text-[10px] font-mono border border-white/[0.08] hover:border-[#D4AF37]/50 transition-colors shadow-sm"
-                    title="Toggle Color Grade Proof"
+                    title="Toggle Color Grade"
                   >
                     <Sliders className="w-3 h-3 text-[#D4AF37]" />
-                    <span className="text-white/60">GRADE:</span>
+                    <span className="text-white/60">COLOR:</span>
                     <span className={colorGradeMode === "graded" ? "text-[#D4AF37] font-semibold" : "text-amber-400 font-semibold"}>
-                      {colorGradeMode === "graded" ? "KODAK 2383" : "RAW LOG"}
+                      {colorGradeMode === "graded" ? "GRADED" : "RAW"}
                     </span>
                   </button>
 
@@ -209,7 +209,7 @@ export function BentoGrid({
 
                   <span className="flex items-center gap-1.5 text-[10px] font-mono text-white/40">
                     <Music className="w-3 h-3 text-[#D4AF37]" />
-                    <span>MULTI-TRACK SOUND MASTER</span>
+                    <span>FULL SOUND DESIGN</span>
                   </span>
                 </div>
 
@@ -221,19 +221,19 @@ export function BentoGrid({
                   {featuredProject.description}
                 </p>
 
-                {/* Layer Breakdown Badges */}
+                {/* Layer Breakdown Badges - Simple English */}
                 <div className="mt-4 flex flex-wrap gap-1.5">
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-sm bg-[#D4AF37]/10 border border-[#D4AF37]/25 text-[#D4AF37]">
-                    ◆ SPEED RAMPS
+                    FAST PACING
                   </span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-sm bg-white/[0.04] border border-white/[0.07] text-white/80">
-                    ◆ MATCH CUTS
+                    SOUND EFFECTS
                   </span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-sm bg-white/[0.04] border border-white/[0.07] text-white/80">
-                    ◆ TRANSIENT FOLEY
+                    ANIMATED CAPTIONS
                   </span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-sm bg-white/[0.04] border border-white/[0.07] text-white/80">
-                    ◆ KODAK 2383
+                    COLOR GRADED
                   </span>
                 </div>
               </div>
@@ -241,10 +241,10 @@ export function BentoGrid({
               <div className="mt-6 pt-4 border-t border-white/[0.07] flex items-center justify-between text-[11px] font-mono text-white/50">
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                  <span>{featuredProject.soundDesignNotes || "Multi-track Sound Architecture"}</span>
+                  <span>Pro Sound & Music Mix</span>
                 </span>
                 <span className="text-[#F4F4F6] group-hover:text-[#D4AF37] font-semibold flex items-center gap-1 transition-colors">
-                  WATCH DIRECTORS CUT <ArrowUpRight className="w-3.5 h-3.5" />
+                  WATCH VIDEO <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </div>
             </div>
@@ -264,7 +264,7 @@ export function BentoGrid({
             </motion.div>
           )}
 
-          {/* 3. CRAFT & RIGOR BENTO TILE */}
+          {/* 3. CRAFT & RIGOR BENTO TILE - SIMPLIFIED */}
           <motion.div
             layout
             className="lg:col-span-4 rounded-xl bg-[#121216] border border-white/[0.07] p-6 sm:p-7 flex flex-col justify-between shadow-lg relative overflow-hidden"
@@ -273,35 +273,35 @@ export function BentoGrid({
               <div className="flex items-center justify-between text-[10px] font-mono text-[#D4AF37] uppercase tracking-wider mb-4">
                 <span className="flex items-center gap-1.5 font-semibold">
                   <SlidersHorizontal className="w-3.5 h-3.5" />
-                  STUDIO ARCHITECTURE
+                  OUR PROMISE
                 </span>
                 <span className="px-2 py-0.5 rounded-sm bg-white/[0.04] border border-white/[0.07] text-[9px] text-white/60">
-                  FRAME ACCURACY
+                  HIGH RETENTION
                 </span>
               </div>
 
               <h4 className="text-2xl sm:text-3xl font-display font-bold text-[#F4F4F6] tracking-tight uppercase leading-tight">
-                SURGICAL <br />
-                <span className="text-[#D4AF37]">RHYTHM.</span>
+                BUILT TO <br />
+                <span className="text-[#D4AF37]">HOOK VIEWERS.</span>
               </h4>
 
-              <p className="mt-3 text-xs text-white/65 leading-relaxed font-sans">
-                Every frame serves retention. Dynamic velocity curves, 32-bit float audio stems, and surgical pattern interrupts crafted without vanity gimmicks.
+              <p className="mt-3 text-xs text-white/70 leading-relaxed font-sans">
+                Every second matters. We cut out boring pauses, add punchy sound effects, and keep your audience watching to the end.
               </p>
             </div>
 
             <div className="mt-6 pt-4 border-t border-white/[0.07] space-y-2 font-mono text-[10px]">
               <div className="flex items-center justify-between">
-                <span className="text-white/50">Pacing Protocol:</span>
-                <span className="text-[#D4AF37] font-semibold">Velocity Graph Curves</span>
+                <span className="text-white/50">Pacing:</span>
+                <span className="text-[#D4AF37] font-semibold">Fast & Engaging</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-white/50">Audio Mastering:</span>
-                <span className="text-white font-semibold">Multi-Stem Foley</span>
+                <span className="text-white/50">Audio:</span>
+                <span className="text-white font-semibold">Clean Voice & Sound FX</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-white/50">Grading Pipeline:</span>
-                <span className="text-white font-semibold">DaVinci / Kodak 2383</span>
+                <span className="text-white/50">Color:</span>
+                <span className="text-white font-semibold">Vibrant Cinematic Grade</span>
               </div>
             </div>
           </motion.div>
@@ -366,19 +366,19 @@ export function BentoGrid({
         </motion.div>
       )}
 
-      {/* VIEW ALL REELS CALLOUT FOR COMPLETE ARCHIVE */}
+      {/* VIEW ALL WORK CALLOUT */}
       {showViewAllCta && (
         <div className="mt-12 sm:mt-16 p-6 sm:p-7 rounded-xl bg-[#121216] border border-white/[0.07] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div>
             <div className="flex items-center gap-2 text-[10px] font-mono text-[#D4AF37] uppercase tracking-wider mb-2 font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-              <span>EDITORIAL VAULT // COMPLETE REPERTOIRE</span>
+              <span>FULL PORTFOLIO</span>
             </div>
             <h4 className="text-lg sm:text-xl font-display font-bold text-[#F4F4F6] uppercase tracking-tight">
-              Looking for specific formats or styles?
+              Looking for more videos?
             </h4>
-            <p className="text-xs text-white/60 font-sans mt-1 max-w-xl">
-              Explore our full portfolio archive with filters for Commercials, Talking Head, YouTube Longform, and Motion Graphics.
+            <p className="text-xs text-white/70 font-sans mt-1 max-w-xl">
+              Browse all of our work including Reels, Commercials, YouTube videos, and Motion Graphics.
             </p>
           </div>
 
@@ -386,7 +386,7 @@ export function BentoGrid({
             href="/work"
             className="px-6 py-3 rounded-sm bg-[#D4AF37] text-[#09090B] font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#F59E0B] transition-all duration-200 flex items-center gap-2.5 whitespace-nowrap group flex-shrink-0"
           >
-            <span>EXPLORE FULL ARCHIVE</span>
+            <span>VIEW ALL WORK</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>

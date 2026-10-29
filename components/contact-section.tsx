@@ -36,21 +36,21 @@ export function ContactSection({ initialPackage }: ContactSectionProps = {}) {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-4 text-[10px] font-mono text-white/70">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-            <span>SCENE 07 // INITIATE COLLABORATION</span>
+            <span>GET IN TOUCH</span>
           </div>
 
           <h2
             id="contact-title"
             className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0] mb-4"
           >
-            YOUR NEXT VIDEOS <br />
+            LET'S MAKE YOUR <br />
             <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
-              could look different.
+              next great video.
             </span>
           </h2>
 
-          <p className="text-sm text-white/60 font-sans leading-relaxed">
-            Ready to elevate your post-production retention? Send a brief directly to our lead editor.
+          <p className="text-sm text-white/70 font-sans leading-relaxed">
+            Ready to upgrade your videos? Message us directly on WhatsApp or send a message below.
           </p>
         </div>
 
@@ -63,7 +63,7 @@ export function ContactSection({ initialPackage }: ContactSectionProps = {}) {
             className="px-8 py-4 rounded-sm bg-[#D4AF37] hover:bg-[#F59E0B] text-[#09090B] font-bold font-mono text-xs uppercase tracking-wider transition-all duration-200 shadow-lg hover:scale-[1.02] active:scale-[0.98] flex items-center gap-3 group"
           >
             <MessageSquare className="w-4 h-4" />
-            <span>START ON WHATSAPP DIRECT</span>
+            <span>CHAT ON WHATSAPP</span>
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </a>
         </div>
@@ -71,8 +71,8 @@ export function ContactSection({ initialPackage }: ContactSectionProps = {}) {
         {/* Direct Email Inquiry Form */}
         <div className="max-w-xl mx-auto bg-[#121216] border border-white/[0.07] rounded-xl p-6 sm:p-8 shadow-xl">
           <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/[0.07] text-[10px] font-mono text-white/50">
-            <span className="uppercase tracking-wider">PROJECT BRIEF DISPATCH</span>
-            <span className="text-[#D4AF37]">RESPONSE WITHIN 6 HOURS</span>
+            <span className="uppercase tracking-wider">SEND AN EMAIL</span>
+            <span className="text-[#D4AF37]">REPLIES WITHIN A FEW HOURS</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">

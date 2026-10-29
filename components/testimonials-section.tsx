@@ -14,12 +14,12 @@ export function TestimonialsSection() {
         <div className="max-w-3xl mb-12">
           <div className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] text-[#D4AF37] uppercase mb-3">
             <MessageSquare className="w-3.5 h-3.5" />
-            <span>SCENE 05 // CLIENT FEEDBACK</span>
+            <span>CLIENT REVIEWS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold text-[#F4F4F6] tracking-tight uppercase leading-[1.0] mb-4">
             {testimonialsConfig.headline}
           </h2>
-          <p className="text-sm sm:text-base text-white/60 leading-relaxed font-sans">
+          <p className="text-sm sm:text-base text-white/70 leading-relaxed font-sans">
             {testimonialsConfig.subheadline}
           </p>
         </div>

@@ -56,7 +56,7 @@ export function VerticalReelsSection({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 type-timecode text-white/70">
               <Smartphone className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>SCENE 03 {"//"} 9:16 VERTICAL ARCHITECTURE</span>
+              <span>SHORTS & REELS</span>
             </div>
 
             <h2 className="type-section-title text-[#F4F4F6]">
@@ -69,11 +69,11 @@ export function VerticalReelsSection({
 
           <div className="max-w-md md:text-right">
             <p className="type-body text-sm leading-relaxed mb-3">
-              Engineered for algorithmic velocity across Instagram Reels, YouTube Shorts, and TikTok. Scroll-stopping 0.8s hooks, tactile Foley, and custom kinetic typography.
+              Short videos made for Instagram, TikTok, and YouTube Shorts. Strong hooks, animated captions, and sound effects that keep viewers engaged.
             </p>
             <div className="inline-flex items-center gap-2 type-timecode text-[#D4AF37]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-              <span>{displayReels.length} MASTER REELS AVAILABLE</span>
+              <span>{displayReels.length} REELS READY TO WATCH</span>
             </div>
           </div>
         </div>

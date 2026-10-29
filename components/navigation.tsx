@@ -121,7 +121,7 @@ export function Navigation({ onOpenContact, isLightboxOpen = false }: Navigation
             {/* Availability Status Pill */}
             <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#121216] border border-white/[0.07] text-[10px] font-mono text-white/80 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="tracking-widest uppercase">AVAILABLE FOR SELECT PROJECTS</span>
+              <span className="tracking-widest uppercase">AVAILABLE FOR PROJECTS</span>
             </div>
 
             <a
@@ -130,7 +130,7 @@ export function Navigation({ onOpenContact, isLightboxOpen = false }: Navigation
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#121216] hover:bg-[#18181E] text-[#F4F4F6] border border-white/[0.08] hover:border-[#D4AF37]/50 text-[11px] font-mono font-medium uppercase tracking-wider transition-all duration-200 group"
             >
-              <span>Initiate Project</span>
+              <span>Start a Project</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-[#D4AF37] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
 

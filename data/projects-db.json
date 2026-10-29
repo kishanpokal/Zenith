@@ -1,28 +1,28 @@
 [
   {
     "id": "proj-1793179416247-16uu5",
+    "videoType": "youtube",
+    "aspectRatio": "9:16",
+    "featured": true,
+    "description": "High-retention editorial cut engineered for Zenith Digital Studio.",
     "order": 1,
-    "published": true,
-    "title": "Reel-1",
-    "clientContext": "Zenith Digital Studio",
-    "timecode": "00:00:0:06:00",
+    "duration": "0:06",
+    "updatedAt": "2026-10-28T09:23:36.247Z",
     "editBreakdown": [
       "Surgical velocity cuts & pacing",
       "Multi-track Foley sound architecture",
       "Color graded with Kodak 2383 look-up profile"
     ],
-    "updatedAt": "2026-10-28T09:23:36.247Z",
-    "videoType": "youtube",
-    "soundDesignNotes": "Multi-track audio mix with layered whooshes and 40Hz sub risers.",
-    "videoSrc": "https://www.youtube.com/watch?v=ASX9EFdHez0",
-    "description": "High-retention editorial cut engineered for Zenith Digital Studio.",
-    "featured": true,
-    "duration": "0:06",
-    "thumbnail": "https://i.ytimg.com/vi/ASX9EFdHez0/maxresdefault.jpg",
-    "category": "Short-Form / Reel",
-    "pacingStyle": "0.8s avg cut rhythm / High Velocity",
-    "aspectRatio": "9:16",
     "metrics": "4K 60FPS · Kodak 2383 LUT",
-    "youtubeId": "ASX9EFdHez0"
+    "category": "Short-Form / Reel",
+    "published": true,
+    "title": "Reel-1",
+    "videoSrc": "https://www.youtube.com/watch?v=ASX9EFdHez0",
+    "soundDesignNotes": "Multi-track audio mix with layered whooshes and 40Hz sub risers.",
+    "clientContext": "Zenith Digital Studio",
+    "thumbnail": "https://i.ytimg.com/vi/ASX9EFdHez0/maxresdefault.jpg",
+    "timecode": "00:00:0:06:00",
+    "youtubeId": "ASX9EFdHez0",
+    "pacingStyle": "0.8s avg cut rhythm / High Velocity"
   }
 ]

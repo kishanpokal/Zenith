@@ -27,12 +27,12 @@ export function Footer() {
                 </span>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
               </div>
-              <p className="text-xs text-white/50 max-w-sm font-sans leading-relaxed mb-4">
-                High-impact commercial and creator video post-production. Precision pacing, multi-track sound architecture, and kinetic motion design.
+              <p className="text-xs text-white/60 max-w-sm font-sans leading-relaxed mb-4">
+                High-impact video editing for creators and brands. Fast pacing, clean sound, and motion graphics that keep viewers watching.
               </p>
               <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm bg-[#121216] border border-white/[0.07] text-[10px] font-mono text-white/70">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="uppercase">ACCEPTING SELECT CREATORS & BRANDS</span>
+                <span className="uppercase">AVAILABLE FOR NEW PROJECTS</span>
               </div>
             </div>
           </div>
@@ -40,23 +40,23 @@ export function Footer() {
           {/* Quick Nav */}
           <div className="md:col-span-2">
             <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#D4AF37] mb-4 font-semibold">
-              INDEX
+              NAVIGATION
             </div>
             <ul className="space-y-2.5 text-xs font-mono text-white/60">
               <li>
-                <a href="#work" className="hover:text-white transition-colors">01 // Selected Work</a>
+                <a href="#work" className="hover:text-white transition-colors">01 // Work</a>
               </li>
               <li>
-                <a href="#services" className="hover:text-white transition-colors">02 // Capabilities</a>
+                <a href="#services" className="hover:text-white transition-colors">02 // Services</a>
               </li>
               <li>
-                <a href="#process" className="hover:text-white transition-colors">03 // Workflow</a>
+                <a href="#process" className="hover:text-white transition-colors">03 // How It Works</a>
               </li>
               <li>
-                <a href="#pricing" className="hover:text-white transition-colors">04 // Investment</a>
+                <a href="#pricing" className="hover:text-white transition-colors">04 // Pricing</a>
               </li>
               <li>
-                <a href="#faq" className="hover:text-white transition-colors">05 // Inquiries</a>
+                <a href="#faq" className="hover:text-white transition-colors">05 // FAQ</a>
               </li>
             </ul>
           </div>
@@ -64,21 +64,21 @@ export function Footer() {
           {/* Disciplines */}
           <div className="md:col-span-3">
             <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#D4AF37] mb-4 font-semibold">
-              DISCIPLINES
+              WHAT WE DO
             </div>
             <ul className="space-y-2 text-xs font-sans text-white/60">
-              <li>Commercial Video Editing</li>
-              <li>Talking-Head Velocity Cuts</li>
-              <li>Multi-Track Foley Sound Architecture</li>
-              <li>Color Grading (Kodak 2383 / DaVinci)</li>
-              <li>Kinetic Typography & Vector Motion</li>
+              <li>Shorts & Reels Editing</li>
+              <li>YouTube Longform Videos</li>
+              <li>Sound Design & Audio Mix</li>
+              <li>Cinematic Color Grading</li>
+              <li>Animated Subtitles & Motion Graphics</li>
             </ul>
           </div>
 
           {/* Direct Channels */}
           <div className="md:col-span-2">
             <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#D4AF37] mb-4 font-semibold">
-              COMMUNICATION
+              CONTACT
             </div>
             <ul className="space-y-2 text-xs font-mono text-white/60">
               <li>

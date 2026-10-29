@@ -96,7 +96,7 @@ export function ReelsFeed({ projects, onSelectProject }: ReelsFeedProps) {
                 </h4>
                 <div className="flex items-center justify-between pt-2 mt-2 border-t border-white/[0.06] type-timecode text-white/40">
                   <span className="text-[#D4AF37]/90">{reel.category}</span>
-                  <span className="text-white/70">OPEN CINEMA ↗</span>
+                  <span className="text-white/70">PLAY VIDEO ↗</span>
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@ export function ReelsFeed({ projects, onSelectProject }: ReelsFeedProps) {
         </div>
       </div>
 
-      {/* DESKTOP EXPERIENCE (>= md): INTERACTIVE PHONE STAGE & EDITORIAL BREAKDOWN */}
+      {/* DESKTOP EXPERIENCE (>= md): INTERACTIVE PHONE STAGE & BREAKDOWN */}
       <div className="hidden md:grid w-full max-w-5xl mx-auto grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left Column: Interactive Mobile Phone Mockup Device */}
         <div className="lg:col-span-6 flex flex-col items-center">
@@ -147,7 +147,7 @@ export function ReelsFeed({ projects, onSelectProject }: ReelsFeedProps) {
                   <div className="absolute bottom-5 inset-x-4 text-white z-10 pointer-events-none">
                     <div className="flex items-center gap-1.5 type-timecode text-[#D4AF37] font-semibold mb-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                      <span>STUDIO MASTER // 9:16</span>
+                      <span>VERTICAL REEL</span>
                     </div>
                     <h4 className="text-sm font-display font-bold uppercase line-clamp-1">
                       {activeReel.title}
@@ -206,7 +206,7 @@ export function ReelsFeed({ projects, onSelectProject }: ReelsFeedProps) {
             {activeReel.pacingStyle && (
               <div className="mt-5 space-y-2">
                 <div className="type-timecode text-[#D4AF37] font-semibold">
-                  Retention Strategy & Pacing:
+                  Editing Style:
                 </div>
                 <div className="p-3 rounded-sm bg-[#09090B]/60 border border-white/[0.06] text-xs text-white/80 font-mono">
                   {activeReel.pacingStyle}
@@ -220,7 +220,7 @@ export function ReelsFeed({ projects, onSelectProject }: ReelsFeedProps) {
                 className="px-5 py-2.5 rounded-sm bg-[#D4AF37] hover:bg-[#F59E0B] text-[#09090B] font-bold text-xs uppercase tracking-wider transition-colors shadow-sm flex items-center gap-2 min-h-[44px]"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Launch Full Reel Cinema →</span>
+                <span>Watch Full Video →</span>
               </button>
             </div>
           </div>
@@ -228,7 +228,7 @@ export function ReelsFeed({ projects, onSelectProject }: ReelsFeedProps) {
           {/* Reel Strip Thumbnails */}
           <div>
             <div className="type-timecode text-white/50 mb-2.5">
-              Select Vertical Edit:
+              Select a video to preview:
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-5 gap-2.5">
               {reels.map((reel, idx) => (

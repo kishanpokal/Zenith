@@ -5,18 +5,18 @@
     "title": "Motion-1",
     "headline": "WE EDIT FOR",
     "headlineHighlight": "RETENTION.",
-    "subheadline": "High-impact commercial and creator post-production engineered for ruthless retention. Surgical cut pacing, 12-track Foley sound design, and razor-sharp kinetic typography.",
+    "subheadline": "High-impact video editing for creators and brands. Fast cuts, clean sound, and motion graphics that keep viewers watching.",
     "thumbnail": "https://i.ytimg.com/vi/ASX9EFdHez0/maxresdefault.jpg"
   },
   "beforeAfter": {
     "headline": "SAME FOOTAGE.",
     "headlineHighlight": "different impact.",
-    "subheadline": "Drag the scrubber. Left is raw flat camera log with dead air. Right is the mastered editorial cut.",
+    "subheadline": "Drag the slider to see how raw camera footage transforms into a polished, high-performing video.",
     "beforeImage": "/images/Raw Podcast Setup Before Color Grading.png",
     "afterImage": "/images/Save Time, Work Smart.png",
-    "beforeLabel": "RAW LOG",
-    "afterLabel": "FINAL MASTER",
-    "beforeNotice": "DEAD AIR DETECTED: 00:00:02:14",
-    "footerNote": "Editing isn't adding clutter. It is removing friction from the viewer's attention."
+    "beforeLabel": "RAW FOOTAGE",
+    "afterLabel": "FINISHED EDIT",
+    "beforeNotice": "RAW CAMERA TAKE",
+    "footerNote": "Great editing keeps what matters and cuts the rest."
   }
 }

@@ -22,11 +22,11 @@ export const testimonialsConfig: TestimonialsConfig = {
   showSection: true,
   // We keep this false until the owner supplies real verified client quotes:
   hasVerifiedFeedback: false,
-  headline: "TRUST IS BUILT THROUGH THE WORK.",
+  headline: "THE WORK SPEAKS FOR ITSELF.",
   subheadline:
-    "We believe in letting editing craft speak for itself before accumulating marketing endorsements.",
+    "We let our video edits speak for themselves before anything else.",
   placeholderNotice:
-    "Client feedback and case studies will be featured here as verified client permissions are finalized. In the meantime, evaluate our craftsmanship directly through the selected work gallery above.",
+    "Client reviews and testimonials will appear here. In the meantime, explore our finished work in the gallery above.",
   items: [
     // Future verified testimonials can be added here following this schema:
     /*

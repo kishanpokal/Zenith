@@ -38,69 +38,44 @@ export function WorkHeader({
   const isInView = useInView(containerRef, { once: true, margin: "-10% 0px" });
 
   return (
-    <div ref={containerRef} className="relative mb-10 sm:mb-14">
-      {/* TOP EDITORIAL HUD BAR */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-white/[0.07] text-xs font-mono">
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-2 text-white/60 uppercase tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-            <strong className="text-white font-semibold">SCENE 01</strong> {"//"} SELECTED ARCHIVE
-          </span>
-          <span className="text-white/20">|</span>
-          <span className="hidden sm:inline-flex items-center gap-1.5 text-[#D4AF37] bg-[#D4AF37]/10 px-2.5 py-0.5 rounded-sm border border-[#D4AF37]/20 font-medium">
-            <Sparkles className="w-3 h-3 text-[#D4AF37]" />
-            <span>CURATED PORTFOLIO CUTS</span>
-          </span>
-          <span className="hidden lg:inline-flex items-center gap-1 text-white/30 text-[10px]">
-            <span>◆ 24.00 FPS</span>
-            <span>· COLOR GRADED</span>
-            <span>· 4K PRORES</span>
-          </span>
+    <div ref={containerRef} className="relative mb-8 sm:mb-12">
+      {/* TOP BAR */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-3 border-b border-white/[0.07] text-xs font-mono">
+        <div className="flex items-center gap-2 text-white/70">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+          <span className="font-semibold uppercase tracking-wider text-white">FEATURED WORK</span>
         </div>
 
-        {/* RIGHT METADATA */}
-        <div className="flex items-center gap-3">
-          {onToggleAudioMonitor && (
-            <button
-              type="button"
-              onClick={onToggleAudioMonitor}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-mono transition-all duration-200 ${
-                audioMonitorEnabled
-                  ? "bg-[#D4AF37]/15 border-[#D4AF37] text-[#D4AF37]"
-                  : "bg-[#121216] border-white/[0.07] text-white/60 hover:text-white"
-              }`}
-              title="Toggle audio monitor"
-            >
-              {audioMonitorEnabled ? (
-                <>
-                  <Volume2 className="w-3 h-3 text-[#D4AF37]" />
-                  <span className="font-semibold">AUDIO: LIVE</span>
-                </>
-              ) : (
-                <>
-                  <VolumeX className="w-3 h-3 text-white/50" />
-                  <span>AUDIO: MUTED</span>
-                </>
-              )}
-            </button>
-          )}
-
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] text-white/50 text-[10px]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-            <span className="text-white/80 font-medium uppercase tracking-wider">STUDIO MASTER ARCHIVE</span>
-          </div>
-        </div>
+        {/* RIGHT AUDIO TOGGLE */}
+        {onToggleAudioMonitor && (
+          <button
+            type="button"
+            onClick={onToggleAudioMonitor}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-mono transition-all duration-200 ${
+              audioMonitorEnabled
+                ? "bg-[#D4AF37]/15 border-[#D4AF37] text-[#D4AF37]"
+                : "bg-[#121216] border-white/[0.07] text-white/60 hover:text-white"
+            }`}
+            title="Toggle audio preview"
+          >
+            {audioMonitorEnabled ? (
+              <>
+                <Volume2 className="w-3 h-3 text-[#D4AF37]" />
+                <span className="font-semibold">AUDIO ON</span>
+              </>
+            ) : (
+              <>
+                <VolumeX className="w-3 h-3 text-white/50" />
+                <span>MUTED</span>
+              </>
+            )}
+          </button>
+        )}
       </div>
 
-      {/* MAIN KINETIC DISPLAY HEADLINE & VIEW SWITCHER */}
+      {/* MAIN HEADLINE & VIEW SWITCHER */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-mono text-[#D4AF37] mb-2 uppercase tracking-[0.2em]">
-            <span>◆ ARCHIVE 01</span>
-            <span className="text-white/20">/</span>
-            <span className="text-white/40">SELECTED COMMERCIAL & CREATOR WORK</span>
-          </div>
-
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0] select-none">
             <div className="overflow-hidden pb-1">
               <motion.div
@@ -133,8 +108,8 @@ export function WorkHeader({
             </div>
           </h2>
 
-          <p className="mt-4 text-sm sm:text-base text-white/60 max-w-xl font-sans leading-relaxed">
-            Every frame is calibrated for retention. Zero dead air, surgical match-cutting, bespoke multi-track sound architecture, and kinetic typography.
+          <p className="mt-4 text-sm sm:text-base text-white/70 max-w-xl font-sans leading-relaxed">
+            Videos edited to grab attention immediately and keep viewers watching until the end.
           </p>
         </div>
 

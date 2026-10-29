@@ -7,39 +7,39 @@ import { ChevronDown, Plus, Minus, HelpCircle } from "lucide-react";
 const faqs = [
   {
     num: "01",
-    question: "What types of content does Zenith specialize in?",
+    question: "What types of videos do you edit?",
     answer:
-      "We specialize in high-retention commercial reels, talking-head creator videos, documentary essays, podcasts cuts, and kinetic typography trailers. We optimize specifically for ruthless retention across YouTube, Instagram, and TikTok.",
+      "We edit short-form Reels, TikToks, YouTube Shorts, podcasts, talking-head videos, and long-form YouTube videos. All videos are edited to keep viewers watching longer.",
   },
   {
     num: "02",
-    question: "How do we transfer raw footage?",
+    question: "How do I send my raw video files?",
     answer:
-      "You can transfer raw camera takes via Google Drive, Dropbox, Aspera, OneDrive, or Frame.io. Simply drop your media and any assets into your dedicated client folder.",
+      "You can upload your video files to Google Drive, Dropbox, or OneDrive and share the link with us. It takes less than 2 minutes.",
   },
   {
     num: "03",
-    question: "Can you match our studio's existing visual style?",
+    question: "Can you match my brand or channel style?",
     answer:
-      "Yes. Provide 2–3 reference links or existing assets, and we will reverse-engineer the cut pacing, graphic hierarchy, and sound design to match or elevate your exact visual identity.",
+      "Yes. Share 2–3 links or past videos you like, and we will match your exact font, colors, subtitle style, and cut pacing.",
   },
   {
     num: "04",
     question: "How do revisions work?",
     answer:
-      "We provide timestamped Frame.io / preview links where you can leave pinpoint feedback directly on individual frames. We iterate rapidly until you give picture lock approval.",
+      "We send you a private preview link where you can watch the video and leave notes. We make quick edits until you are 100% happy with the final video.",
   },
   {
     num: "05",
-    question: "Do you supply sound effects and licensed music?",
+    question: "Do you include sound effects and music?",
     answer:
-      "Yes. Every edit includes a multi-track mix with high-impact Foley effects (whooshes, risers, paper snaps, transients) and licensed commercial background audio.",
+      "Yes. Every video includes sound effects (whooshes, pops, impacts) and clean background music that fits your content without copyright strikes.",
   },
   {
     num: "06",
-    question: "How fast is the turnaround?",
+    question: "How fast is delivery?",
     answer:
-      "Initial cuts are delivered within 24 to 48 hours from footage ingest. We prioritize velocity so your publishing cadence never stalls.",
+      "First cuts are delivered within 24 to 48 hours so you can post consistently without delays.",
   },
 ];
 
@@ -62,19 +62,19 @@ export function FaqSection() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#121216] border border-white/[0.07] mb-3 text-[10px] font-mono text-white/70">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-              <span>SCENE 06 // FAQ</span>
+              <span>FREQUENT QUESTIONS</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-[#F4F4F6] leading-[1.0]" id="faq-title">
-              BEFORE WE <br />
+              QUESTIONS & <br />
               <span className="font-serif italic font-normal text-[#D4AF37] lowercase">
-                start.
+                answers.
               </span>
             </h2>
           </div>
 
-          <p className="text-sm text-white/60 max-w-md font-sans leading-relaxed">
-            Direct, transparent answers regarding post-production turnaround, revision protocol, and sound architecture.
+          <p className="text-sm text-white/70 max-w-md font-sans leading-relaxed">
+            Quick, honest answers about turnaround time, revisions, file transfer, and pricing.
           </p>
         </div>
 
