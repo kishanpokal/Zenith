@@ -3,7 +3,7 @@ import { siteConfig } from "@/data/site-config";
 
 export function StructuredData() {
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://zenithdeigitalstudio.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://zenithdigitalstudio.vercel.app";
 
   const websiteSchema = {
     "@context": "https://schema.org",

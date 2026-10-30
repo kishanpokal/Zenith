@@ -8,4 +8,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://zenithdeigitalstudio.vercel.app/sitemap.xml
+Sitemap: https://zenithdigitalstudio.vercel.app/sitemap.xml

@@ -36,7 +36,7 @@ const serifFont = Instrument_Serif({
 });
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://zenithdeigitalstudio.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://zenithdigitalstudio.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
