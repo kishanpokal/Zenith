@@ -26,7 +26,7 @@ export function HeroSection({
   videoUrl,
   headline = "WE EDIT FOR",
   headlineHighlight = "RETENTION.",
-  subheadline = "High-impact video editing for creators and brands. Fast cuts, clean sound, and motion graphics that keep viewers watching.",
+  subheadline = "Zenith Video Editing crafts high-impact post-production for creators and brands. Fast pacing, clean sound design, and motion graphics that keep viewers watching.",
   aspectRatio = "9:16",
 }: HeroSectionProps) {
   const containerRef = useRef<HTMLElement>(null);
@@ -48,7 +48,7 @@ export function HeroSection({
       ref={containerRef}
       className="relative flex flex-col justify-center overflow-hidden bg-[#09090B] pt-24 lg:pt-28 pb-14 sm:pb-20 min-h-[calc(100dvh-4rem)] border-b border-white/[0.07]"
       id="top"
-      aria-label="Zenith Studio Hero"
+      aria-label="Zenith Video Editing Studio Hero"
     >
       {/* Architectural Editorial Grid Lines */}
       <div className="absolute inset-0 bg-editorial-grid pointer-events-none opacity-60" />
@@ -64,12 +64,16 @@ export function HeroSection({
             {/* Editorial Eyebrow Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-[#121216] border border-white/[0.07] mb-4 sm:mb-5 self-start shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-              <span className="type-timecode text-[#F4F4F6] text-[10px]">
-                VIDEO EDITING STUDIO
+              <span className="type-timecode text-[#F4F4F6] text-[10px] tracking-wider uppercase">
+                ZENITH VIDEO EDITING STUDIO
               </span>
             </div>
 
-            <h1 className="text-[#F4F4F6] select-none text-[clamp(2.1rem,3.6vw,4.25rem)] font-display font-bold uppercase tracking-tight leading-[0.98]">
+            <h1
+              className="text-[#F4F4F6] select-none text-[clamp(2.1rem,3.6vw,4.25rem)] font-display font-bold uppercase tracking-tight leading-[0.98]"
+              aria-label="Zenith Video Editing — We Edit For Retention"
+            >
+              <span className="sr-only">Zenith Video Editing — </span>
               <SplitTextReveal
                 lines={[headline, headlineHighlight]}
                 lineClassName="text-[#F4F4F6]"

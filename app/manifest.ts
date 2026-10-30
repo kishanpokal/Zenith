@@ -2,10 +2,10 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ZENITH — Video Editing Studio",
-    short_name: "ZENITH Studio",
+    name: "Zenith Video Editing Studio",
+    short_name: "Zenith Video Editing",
     description:
-      "Short-form video editing for creators, coaches, and brands. High-retention reels, YouTube longform, and commercial motion graphics.",
+      "Zenith Video Editing is a premium post-production studio crafting high-retention reels, YouTube longform, and commercial motion graphics.",
     start_url: "/",
     display: "standalone",
     background_color: "#09090B",

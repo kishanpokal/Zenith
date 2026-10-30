@@ -35,15 +35,15 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   brand: {
-    name: "ZENITH",
+    name: "ZENITH VIDEO EDITING",
     logoUrl: "/brand/zenith-badge.png",
     tagline: "CUT. CREATE. CONNECT.",
-    eyebrow: "ZENITH — VIDEO EDITING STUDIO",
+    eyebrow: "ZENITH VIDEO EDITING STUDIO",
     headline: "EVERY FRAME HAS A PURPOSE.",
     subheadline:
-      "Short-form video editing for creators, coaches, and brands. Thoughtful storytelling, precise pacing, and visuals built to keep people watching.",
+      "Zenith Video Editing delivers high-impact post-production for creators, coaches, and brands. Thoughtful storytelling, precise pacing, and visuals built to keep people watching.",
     description:
-      "Zenith is a premium video editing studio crafting high-retention short-form reels, talking-head videos, motion graphics, and brand stories.",
+      "Zenith Video Editing is a premium post-production studio crafting high-retention short-form reels, talking-head videos, motion graphics, and brand stories.",
     heroReelVideoUrl: "https://youtube.com/shorts/ASX9EFdHez0", // YouTube Short playing directly in the hero monitor
     status: {
       availableForProjects: true,

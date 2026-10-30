@@ -39,27 +39,29 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Zenith — Commercial & Retention Video Editing",
-    template: "%s | Zenith — Commercial & Retention Video Editing",
+    default: "Zenith Video Editing — Commercial & Retention Post-Production Studio",
+    template: "%s | Zenith Video Editing",
   },
   description:
-    "Zenith is a premium video editing and post-production studio crafting commercial ads, high-retention YouTube longform, and 9:16 vertical reels for elite creators and brands.",
-  applicationName: "Zenith Studio",
+    "Zenith Video Editing is a premium post-production studio crafting commercial ads, high-retention YouTube longform, and 9:16 vertical reels for elite creators and brands.",
+  applicationName: "Zenith Video Editing",
   category: "Video Editing & Post-Production Agency",
   alternates: {
     canonical: "/",
   },
   keywords: [
+    "Zenith Video Editing",
+    "Zenith Video Editing Studio",
+    "Zenith video editor",
+    "Zenith Edits",
+    "Zenith Digital Studio",
+    "Zenith",
+    "Zenith Studio",
     "Commercial Video Editor",
     "Retention YouTube Editor",
     "Short-Form Reels Editor",
     "Color Grading & Post-Production",
     "After Effects & Premiere Pro Specialist",
-    "Zenith",
-    "Zenith Studio",
-    "Zenith Video Editing",
-    "Zenith Digital Studio",
-    "Zenith Edits",
     "video editing agency",
     "high retention video editor",
     "reels video editing",
@@ -72,17 +74,17 @@ export const metadata: Metadata = {
     "foley audio architecture",
     "podcast video editor",
   ],
-  authors: [{ name: "Zenith Studio", url: siteUrl }],
-  creator: "Zenith Studio",
-  publisher: "Zenith Studio",
+  authors: [{ name: "Zenith Video Editing", url: siteUrl }],
+  creator: "Zenith Video Editing",
+  publisher: "Zenith Video Editing",
   openGraph: {
-    title: "Zenith — Commercial & Retention Video Editing",
+    title: "Zenith Video Editing — Commercial & Retention Post-Production Studio",
     description:
       "Premium commercial video editing, high-retention YouTube longform, and 9:16 vertical reels engineered for watch time and brand prestige.",
     url: siteUrl,
     type: "website",
     locale: "en_US",
-    siteName: "Zenith Video Editing Studio",
+    siteName: "Zenith Video Editing",
     images: [
       {
         url: "/og-image.jpg",
@@ -95,7 +97,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zenith — Commercial & Retention Video Editing",
+    title: "Zenith Video Editing — Commercial & Retention Post-Production Studio",
     description:
       "Premium commercial video editing, high-retention YouTube longform, and 9:16 vertical reels engineered for watch time and brand prestige.",
     images: ["/og-image.jpg"],

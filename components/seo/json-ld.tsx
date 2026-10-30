@@ -17,12 +17,13 @@ export function JsonLd({ projects = [] }: JsonLdProps) {
   const professionalServiceSchema = {
     "@type": ["ProfessionalService", "Organization"],
     "@id": `${siteUrl}/#organization`,
-    name: "Zenith — Commercial & Retention Video Editing",
+    name: "Zenith Video Editing",
     legalName: "Zenith Digital Studio",
     alternateName: [
+      "Zenith Video Editing",
+      "Zenith Video Editing Studio",
       "Zenith",
       "Zenith Studio",
-      "Zenith Video Editing",
       "Zenith Edits",
       "Zenith Digital Studio",
     ],
