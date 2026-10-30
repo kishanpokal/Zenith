@@ -89,8 +89,8 @@ export function Navigation({ onOpenContact, isLightboxOpen = false }: Navigation
           >
             <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/[0.12] group-hover:border-[#D4AF37] transition-colors">
               <img
-                src="/brand/Zenith-logo.jpeg"
-                alt="Zenith"
+                src="/brand/zenith-badge.png"
+                alt="Zenith Video Editing Studio Logo"
                 className="w-full h-full object-cover"
               />
             </div>

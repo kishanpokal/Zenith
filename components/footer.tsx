@@ -17,8 +17,8 @@ export function Footer() {
               <div className="flex items-center gap-2.5 mb-3">
                 <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/[0.12]">
                   <img
-                    src="/brand/Zenith-logo.jpeg"
-                    alt="Zenith"
+                    src="/brand/zenith-badge.png"
+                    alt="Zenith Video Editing Studio Logo"
                     className="w-full h-full object-cover"
                   />
                 </div>

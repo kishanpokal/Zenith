@@ -4,6 +4,7 @@ import "./globals.css";
 import "./yash-theme.css";
 import { siteConfig } from "@/data/site-config";
 import { CustomCursor } from "@/components/custom-cursor";
+import { StructuredData } from "@/components/seo/structured-data";
 
 const sansFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -34,42 +35,104 @@ const serifFont = Instrument_Serif({
   display: "swap",
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://zenithdeigitalstudio.vercel.app";
+
 export const metadata: Metadata = {
-  title: `${siteConfig.brand.name} — Editorial Video Architecture & High-Retention Post-Production`,
-  description: siteConfig.brand.subheadline,
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://zenithdeigitalstudio.vercel.app"
-  ),
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "ZENITH — High-Retention Video Editing Studio & Post-Production",
+    template: "%s | ZENITH Studio",
+  },
+  description:
+    "Zenith is a premium video editing studio crafting high-retention short-form reels, YouTube longform, and commercial brand stories for creators and brands.",
+  applicationName: "ZENITH Studio",
+  category: "Video Editing & Post-Production Agency",
+  alternates: {
+    canonical: "/",
+  },
   keywords: [
-    "video editing",
-    "editorial post-production",
-    "commercial video editor",
-    "high retention video",
-    "youtube longform editor",
-    "reels & shorts editor",
+    "Zenith",
+    "Zenith Studio",
+    "Zenith Video Editing",
+    "Zenith Digital Studio",
+    "Zenith Edits",
+    "video editing agency",
+    "high retention video editor",
+    "reels video editing",
+    "youtube video editing service",
+    "short-form video agency",
+    "talking head video editing",
+    "commercial post-production",
     "motion graphics",
     "color grading",
     "sound design",
+    "podcast video editor",
   ],
-  authors: [{ name: "Zenith Studio" }],
+  authors: [{ name: "Zenith Studio", url: siteUrl }],
+  creator: "Zenith Studio",
+  publisher: "Zenith Studio",
   openGraph: {
-    title: `${siteConfig.brand.name} — Editorial Video Architecture`,
-    description: siteConfig.brand.subheadline,
+    title: "ZENITH — High-Retention Video Editing Studio",
+    description:
+      "Premium short-form reels, YouTube longform, and commercial video editing engineered for high retention and brand impact.",
+    url: siteUrl,
     type: "website",
     locale: "en_US",
-    siteName: siteConfig.brand.name,
+    siteName: "ZENITH Studio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "ZENITH Video Editing Studio — Every Frame Has A Purpose",
+        type: "image/jpeg",
+      },
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ZENITH Video Editing Studio — Every Frame Has A Purpose",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.brand.name} — Editorial Video Architecture`,
-    description: siteConfig.brand.subheadline,
+    title: "ZENITH — High-Retention Video Editing Studio",
+    description:
+      "Premium short-form reels, YouTube longform, and commercial video editing engineered for high retention and brand impact.",
+    images: ["/og-image.jpg"],
+    creator: "@zenith.edits",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
+  manifest: "/manifest.webmanifest",
+  verification: {
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+      "MufU9KtA9LooaSDymDxcVOepNiLXAPkYbGZJrbM-vyc",
   },
 };
 
@@ -91,7 +154,19 @@ export default function RootLayout({
       className={`${sansFont.variable} ${displayFont.variable} ${monoFont.variable} ${serifFont.variable} dark scroll-smooth`}
     >
       <head>
+        <meta
+          name="google-site-verification"
+          content={
+            process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+            "MufU9KtA9LooaSDymDxcVOepNiLXAPkYbGZJrbM-vyc"
+          }
+        />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="thumbnail" content={`${siteUrl}/og-image.jpg`} />
+        <StructuredData />
         <script
           dangerouslySetInnerHTML={{
             __html: `

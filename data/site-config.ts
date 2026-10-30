@@ -36,7 +36,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   brand: {
     name: "ZENITH",
-    logoUrl: "/brand/Zenith-logo.jpeg",
+    logoUrl: "/brand/zenith-badge.png",
     tagline: "CUT. CREATE. CONNECT.",
     eyebrow: "ZENITH — VIDEO EDITING STUDIO",
     headline: "EVERY FRAME HAS A PURPOSE.",
