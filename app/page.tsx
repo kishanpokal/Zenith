@@ -1,169 +1,23 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
-import { Navigation } from "@/components/navigation";
-import { HeroSection } from "@/components/hero-section";
-import { SelectedWork } from "@/components/selected-work";
-import { VerticalReelsSection } from "@/components/vertical-reels-section";
-import { ServicesSection } from "@/components/services-section";
-import { BeforeAfter } from "@/components/before-after";
-import { ProcessSection } from "@/components/process-section";
-import { PricingSection } from "@/components/pricing-section";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import { FAQSection } from "@/components/faq-section";
-import { ContactSection } from "@/components/contact-section";
-import { Footer } from "@/components/footer";
-import { VideoLightbox } from "@/components/video-lightbox";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { ScrollProgressBar } from "@/components/scroll-progress";
-import { CinematicPreloader } from "@/components/preloader";
-import { projects, Project } from "@/data/projects";
+import { getProjects } from "@/lib/projects-service";
 import initialSettings from "@/data/showcase-settings.json";
-import initialProjectsDb from "@/data/projects-db.json";
+import { HomeClientView } from "@/components/home/home-client-view";
+import { JsonLd } from "@/components/seo/json-ld";
 
-const defaultHero: Project =
-  (initialProjectsDb as unknown as Project[]).find((p) => p.featured) ||
-  (initialProjectsDb as unknown as Project[])[0] ||
-  projects[0];
+export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const [selectedShowreel, setSelectedShowreel] = useState<Project | null>(null);
-  const [inquiryPackage, setInquiryPackage] = useState<string>("Talking-Head Reels");
-  const [heroProject, setHeroProject] = useState<Project>(defaultHero);
-  const [settings, setSettings] = useState<any>(initialSettings);
-
-  useEffect(() => {
-    async function loadSettingsAndHero() {
-      try {
-        const [settingsRes, projectsRes] = await Promise.all([
-          fetch("/api/settings"),
-          fetch("/api/projects"),
-        ]);
-
-        if (settingsRes.ok) {
-          const s = await settingsRes.json();
-          setSettings(s);
-        }
-
-        if (projectsRes.ok) {
-          const list = await projectsRes.json();
-          if (Array.isArray(list) && list.length > 0) {
-            const featured =
-              list.find((p: Project) => p.featured && p.published !== false) ||
-              list.find((p: Project) => p.published !== false) ||
-              list[0];
-            setHeroProject(featured);
-          }
-        }
-      } catch (err) {
-        // Fallback to default
-      }
-    }
-    loadSettingsAndHero();
-  }, []);
-
-  const openHeroShowreel = () => {
-    if (settings?.hero?.youtubeId) {
-      const isShort = settings?.hero?.youtubeUrl?.includes("shorts") || heroProject?.aspectRatio === "9:16";
-      setSelectedShowreel({
-        id: "hero-showreel",
-        title: settings.hero.title || (isShort ? "Featured Reel" : "2026 Master Editorial Showreel"),
-        youtubeId: settings.hero.youtubeId,
-        videoSrc: settings.hero.youtubeUrl,
-        aspectRatio: isShort ? "9:16" : "16:9",
-        category: isShort ? "Short-Form / Reel" : "Showreel",
-        clientContext: "Flagship Showreel",
-        description: settings.hero.subheadline || "",
-        thumbnail: settings.hero.thumbnail,
-      } as Project);
-    } else {
-      setSelectedShowreel(heroProject);
-    }
-  };
-
-  const handleSelectPackage = (packageName: string) => {
-    setInquiryPackage(packageName);
-  };
-
-  const heroAspectRatio: "9:16" | "16:9" =
-    settings?.hero?.aspectRatio === "16:9" && !settings?.hero?.youtubeUrl?.includes("shorts")
-      ? "16:9"
-      : "9:16";
+export default async function Home() {
+  const projects = await getProjects({ publishedOnly: true });
 
   return (
-    <SmoothScroll>
-      {/* Studio Ident Preloader */}
-      <CinematicPreloader />
+    <>
+      {/* Enterprise-Grade Multi-Entity JSON-LD Rich Snippet Graph */}
+      <JsonLd projects={projects} />
 
-      {/* Razor-thin Top Scroll Progress Bar */}
-      <ScrollProgressBar />
-
-      <main className="min-h-screen bg-[#09090B] text-[#F4F4F6] selection:bg-[#D4AF37] selection:text-[#09090B]">
-        {/* Navigation & Floating Mobile Bar */}
-        <Navigation isLightboxOpen={!!selectedShowreel} />
-
-        {/* SECTION 1: Above-the-fold Hero + Instant Showreel Stage */}
-        <HeroSection
-          onOpenShowreelModal={openHeroShowreel}
-          featuredThumbnail={settings?.hero?.thumbnail || heroProject?.thumbnail}
-          featuredTitle={settings?.hero?.title || heroProject?.title}
-          videoUrl={settings?.hero?.youtubeUrl || (heroProject?.youtubeId ? `https://www.youtube.com/watch?v=${heroProject.youtubeId}` : undefined)}
-          headline={settings?.hero?.headline}
-          headlineHighlight={settings?.hero?.headlineHighlight}
-          subheadline={settings?.hero?.subheadline}
-          aspectRatio={heroAspectRatio}
-        />
-
-        {/* SECTION 2: Curated Work Showcase (16:9 Long-Form & Commercials) */}
-        <SelectedWork onSelectProject={(p) => setSelectedShowreel(p)} />
-
-        {/* SECTION 3: Dedicated 9:16 Vertical Reels & Shorts Strip (Top 3 Chosen in Admin) */}
-        <VerticalReelsSection
-          onSelectProject={(p) => setSelectedShowreel(p)}
-          retentionReelIds={settings?.retentionReels?.reelIds}
-        />
-
-        {/* SECTION 4: Inside the Timeline: The Editing Craft & Interactive Before/After + 3 Pillars */}
-        <BeforeAfter
-          headline={settings?.beforeAfter?.headline}
-          headlineHighlight={settings?.beforeAfter?.headlineHighlight}
-          subheadline={settings?.beforeAfter?.subheadline}
-          beforeImage={settings?.beforeAfter?.beforeImage}
-          afterImage={settings?.beforeAfter?.afterImage}
-          beforeLabel={settings?.beforeAfter?.beforeLabel}
-          afterLabel={settings?.beforeAfter?.afterLabel}
-          beforeNotice={settings?.beforeAfter?.beforeNotice}
-          footerNote={settings?.beforeAfter?.footerNote}
-        />
-
-        {/* SECTION 5: Streamlined Services, 4-Step Process & Transparent Packages */}
-        <ServicesSection />
-        <ProcessSection />
-        <PricingSection
-          onSelectPackage={handleSelectPackage}
-          pricingSettings={settings?.pricing}
-        />
-
-        {/* SECTION 6: Client Proof, FAQ & Direct Booking CTA */}
-        <TestimonialsSection />
-        <FAQSection />
-        <ContactSection
-          initialPackage={inquiryPackage}
-          plans={settings?.pricing?.plans}
-          currencySymbol={settings?.pricing?.currencySymbol}
-        />
-
-        {/* Footer */}
-        <Footer />
-
-        {/* Fullscreen Cinema Video Lightbox */}
-        {selectedShowreel && (
-          <VideoLightbox
-            project={selectedShowreel}
-            onClose={() => setSelectedShowreel(null)}
-          />
-        )}
-      </main>
-    </SmoothScroll>
+      {/* Fully-Hydrated Server-Rendered Portfolio with Zero Blank CLS */}
+      <HomeClientView
+        initialProjects={projects}
+        initialSettings={initialSettings}
+      />
+    </>
   );
 }

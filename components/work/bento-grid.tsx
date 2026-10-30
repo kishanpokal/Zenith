@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/data/projects";
 import { ReelCard } from "@/components/work/reel-card";
@@ -133,21 +134,27 @@ export function BentoGrid({
               {/* Visual Media Container with Raw vs Graded Filter (7 Cols on Laptop) */}
               <div className="lg:col-span-7 relative w-full aspect-[16/9] overflow-hidden bg-black flex items-center">
                 {/* Poster Thumbnail */}
-                <img
-                  src={featuredProject.thumbnail}
-                  alt={featuredProject.title}
-                  style={{
-                    filter:
-                      colorGradeMode === "raw"
-                        ? "grayscale(60%) contrast(80%) brightness(110%)"
-                        : "none",
-                    transition: "filter 0.4s ease",
-                  }}
-                  className={cn(
-                    "w-full h-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]",
-                    isSpotlightHovered && spotlightVideoRef.current ? "opacity-0" : "opacity-100"
-                  )}
-                />
+                {featuredProject.thumbnail ? (
+                  <Image
+                    src={featuredProject.thumbnail}
+                    alt={featuredProject.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    style={{
+                      filter:
+                        colorGradeMode === "raw"
+                          ? "grayscale(60%) contrast(80%) brightness(110%)"
+                          : "none",
+                      transition: "filter 0.4s ease",
+                    }}
+                    className={cn(
+                      "object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]",
+                      isSpotlightHovered && spotlightVideoRef.current ? "opacity-0" : "opacity-100"
+                    )}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#18181E]" />
+                )}
 
                 {/* 60 FPS Video Preview on Hover if direct MP4 */}
                 {featuredProject.videoSrc && featuredProject.videoSrc.endsWith(".mp4") && (

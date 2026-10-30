@@ -31,6 +31,7 @@ export const auth = getAuth(app);
 const PROJECTS_COLLECTION = "portfolio_projects";
 const VAULT_CONFIG_COLLECTION = "admin_config";
 const VAULT_CONFIG_DOC = "secret_vault";
+const LEADS_COLLECTION = "leads";
 const DEFAULT_URL_TOKEN = process.env.ADMIN_SECRET_TOKEN || "zenith-vault-2026";
 
 let cachedFirestoreToken: string = DEFAULT_URL_TOKEN;
@@ -107,17 +108,17 @@ export async function updateAdminUrlTokenInDb(newToken: string): Promise<void> {
 
 /**
  * Fetch all projects from Firestore (sorted by order asc).
- * If Firestore is empty, auto-seeds default projects.
+ * If Firestore is empty, returns empty array.
  */
 export async function getProjectsFromDb(): Promise<Project[] | null> {
   try {
     const q = query(collection(db, PROJECTS_COLLECTION), orderBy("order", "asc"));
     const snapshot = await getDocs(q);
-    
+
     if (snapshot.empty) {
       return [];
     }
-    
+
     const list: Project[] = [];
     snapshot.forEach((docSnap) => {
       list.push({ id: docSnap.id, ...(docSnap.data() as Omit<Project, "id">) });
@@ -147,20 +148,56 @@ export async function seedDefaultProjects(): Promise<void> {
 }
 
 /**
- * Save / Add a new project
+ * Save / Add / Update a project in Firestore
  */
 export async function saveProjectToDb(project: Project): Promise<void> {
   const docRef = doc(db, PROJECTS_COLLECTION, project.id);
-  await setDoc(docRef, {
-    ...project,
-    updatedAt: new Date().toISOString(),
-  }, { merge: true });
+  await setDoc(
+    docRef,
+    {
+      ...project,
+      updatedAt: new Date().toISOString(),
+    },
+    { merge: true }
+  );
 }
 
 /**
- * Delete a project by ID
+ * Delete a project by ID from Firestore
  */
 export async function deleteProjectFromDb(id: string): Promise<void> {
   const docRef = doc(db, PROJECTS_COLLECTION, id);
   await deleteDoc(docRef);
+}
+
+export interface ContactLead {
+  id?: string;
+  name: string;
+  email: string;
+  projectType?: string;
+  budget?: string;
+  message?: string;
+  createdAt?: string;
+  userAgent?: string;
+  ip?: string;
+  [key: string]: any;
+}
+
+/**
+ * Persists a new client inquiry lead into Firestore 'leads' collection.
+ */
+export async function saveLeadToDb(lead: ContactLead): Promise<string> {
+  try {
+    const leadsCollection = collection(db, LEADS_COLLECTION);
+    const docRef = doc(leadsCollection);
+    const payload = {
+      ...lead,
+      createdAt: lead.createdAt || new Date().toISOString(),
+    };
+    await setDoc(docRef, payload);
+    return docRef.id;
+  } catch (error) {
+    console.warn("Firestore lead persistence warning:", error);
+    return `fallback-${Date.now()}`;
+  }
 }

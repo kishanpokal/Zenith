@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
-import { extractAuthToken, verifyAdminToken } from "@/lib/auth";
+import { extractAuthToken, verifyAdminToken, enforceRateLimit } from "@/lib/auth";
 import { PricingSettings, DEFAULT_PRICING_SETTINGS } from "@/data/pricing";
 
 const SETTINGS_PATH = path.join(process.cwd(), "data", "showcase-settings.json");
@@ -96,10 +96,12 @@ function readSettings(): ShowcaseSettings {
 }
 
 function writeSettings(settings: ShowcaseSettings) {
-  try {
-    fs.writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2), "utf-8");
-  } catch (err) {
-    console.error("Failed to save settings:", err);
+  if (process.env.NODE_ENV === "development") {
+    try {
+      fs.writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2), "utf-8");
+    } catch (err) {
+      console.error("Failed to save settings to disk in development:", err);
+    }
   }
 }
 
@@ -128,6 +130,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const rateLimitError = enforceRateLimit(req, "admin-settings", 30, 60000);
+  if (rateLimitError) return rateLimitError;
+
   const token = extractAuthToken(req);
   if (!verifyAdminToken(token)) {
     return NextResponse.json({ error: "Unauthorized access: invalid admin token" }, { status: 401 });

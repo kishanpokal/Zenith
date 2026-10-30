@@ -1,72 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
-import fs from "fs";
-import path from "path";
-import { Project } from "@/data/projects";
-import { saveProjectToDb, deleteProjectFromDb } from "@/lib/firebase";
-import { extractAuthToken, verifyAdminToken } from "@/lib/auth";
-
-const DB_PATH = path.join(process.cwd(), "data", "projects-db.json");
-
-function readDb(): Project[] {
-  try {
-    if (!fs.existsSync(DB_PATH)) return [];
-    return JSON.parse(fs.readFileSync(DB_PATH, "utf-8")) as Project[];
-  } catch {
-    return [];
-  }
-}
-
-function writeDb(projects: Project[]): boolean {
-  try {
-    fs.writeFileSync(DB_PATH, JSON.stringify(projects, null, 2), "utf-8");
-    return true;
-  } catch {
-    return false;
-  }
-}
+import { revalidateTag, revalidatePath } from "next/cache";
+import { getProjectById, saveProject, deleteProject } from "@/lib/projects-service";
+import { verifyAdminRequest, enforceRateLimit } from "@/lib/auth-guard";
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const token = extractAuthToken(req);
-  if (!verifyAdminToken(token)) {
-    return NextResponse.json({ error: "Unauthorized access: invalid admin token" }, { status: 401 });
+  // Rate limit admin mutations: max 30 req / minute
+  const rateLimitError = enforceRateLimit(req, "admin-project-put", 30, 60000);
+  if (rateLimitError) return rateLimitError;
+
+  const { authorized } = verifyAdminRequest(req);
+  if (!authorized) {
+    return NextResponse.json(
+      { error: "Unauthorized access: invalid admin token" },
+      { status: 401 }
+    );
   }
 
   try {
     const { id } = params;
-    const updates = await req.json();
-    const projects = readDb();
-
-    const index = projects.findIndex((p) => p.id === id);
-    if (index === -1) {
+    const existing = await getProjectById(id);
+    if (!existing) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
+    const updates = await req.json();
     const updatedProject = {
-      ...projects[index],
+      ...existing,
       ...updates,
       id,
+      updatedAt: new Date().toISOString(),
     };
 
-    projects[index] = updatedProject;
-    writeDb(projects);
+    await saveProject(updatedProject);
 
     try {
-      await saveProjectToDb(updatedProject);
-    } catch (fsErr) {
-      console.warn("Firestore PUT error:", fsErr);
-    }
-
-    try {
+      revalidateTag("projects");
       revalidatePath("/");
       revalidatePath("/work");
     } catch {}
 
     return NextResponse.json({ success: true, project: updatedProject });
   } catch (err) {
+    console.error("[api/projects/[id]] PUT error:", err);
     return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
   }
 }
@@ -75,40 +53,36 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const token = extractAuthToken(req);
-  if (!verifyAdminToken(token)) {
-    return NextResponse.json({ error: "Unauthorized access: invalid admin token" }, { status: 401 });
+  // Rate limit admin mutations: max 30 req / minute
+  const rateLimitError = enforceRateLimit(req, "admin-project-delete", 30, 60000);
+  if (rateLimitError) return rateLimitError;
+
+  const { authorized } = verifyAdminRequest(req);
+  if (!authorized) {
+    return NextResponse.json(
+      { error: "Unauthorized access: invalid admin token" },
+      { status: 401 }
+    );
   }
 
   try {
     const { id } = params;
-    let projects = readDb();
-
-    const exists = projects.some((p) => p.id === id);
-    if (!exists) {
+    const existing = await getProjectById(id);
+    if (!existing) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    projects = projects.filter((p) => p.id !== id);
-    projects.forEach((p, idx) => {
-      p.order = idx + 1;
-    });
-
-    writeDb(projects);
+    await deleteProject(id);
 
     try {
-      await deleteProjectFromDb(id);
-    } catch (fsErr) {
-      console.warn("Firestore DELETE error:", fsErr);
-    }
-
-    try {
+      revalidateTag("projects");
       revalidatePath("/");
       revalidatePath("/work");
     } catch {}
 
     return NextResponse.json({ success: true, message: "Project deleted" });
   } catch (err) {
+    console.error("[api/projects/[id]] DELETE error:", err);
     return NextResponse.json({ error: "Failed to delete project" }, { status: 500 });
   }
 }

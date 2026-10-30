@@ -17,6 +17,7 @@ const FILTER_CATEGORIES = [
 
 interface SelectedWorkProps {
   onSelectProject?: (project: Project) => void;
+  initialProjects?: Project[];
 }
 
 function matchesCategory(project: Project, category: string): boolean {
@@ -62,7 +63,6 @@ function matchesCategory(project: Project, category: string): boolean {
   }
 
   if (category === "Shorts & Reels") {
-    // If explicitly categorized as Talking Head or Motion Graphics, let those specific tabs handle them
     if (
       cat === "talking head" ||
       cat.includes("talking") ||
@@ -88,11 +88,16 @@ function matchesCategory(project: Project, category: string): boolean {
   return cat === category.toLowerCase().trim();
 }
 
-export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
-  const [allProjects, setAllProjects] = useState<Project[]>(fallbackProjects);
+export function SelectedWork({
+  onSelectProject,
+  initialProjects,
+}: SelectedWorkProps = {}) {
+  const [allProjects, setAllProjects] = useState<Project[]>(
+    initialProjects && initialProjects.length > 0 ? initialProjects : fallbackProjects
+  );
   const [selectedFilter, setSelectedFilter] = useState<string>("All Work");
   const [formatFilter, setFormatFilter] = useState<FormatFilter>("all");
-  const [viewMode, setViewMode] = useState<ViewMode>("grid"); // Bento Studio default
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [audioMonitorEnabled, setAudioMonitorEnabled] = useState(false);
@@ -105,8 +110,13 @@ export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
     }
   };
 
-  // Fetch live projects from API with static fallback
+  // Sync if initialProjects change or fetch if empty
   useEffect(() => {
+    if (initialProjects && initialProjects.length > 0) {
+      setAllProjects(initialProjects);
+      return;
+    }
+
     async function fetchLiveProjects() {
       try {
         const res = await fetch("/api/projects");
@@ -121,11 +131,14 @@ export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
       }
     }
     fetchLiveProjects();
-  }, []);
+  }, [initialProjects]);
 
   // On homepage Selected Work, only show projects marked as featured by Admin
   const featuredProjects = allProjects.filter((p) => p.featured && p.published !== false);
-  const baseProjects = featuredProjects.length > 0 ? featuredProjects : allProjects.filter((p) => p.published !== false);
+  const baseProjects =
+    featuredProjects.length > 0
+      ? featuredProjects
+      : allProjects.filter((p) => p.published !== false);
 
   // Compute category project counts based on featured projects
   const categoryCounts = FILTER_CATEGORIES.reduce((acc, cat) => {
@@ -166,7 +179,6 @@ export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
         aria-labelledby="work-title"
       >
         <div className="container-editorial relative z-10">
-          {/* Studio Header (Timecode, Eyebrow, Title, Filter Pills, View Switcher, Audio Monitor) */}
           <WorkHeader
             categories={FILTER_CATEGORIES}
             selectedFilter={selectedFilter}
@@ -184,7 +196,7 @@ export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
             onChangeFormatFilter={setFormatFilter}
           />
 
-          {/* VIEW MODE A: ASYMMETRIC BENTO STUDIO GRID (Flagship Curated 4-5 Reels) */}
+          {/* VIEW MODE A: ASYMMETRIC BENTO STUDIO GRID */}
           {viewMode === "grid" && (
             <BentoGrid
               projects={displayList}
@@ -206,7 +218,7 @@ export function SelectedWork({ onSelectProject }: SelectedWorkProps = {}) {
         </div>
       </section>
 
-      {/* Fullscreen Cinema Video Lightbox (Director's Cut Mode) */}
+      {/* Fullscreen Cinema Video Lightbox */}
       {selectedProject && (
         <VideoLightbox
           project={selectedProject}

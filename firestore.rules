@@ -2,18 +2,35 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // Portfolio projects showcase
+    // Public clients can read showcase projects; mutations require Firebase Authentication.
     match /portfolio_projects/{document} {
       allow read: if true;
-      allow write: if true; // Protected server-side via admin API routes
+      allow write: if request.auth != null;
     }
 
-    // Dynamic secret URL token configuration
+    // Dynamic secret URL token and studio settings configuration
+    // Strictly restricted to authenticated studio administrators.
     match /admin_config/{document} {
-      allow read, write: if true; // Managed server-side or via Firebase Console
+      allow read, write: if request.auth != null;
     }
 
+    // Client contact leads
+    // Public clients may create leads via the portfolio contact form.
+    // Reading, modifying, or deleting leads requires administrator authentication.
+    match /leads/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // Showcase settings and curation overrides
+    match /showcase_settings/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Default lockdown: all other collections require authenticated admin access
     match /{document=**} {
-      allow read, write: if true;
+      allow read, write: if request.auth != null;
     }
   }
 }

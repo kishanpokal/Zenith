@@ -1,57 +1,92 @@
 import { NextRequest, NextResponse } from "next/server";
-import { extractAuthToken, verifyAdminToken } from "@/lib/auth";
+import { verifyAdminRequest, enforceRateLimit } from "@/lib/auth-guard";
 
 /**
  * Robust YouTube video ID parser supporting watch, share shortlinks, shorts, embed, and direct IDs.
  */
-function parseYouTubeVideoId(input: string): { videoId: string; isShorts: boolean } | null {
+function parseYouTubeVideoId(input: string): { videoId: string; urlIsShorts: boolean } | null {
   if (!input) return null;
   const raw = input.trim();
 
   // If already an 11-character video ID
   if (/^[a-zA-Z0-9_-]{11}$/.test(raw)) {
-    return { videoId: raw, isShorts: false };
+    return { videoId: raw, urlIsShorts: false };
   }
 
-  const isShorts = raw.includes("/shorts/");
+  const urlIsShorts = raw.includes("/shorts/");
 
   // Match shorts: /shorts/([a-zA-Z0-9_-]{11})
   const shortsMatch = raw.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
   if (shortsMatch) {
-    return { videoId: shortsMatch[1], isShorts: true };
+    return { videoId: shortsMatch[1], urlIsShorts: true };
   }
 
   // Match youtu.be/([a-zA-Z0-9_-]{11})
   const youtuBeMatch = raw.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
   if (youtuBeMatch) {
-    return { videoId: youtuBeMatch[1], isShorts };
+    return { videoId: youtuBeMatch[1], urlIsShorts };
   }
 
   // Match /embed/([a-zA-Z0-9_-]{11})
   const embedMatch = raw.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
   if (embedMatch) {
-    return { videoId: embedMatch[1], isShorts };
+    return { videoId: embedMatch[1], urlIsShorts };
   }
 
   // Match watch?v=([a-zA-Z0-9_-]{11})
   const watchMatch = raw.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
   if (watchMatch) {
-    return { videoId: watchMatch[1], isShorts };
+    return { videoId: watchMatch[1], urlIsShorts };
   }
 
   // Fallback match for any 11-character sequence following / or =
   const generalMatch = raw.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})(?:\?|&|\/|$)/);
   if (generalMatch) {
-    return { videoId: generalMatch[1], isShorts };
+    return { videoId: generalMatch[1], urlIsShorts };
   }
 
   return null;
 }
 
+/**
+ * Probes YouTube CDN with fast HEAD requests to determine the highest resolution thumbnail available.
+ * Unlisted videos often lack maxresdefault.jpg (404), so we test:
+ * 1. maxresdefault.jpg (1280x720)
+ * 2. sddefault.jpg (640x480)
+ * 3. hqdefault.jpg (480x360)
+ */
+async function resolveBestThumbnail(videoId: string): Promise<{ bestUrl: string; maxresUrl: string; hqUrl: string }> {
+  const maxresUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+  const sdUrl = `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`;
+  const hqUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
+  const candidates = [maxresUrl, sdUrl, hqUrl];
+
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, {
+        method: "HEAD",
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        return { bestUrl: url, maxresUrl, hqUrl };
+      }
+    } catch {
+      // Continue to next resolution candidate
+    }
+  }
+
+  return { bestUrl: hqUrl, maxresUrl, hqUrl };
+}
+
 export async function GET(req: NextRequest) {
-  // Verify admin authorization
-  const token = extractAuthToken(req);
-  if (!verifyAdminToken(token)) {
+  // 1. Rate Limiting: max 30 requests / minute
+  const rateLimitError = enforceRateLimit(req, "youtube-meta", 30, 60000);
+  if (rateLimitError) return rateLimitError;
+
+  // 2. Timing-Safe Admin Verification
+  const { authorized } = verifyAdminRequest(req);
+  if (!authorized) {
     return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
   }
 
@@ -70,19 +105,14 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const { videoId, isShorts } = parsed;
-  const maxresThumbnail = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
-  const hqThumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
-  const watchUrl = isShorts
-    ? `https://www.youtube.com/shorts/${videoId}`
-    : `https://www.youtube.com/watch?v=${videoId}`;
+  const { videoId, urlIsShorts } = parsed;
 
-  let title = isShorts ? "Short-Form Reel Cut" : "Cinematic Master Edit";
+  let title = urlIsShorts ? "Short-Form Reel Cut" : "Cinematic Master Edit";
   let authorName = "Creator / Brand";
+  let isShorts = urlIsShorts;
 
+  // Fetch oEmbed data (supports both Public and Unlisted videos without API keys)
   try {
-    // Public YouTube oEmbed API supports both Public and Unlisted videos without API keys
     const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
     const res = await fetch(oembedUrl, {
       headers: {
@@ -95,20 +125,40 @@ export async function GET(req: NextRequest) {
       const data = await res.json();
       if (data.title) title = data.title;
       if (data.author_name) authorName = data.author_name;
+
+      // Auto-Detect 9:16 vs 16:9 from dimensions or shorts URL
+      if (
+        urlIsShorts ||
+        (typeof data.height === "number" &&
+          typeof data.width === "number" &&
+          data.height > data.width)
+      ) {
+        isShorts = true;
+      }
     }
   } catch (err) {
-    console.warn("oEmbed fetch failed, continuing with extracted ID:", err);
+    console.warn("[youtube-meta] oEmbed fetch failed, continuing with extracted ID:", err);
   }
+
+  // Fast HEAD probe to find highest resolution thumbnail that returns HTTP 200
+  const thumbnails = await resolveBestThumbnail(videoId);
+
+  const aspectRatio = isShorts ? "9:16" : "16:9";
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
+  const watchUrl = isShorts
+    ? `https://www.youtube.com/shorts/${videoId}`
+    : `https://www.youtube.com/watch?v=${videoId}`;
 
   return NextResponse.json({
     videoId,
     title,
     authorName,
-    thumbnailUrl: maxresThumbnail,
-    fallbackThumbnailUrl: hqThumbnail,
+    thumbnailUrl: thumbnails.bestUrl,
+    maxresThumbnailUrl: thumbnails.maxresUrl,
+    fallbackThumbnailUrl: thumbnails.hqUrl,
     embedUrl,
     watchUrl,
     isShorts,
-    aspectRatio: isShorts ? "9:16" : "16:9",
+    aspectRatio,
   });
 }
