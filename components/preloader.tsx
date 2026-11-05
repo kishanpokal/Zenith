@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function CinematicPreloader() {
   const [progress, setProgress] = useState(0);
   const [isSplitting, setIsSplitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const hasCompletedRef = useRef(false);
 
-  const handleComplete = () => {
+  const handleComplete = useCallback(() => {
+    if (hasCompletedRef.current) return;
+    hasCompletedRef.current = true;
     setIsSplitting(true);
     try {
       sessionStorage.setItem("zenith_preloader_shown", "true");
@@ -16,7 +19,7 @@ export function CinematicPreloader() {
     setTimeout(() => {
       setIsComplete(true);
     }, 450);
-  };
+  }, []);
 
   useEffect(() => {
     // Check if client has already seen preloader in this session
@@ -24,6 +27,7 @@ export function CinematicPreloader() {
       try {
         const alreadyShown = sessionStorage.getItem("zenith_preloader_shown");
         if (alreadyShown) {
+          hasCompletedRef.current = true;
           setIsComplete(true);
           return;
         }
@@ -50,11 +54,20 @@ export function CinematicPreloader() {
       handleComplete();
     }, 1800);
 
+    // Keypress failsafe (Escape, Space, or Enter to skip)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === " " || e.key === "Enter") {
+        handleComplete();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
       clearInterval(interval);
       clearTimeout(safetyTimer);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [handleComplete]);
 
   // When animation finishes or already seen in session, unmount completely
   if (isComplete) {

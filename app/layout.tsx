@@ -149,6 +149,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${sansFont.variable} ${displayFont.variable} ${monoFont.variable} ${serifFont.variable} dark scroll-smooth`}
     >
       <head>
@@ -173,7 +174,7 @@ export default function RootLayout({
                 }
               } catch (e) {}
 
-              // Failsafe: Automatically dismiss preloader after 1.8s so page is never frozen
+              // Failsafe: safely hide preloader without removing DOM nodes so React reconciliation never fails
               (function() {
                 function dismissPreloader() {
                   try {
@@ -185,35 +186,24 @@ export default function RootLayout({
                     pre.style.opacity = '0';
                     pre.style.pointerEvents = 'none';
                     setTimeout(function() {
-                      if (pre && pre.parentNode) {
-                        pre.parentNode.removeChild(pre);
+                      if (pre) {
+                        pre.style.display = 'none';
                       }
                     }, 450);
                   }
                 }
 
-                // Global failsafe timer
-                setTimeout(dismissPreloader, 1800);
-
-                // Click-to-skip failsafe
-                document.addEventListener('click', function(e) {
-                  if (e.target && (e.target.closest && e.target.closest('#zenith-preloader'))) {
-                    dismissPreloader();
-                  }
-                });
-
-                // Keypress failsafe (Escape or Space to skip)
-                document.addEventListener('keydown', function(e) {
-                  if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
-                    dismissPreloader();
-                  }
-                });
+                // Global failsafe timer (if React or main thread ever freezes)
+                setTimeout(dismissPreloader, 2500);
               })();
             `,
           }}
         />
       </head>
-      <body className="bg-[#09090B] text-[#F4F4F6] min-h-screen selection:bg-[#D4AF37] selection:text-black antialiased font-sans relative">
+      <body
+        suppressHydrationWarning
+        className="bg-[#09090B] text-[#F4F4F6] min-h-screen selection:bg-[#D4AF37] selection:text-black antialiased font-sans relative"
+      >
         {/* Subtle fixed SVG film grain noise overlay */}
         <div className="bg-film-grain" aria-hidden="true" />
         <CustomCursor />
